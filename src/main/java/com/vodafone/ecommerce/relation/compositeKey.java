@@ -1,8 +1,9 @@
 package com.vodafone.ecommerce.relation;
 
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 @Setter
 @Getter

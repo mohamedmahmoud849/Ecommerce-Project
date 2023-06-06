@@ -1,9 +1,11 @@
 package com.vodafone.ecommerce.relation;
 
-import com.example.simple_home.model.Order;
-import com.example.simple_home.model.Product;
-import jakarta.persistence.*;
+
+import com.vodafone.ecommerce.model.Order;
+import com.vodafone.ecommerce.model.Product;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Setter
 @Getter
