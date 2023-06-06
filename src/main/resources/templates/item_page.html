@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Simple House Template</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/templatemo-style.css"  />
+</head>
+
+<body>
+
+<div class="container">
+  <!-- Top box -->
+  <!-- Logo & Site Name -->
+  <div class="placeholder">
+    <div class="parallax-window" data-parallax="scroll" data-image-src="http://localhost:8080/img/simple-house-01.jpg">
+      <div class="tm-header">
+        <div class="row tm-header-inner">
+          <div class="col-md-6 col-12">
+            <img src="http://localhost:8080/img/simple-house-logo.png" alt="Logo" class="tm-site-logo" />
+            <div class="tm-site-text-box">
+              <h1 class="tm-site-title">Simple House</h1>
+              <h6 class="tm-site-description">new restaurant template</h6>
+            </div>
+          </div>
+          <nav class="col-md-6 col-12 tm-nav">
+            <ul class="tm-nav-ul">
+              <li class="tm-nav-li"><a href="index.html" class="tm-nav-link active">Home</a></li>
+              <li class="tm-nav-li"><a href="/about" class="tm-nav-link">About</a></li>
+              <li class="tm-nav-li"><a href="contact.html" class="tm-nav-link">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container" th:object="${item}" style="margin: 50px; width: auto;">
+    <div class="row">
+      <div class="col">
+        <img th:src="@{'data:image/jpeg;base64,'+${item.image}}" alt="Image" class="img-fluid tm-gallery-img"  style="height: auto; width: auto; padding: 30px; " />
+      </div>
+      <div class="col" style="padding: 30px;">
+        <h2 class="tm-gallery-title" th:text="${item.name}"></h2>
+        <p class="tm-gallery-description" th:text="${item.description}" style="size: 50px; height: 100px;"></p>
+        <p class="tm-gallery-price" th:text="'Price : '+'$'+${item.price}" style="margin-bottom: 10px;"></p>
+
+
+
+        <form class="col-md-4 offset-md-4" method="post" enctype="multipart/form-data" th:action="@{/card/{id}(id=${item.id})}">
+          <div class="mb-3" style="padding: 5px">
+            <label for="productQ" class="form-label">Quantity</label>
+            <input type="number" value="1" class="form-control" id="productQ" name="quantity" >
+          </div>
+          <center><button type="submit" class="btn btn-primary" style="width: 200px; margin: 10px; ">Submit</button></center>
+        </form>
+
+        <!--<a style="text-decoration: none; color: white;" th:href="@{/card/{id}(id=${item.id})}"><button class="tm-btn-default" style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">Add to Card</button></a>-->
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <footer class="tm-footer text-center">
+    <p>Copyright &copy; 2020 Simple House
+
+      | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+  </footer>
+</div>
+<script src="http://localhost:8080/js/jquery.min.js"></script>
+<script src="http://localhost:8080/js/parallax.min.js"></script>
+
+</body>
+</html>
