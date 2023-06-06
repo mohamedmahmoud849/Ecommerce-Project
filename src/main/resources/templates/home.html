@@ -35,7 +35,7 @@ https://templatemo.com/tm-539-simple-house
                     </div>
                     <nav class="col-md-6 col-12 tm-nav">
                         <ul class="tm-nav-ul">
-                            <li class="tm-nav-li"><a href="index.html" class="tm-nav-link active">Home</a></li>
+                            <li class="tm-nav-li"><a href="home.html" class="tm-nav-link active">Home</a></li>
                             <li class="tm-nav-li"><a href="/about" class="tm-nav-link">About</a></li>
                             <li class="tm-nav-li"><a href="contact.html" class="tm-nav-link">Contact</a></li>
                             <li class="tm-nav-li">
@@ -43,7 +43,7 @@ https://templatemo.com/tm-539-simple-house
                                 <a class="tm-nav-link" href="/card">
                                     <button type="button" class="btn btn-primary position-relative" style="background: none;color: white;border: none;font-family: 'Open Sans', Arial, sans-serif;font-size: 17px;">
                                         My Card
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${card_size}">
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${cart_size}">
 
                                     </span>
                                     </button>
@@ -87,9 +87,8 @@ https://templatemo.com/tm-539-simple-house
                              class="img-fluid tm-gallery-img" style="height: 200px;"/>
                         <figcaption>
                             <h4 class="tm-gallery-title" th:text="${p.name}"></h4>
-                            <p class="tm-gallery-description" th:text="${p.description}" style="height: 60px;"></p>
                             <p class="tm-gallery-price" th:text="'$'+${p.price}" style="margin-bottom: 2px;"></p>
-                            <a style="text-decoration: none; color: white;" th:href="@{/item/{id}(id=${p.id})} ">
+                            <a style="text-decoration: none; color: white;" th:href="@{/items/{id}(id=${p.id})} ">
                                 <button class="tm-btn-default"
                                         style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">
                                     Buy

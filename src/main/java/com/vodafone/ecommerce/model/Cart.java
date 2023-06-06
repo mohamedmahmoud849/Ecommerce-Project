@@ -3,8 +3,7 @@ package com.vodafone.ecommerce.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Cart")

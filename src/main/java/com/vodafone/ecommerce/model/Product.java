@@ -1,11 +1,11 @@
 package com.vodafone.ecommerce.model;
 
-import com.vodafone.ecommerce.relation.relationEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.*;
+import com.vodafone.ecommerce.relation.relationEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+
 import java.util.List;
 
 @Entity
@@ -13,6 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -24,6 +26,9 @@ public class Product {
 
     @Column(name = "price")
     private Integer price;
+
+    @Column(name = "quantity")
+    private Integer quantity;
 
     @Column(name = "category")
     private String category;
