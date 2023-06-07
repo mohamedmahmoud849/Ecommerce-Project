@@ -26,7 +26,6 @@ public class RelationService {
         List<relationEntity> relations= new ArrayList<>();
         for (Product product:
                 list) {
-            log.info(String.valueOf(product.getId()));
             relations.add(relationEntity.builder()
                     .id(compositeKey.builder().orderId(order.getId()).productId(product.getId()).build())
                     .quantity(product.getQuantity())
