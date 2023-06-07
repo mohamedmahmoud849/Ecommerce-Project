@@ -31,8 +31,8 @@ https://templatemo.com/tm-539-simple-house
           <div class="col-md-6 col-12">
             <img src="http://localhost:8080/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
             <div class="tm-site-text-box">
-              <h1 class="tm-site-title">Simple House</h1>
-              <h6 class="tm-site-description">new restaurant template</h6>
+              <h1 class="tm-site-title">E-commerce</h1>
+              <h6 class="tm-site-description">Online Shopping</h6>
             </div>
           </div>
           <nav class="col-md-6 col-12 tm-nav">
@@ -44,7 +44,7 @@ https://templatemo.com/tm-539-simple-house
 
                 <a class="tm-nav-link">
                   <button type="button" class="btn btn-primary position-relative" style="background: none;color: white;border: none;font-family: 'Open Sans', Arial, sans-serif;font-size: 17px;">
-                    My Card
+                    My Cart
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${card_size}">
 
                                     </span>
@@ -67,7 +67,6 @@ https://templatemo.com/tm-539-simple-house
 
         <th scope="col">Name</th>
         <th scope="col">Item</th>
-        <th scope="col">Description</th>
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
         <th scope="col">Action</th>
@@ -79,7 +78,7 @@ https://templatemo.com/tm-539-simple-house
         <td th:text="${i.name}"></td>
         <td><img th:src="@{'data:image/jpeg;base64,'+${i.image}}" alt="Image"
                  class="img-fluid tm-gallery-img" style="height: 200px;"/></td>
-        <td th:text="${i.description}"></td>
+
         <td th:text="${i.price}"></td>
         <td th:text="${i.quantity}"></td>
         <td>
