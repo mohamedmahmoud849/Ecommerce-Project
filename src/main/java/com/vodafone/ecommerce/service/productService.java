@@ -19,7 +19,7 @@ public class productService {
     private final ProductRepo productRepo;
 
 
-    public Product getProductById(Integer id) {
+    public Product getProductById(Long id) {
         return productRepo.findById(id).get();
     }
 
@@ -27,10 +27,14 @@ public class productService {
         return productRepo.findAllByCategory(category);
     }
 
+    public List<Product> getALl(){
+        return productRepo.findAll();
+    }
+
     public void SaveImgDb(MultipartFile file, String name, Integer price, String category, Integer quantity) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         if (fileName.contains("..")) {
-            System.out.println("not a prober file name");
+            System.out.println("not a proper file name");
         } else {
 
             try {
