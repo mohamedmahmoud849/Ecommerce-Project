@@ -2,7 +2,6 @@ package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.service.*;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController extends BaseController{
 
-    private final productService productService;
-    private final CartService cartService;
-
-    //TODO: change this list into session list when user log in successfully
-
+    private final ProductService productService;
+    private final OrderService orderService;
 
 
     @GetMapping("/")
-    public ModelAndView homePage(Model model){
+    public ModelAndView showHomePage(Model model){
         if(getSession().getAttribute("cart_items_list") == null){
             getSession().setAttribute("cart_items_list",new ArrayList<>());
         }
@@ -38,27 +34,16 @@ public class HomeController extends BaseController{
         return new ModelAndView("home","products",productService.getALlByCategory("Pizza"));
     }
     @GetMapping("/salad")
-    public ModelAndView saladPage(Model model){
-
+    public ModelAndView showHomePageWithSaladMenu(Model model){
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
         return new ModelAndView("home","products",productService.getALlByCategory("Salad"));
     }
     @GetMapping("/noodle")
-    public ModelAndView noodlePage(Model model){
-
+    public ModelAndView showHomePageWithNoodleMenu(Model model){
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
         return new ModelAndView("home","products",productService.getALlByCategory("Noodle"));
     }
-    @RequestMapping("/{id}")
-    public String addNewItemToCart(@PathVariable Long id, @RequestParam("quantity") Integer quantity, Model model){
 
-        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
-        List<Product> updatedCart = cartService.addNewCartItem(currentCart,id,quantity);
-        getSession().setAttribute("cart_items_list",updatedCart);
-        getSession().setAttribute("total_price",productService.calculateTotalPrice(updatedCart));
-        model.addAttribute("list",updatedCart);
-        return "redirect:/";
-    }
 }

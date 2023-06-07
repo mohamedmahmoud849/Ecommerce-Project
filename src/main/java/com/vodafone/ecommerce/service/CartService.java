@@ -10,7 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartService {
 
-    private final productService productService;
+    private final ProductService productService;
 
     public List<Product> addNewCartItem(List<Product> cartItems, Long id , Integer quantity){
         Product newCartItem = productService.getProductById(id);
@@ -31,5 +31,9 @@ public class CartService {
             return cartItems;
         }
 
+    }
+    public List<Product> deleteCardItem(List<Product> list,String name){
+        list.removeIf(x->x.getName().equals(name));
+        return list;
     }
 }
