@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
+//@RequestMapping("api/v1/..")
 public class productController {
 
     private final productService productService;
@@ -36,4 +37,5 @@ public class productController {
         model.addAttribute("session_text",httpSession.getAttribute("ses_text"));*/
         return "item_page";
     }
+
 }
