@@ -12,7 +12,7 @@ public class CartService {
 
     private final productService productService;
 
-    public List<Product> addNewCartItem(List<Product> cartItems, Integer id , Integer quantity){
+    public List<Product> addNewCartItem(List<Product> cartItems, Long id , Integer quantity){
         Product newCartItem = productService.getProductById(id);
         if(cartItems.stream().anyMatch(x->x.getName().equals(newCartItem.getName()))){
             Product product= cartItems.stream().filter(x->x.getName().equals(newCartItem.getName())).findFirst().get();
@@ -22,6 +22,7 @@ public class CartService {
             return cartItems;
         }else{
             cartItems.add(Product.builder()
+                            .id(id)
                     .name(newCartItem.getName())
                     .price(newCartItem.getPrice())
                     .image(newCartItem.getImage())
