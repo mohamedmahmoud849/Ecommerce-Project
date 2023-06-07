@@ -19,42 +19,45 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class homeController {
+public class HomeController extends BaseController{
 
     private final productService productService;
     private final CartService cartService;
-    private final HttpSession httpSession;
+
     //TODO: change this list into session list when user log in successfully
-    private List<Product> productsList = new ArrayList<>();
+
+
 
     @GetMapping("/")
     public ModelAndView homePage(Model model){
-        log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        httpSession.setAttribute("cart_items_list",productsList);
-        List<Product> currentCart =  (List<Product>) httpSession.getAttribute("cart_items_list");
+        if(getSession().getAttribute("cart_items_list") == null){
+            getSession().setAttribute("cart_items_list",new ArrayList<>());
+        }
+        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
-        log.info(String.valueOf(currentCart.size()));
-        log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         return new ModelAndView("home","products",productService.getALlByCategory("Pizza"));
     }
     @GetMapping("/salad")
     public ModelAndView saladPage(Model model){
-        List<Product> currentCart =  (List<Product>) httpSession.getAttribute("cart_items_list");
+
+        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
         return new ModelAndView("home","products",productService.getALlByCategory("Salad"));
     }
     @GetMapping("/noodle")
     public ModelAndView noodlePage(Model model){
-        List<Product> currentCart =  (List<Product>) httpSession.getAttribute("cart_items_list");
+
+        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
         return new ModelAndView("home","products",productService.getALlByCategory("Noodle"));
     }
     @RequestMapping("/{id}")
-    public String addNewItemToCart(@PathVariable Integer id, @RequestParam("quantity") Integer quantity, Model model){
-        List<Product> currentCart =  (List<Product>) httpSession.getAttribute("cart_items_list");
+    public String addNewItemToCart(@PathVariable Long id, @RequestParam("quantity") Integer quantity, Model model){
+
+        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         List<Product> updatedCart = cartService.addNewCartItem(currentCart,id,quantity);
-        httpSession.setAttribute("cart_items_list",updatedCart);
-        httpSession.setAttribute("total_price",productService.calculateTotalPrice(updatedCart));
+        getSession().setAttribute("cart_items_list",updatedCart);
+        getSession().setAttribute("total_price",productService.calculateTotalPrice(updatedCart));
         model.addAttribute("list",updatedCart);
         return "redirect:/";
     }
