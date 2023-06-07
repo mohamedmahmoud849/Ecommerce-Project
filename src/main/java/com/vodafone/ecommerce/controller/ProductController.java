@@ -1,16 +1,16 @@
 package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.service.productService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
-public class productController {
+public class ProductController extends BaseController {
 
     private final productService productService;
 
@@ -28,7 +28,7 @@ public class productController {
         return "redirect:/";
     }
     @RequestMapping("/items/{id}")
-    public String itemPage(@PathVariable Integer id, Model model){
+    public String itemPage(@PathVariable Long id, Model model){
         model.addAttribute("item",productService.getProductById(id));
         /*httpSession.setAttribute("product", productService.getProductById(id));
         httpSession.setAttribute("ses_text", String.valueOf("lol"));
@@ -36,4 +36,7 @@ public class productController {
         model.addAttribute("session_text",httpSession.getAttribute("ses_text"));*/
         return "item_page";
     }
+
+
 }
+
