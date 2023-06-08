@@ -1,96 +1,70 @@
-<!--
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Simple House Template</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/templatemo-style.css"  />
+  <title>Register</title>
 </head>
+<section layout:fragment="body">
+  <style>
+    .main {
+      padding: 0px 10px;
+    }
 
-<body>
+    @media screen and (max-width: 450px) {
+      .login-form{
+        margin-top: 10%;
+      }
+      .register-form{
+        margin-top: 10%;
+      }
+    }
+    @media screen and (min-width: 768px){
+      .main{
+        margin-left: 30%;
+      }
 
-<div class="container">
-  &lt;!&ndash; Top box &ndash;&gt;
-  &lt;!&ndash; Logo & Site Name &ndash;&gt;
-  <div class="placeholder">
-    <div class="parallax-window" data-parallax="scroll" data-image-src="http://localhost:8080/img/simple-house-01.jpg">
-      <div class="tm-header">
-        <div class="row tm-header-inner">
-          <div class="col-md-6 col-12">
-            <img src="http://localhost:8080/img/simple-house-logo.png" alt="Logo" class="tm-site-logo" />
-            <div class="tm-site-text-box">
-              <h1 class="tm-site-title">Simple House</h1>
-              <h6 class="tm-site-description">new restaurant template</h6>
-            </div>
+      .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+      }
+    }
+  </style>
+  <div class="main">
+    <div class="col-md-6 col-sm-12">
+      <div th:if="${param.error}" class="alert alert-success">
+        Invalid username and password.
+      </div>
+      <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.</div>
+      <div class="login-form">
+        <form method="post" th:action="@{/login}">
+          <div class="form-group">
+            <label>Username</label>
+            <input
+                    id="username"
+                    type="text"
+                    class="form-control"
+                    placeholder="Username"
+                    name="username">
           </div>
-          <nav class="col-md-6 col-12 tm-nav">
-            <ul class="tm-nav-ul">
-              <li class="tm-nav-li"><a href="home.html" class="tm-nav-link active">Home</a></li>
-              <li class="tm-nav-li"><a href="/about" class="tm-nav-link">About</a></li>
-              <li class="tm-nav-li"><a href="contact.html" class="tm-nav-link">Contact</a></li>
-            </ul>
-          </nav>
-        </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input
+                    id="password"
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    name="password">
+          </div>
+          <button th:href="@{/register}" type="submit" class="btn btn-black">Don't have an account? Register here.</button>
+          <button type="submit" value="Log in" class="btn btn-secondary">Login</button>
+        </form>
       </div>
     </div>
   </div>
-
-
-
-
-
-
-  <footer class="tm-footer text-center">
-    <p>Copyright &copy; 2020 Simple House
-
-      | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
-  </footer>
-</div>
-<script src="http://localhost:8080/js/jquery.min.js"></script>
-<script src="http://localhost:8080/js/parallax.min.js"></script>
-
-</body>
-</html>
--->
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
-<head>
-  <title>Spring Security Tutorial</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-<form th:action="@{/registration}" method="get">
-  <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
-</form>
-
-<div class="container">
-  <img th:src="@{/images/login.jpg}" class="img-responsive center-block" width="300" height="300" alt="Logo"/>
-  <form th:action="@{/login}" method="POST" class="form-signin">
-    <h3 class="form-signin-heading" th:text="Welcome"></h3>
-    <br/>
-
-    <input type="text" id="user_name" name="user_name" placeholder="User Name"
-           class="form-control"/> <br/>
-    <input type="password" th:placeholder="Password"
-           id="password" name="password" class="form-control"/> <br/>
-
-    <div align="center" th:if="${param.error}">
-      <p style="font-size: 20; color: #FF1C19;">User Name or Password invalid, please verify</p>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit"
-            th:text="Login"></button>
-  </form>
-</div>
-</body>
+</section>
 </html>
