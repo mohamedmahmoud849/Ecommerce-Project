@@ -1,9 +1,11 @@
 package com.vodafone.ecommerce.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vodafone.ecommerce.relation.relationEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 
 import java.util.List;
@@ -37,10 +39,12 @@ public class Product {
     private Enum rating;
 
     @Lob
+    //@JsonIgnore
     @Column(columnDefinition = "MEDIUMBLOB", length = 10485760)
     private String image;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<relationEntity> relations;
 
 }

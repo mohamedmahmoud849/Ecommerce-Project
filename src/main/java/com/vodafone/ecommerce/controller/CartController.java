@@ -27,7 +27,7 @@ public class CartController extends BaseController{
     public String showCartPage(Model model) {
         model.addAttribute("items", getSession().getAttribute("cart_items_list"));
         model.addAttribute("total_price", getSession().getAttribute("total_price"));
-        return "card_page";
+        return "cart_page";
     }
     @RequestMapping("/payment")
     public String saveOrder(){
@@ -42,6 +42,8 @@ public class CartController extends BaseController{
         getSession().invalidate();
         return "redirect:/";
     }
+
+
     @RequestMapping("/delete_cart_item/{name}")
     public String deleteCardItem(@PathVariable String name){
         List<Product> list = (List<Product>) getSession().getAttribute("cart_items_list");
