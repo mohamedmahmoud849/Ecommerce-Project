@@ -1,8 +1,10 @@
 package com.vodafone.ecommerce.repo;
 
-import com.vodafone.ecommerce.model.Customer;
+import com.vodafone.ecommerce.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 @Repository
-public interface CustomerRepo extends JpaRepository<Customer, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Role findByName(String name);
 }
