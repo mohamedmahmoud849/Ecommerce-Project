@@ -1,5 +1,6 @@
 package com.vodafone.ecommerce.controller;
 
+import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/")
     public ModelAndView showHomePage(Model model){
+        log.info(SecurityUtil.getSessionUser());
         if(getSession().getAttribute("cart_items_list") == null){
             getSession().setAttribute("cart_items_list",new ArrayList<>());
         }
