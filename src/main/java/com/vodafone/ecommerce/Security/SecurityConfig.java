@@ -8,12 +8,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private CustomLoginFailureHandler loginFailureHandler;
+
+    @Autowired
+    private CustomLoginSuccessHandler loginSuccessHandler;
 
     @Autowired
     public SecurityConfig(CustomUserDetailsService userDetailsService) {
@@ -35,9 +41,13 @@ public class SecurityConfig {
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .usernameParameter("email")
+                        .failureHandler(loginFailureHandler)
+                        .successHandler(loginSuccessHandler)
                         .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
-                        .failureUrl("/login?error=true")
+                        ///TODO: 3 times count
+                        //.failureUrl("/login/error")
                         .permitAll()
                 ).logout(
                         logout -> logout

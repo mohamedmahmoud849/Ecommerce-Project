@@ -27,7 +27,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/")
     public ModelAndView showHomePage(Model model){
-        log.info(SecurityUtil.getSessionUser());
+       // log.info(SecurityUtil.getSessionUser());
         if(getSession().getAttribute("cart_items_list") == null){
             getSession().setAttribute("cart_items_list",new ArrayList<>());
         }

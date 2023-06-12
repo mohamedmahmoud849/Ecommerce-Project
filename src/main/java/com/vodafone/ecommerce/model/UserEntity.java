@@ -36,13 +36,16 @@ public class UserEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
+    private Integer FailedLoggedIns;
+
+    /*@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();*/
 }
 
 
