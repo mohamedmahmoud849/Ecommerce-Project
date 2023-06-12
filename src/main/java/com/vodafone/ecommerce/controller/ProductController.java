@@ -40,6 +40,15 @@ public class ProductController extends BaseController {
         return ResponseEntity.ok(productService.getALl());
     }
 
+    @GetMapping("/items")
+    @ResponseBody
+    public List<Product> showAllItems(){
+        return productService.getALl();
+    }
 
+    @GetMapping("/test")
+    public String showTestForm(){
+        return "search_test";
+    }
 }
 

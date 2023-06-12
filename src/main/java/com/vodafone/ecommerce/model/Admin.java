@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Table(name = "Admin")
 @Getter
 @Setter
-public class Admin extends User{
+public class Admin extends UserEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

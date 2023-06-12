@@ -22,6 +22,7 @@ public class OrderController {
         model.addAttribute("orders",orderService.getAllOrders());
         return "customer_order";
     }
+
     @RequestMapping("/order/{id}")
     public String getOrderDetails(@PathVariable Long id, Model model){
         model.addAttribute("order",orderService.getOrderDetails(id));

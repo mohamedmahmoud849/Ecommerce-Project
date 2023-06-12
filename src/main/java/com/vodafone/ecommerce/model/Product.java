@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+
 import java.util.List;
 
 @Entity
@@ -38,6 +39,7 @@ public class Product {
     private Enum rating;
 
     @Lob
+    //@JsonIgnore
     @Column(columnDefinition = "MEDIUMBLOB", length = 10485760)
     @JsonIgnore
     private String image;

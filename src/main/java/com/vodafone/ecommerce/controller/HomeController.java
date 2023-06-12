@@ -1,5 +1,6 @@
 package com.vodafone.ecommerce.controller;
 
+import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class HomeController extends BaseController{
         }
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
-        return new ModelAndView("home","products",productService.getALlByCategory("Pizza"));
+        return new ModelAndView("search_test","products",productService.getALl());
     }
     @GetMapping("/salad")
     public ModelAndView showHomePageWithSaladMenu(Model model){
@@ -46,5 +47,11 @@ public class HomeController extends BaseController{
         return new ModelAndView("home","products",productService.getALlByCategory("Noodle"));
     }
 
+    @GetMapping("/pizza")
+    public ModelAndView showHomePageWithPizzaMenu(Model model){
+        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
+        model.addAttribute("cart_size",currentCart.size());
+        return new ModelAndView("home","products",productService.getALlByCategory("Pizza"));
+    }
 
 }

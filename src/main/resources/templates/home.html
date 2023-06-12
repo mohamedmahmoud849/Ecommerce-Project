@@ -32,12 +32,10 @@ https://templatemo.com/tm-539-simple-house
                             <h1 class="tm-site-title">E-commerce</h1>
                             <h6 class="tm-site-description">Online Shopping</h6>
                         </div>
-                    </div>
+                   ` </div>
                     <nav class="col-md-6 col-12 tm-nav">
                         <ul class="tm-nav-ul">
-                            <li class="tm-nav-li"><a href="home.html" class="tm-nav-link active">Home</a></li>
-                            <li class="tm-nav-li"><a href="/about" class="tm-nav-link">About</a></li>
-                            <li class="tm-nav-li"><a href="contact.html" class="tm-nav-link">Contact</a></li>
+                            <li class="tm-nav-li"><a href="/" class="tm-nav-link active">Home</a></li>
                             <li class="tm-nav-li">
 
                                 <a class="tm-nav-link" href="/cart">
@@ -69,50 +67,55 @@ https://templatemo.com/tm-539-simple-house
         <div class="tm-paging-links">
             <nav>
                 <ul>
-                    <li class="tm-paging-item"><a href="/" class="tm-paging-link">Pizza</a></li>
+                    <li class="tm-paging-item"><a href="/pizza" class="tm-paging-link">Pizza</a></li>
                     <li class="tm-paging-item"><a href="/salad" class="tm-paging-link">Salad</a></li>
                     <li class="tm-paging-item"><a href="/noodle" class="tm-paging-link">Noodle</a></li>
                 </ul>
             </nav>
         </div>
 
+<!--        <div class="search-wrapper">-->
+<!--            <label for= "search">Search Products</label>-->
+<!--            <input type="search" id="search" data-search>-->
+<!--        </div>-->
+
         <!-- Gallery -->
         <div class="row tm-gallery">
             <!-- gallery page 1 -->
-            <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;"
-                 th:each="p:${products}">
-                <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                    <figure style="width: 200px; margin: 20px;">
-                        <img th:src="*{'data:image/jpeg;base64,'+{p.image}}" alt="Image"
-                             class="img-fluid tm-gallery-img" style="height: 200px;"/>
-                        <figcaption>
-                            <h4 class="tm-gallery-title" th:text="${p.name}"></h4>
-                            <p class="tm-gallery-price" th:text="'$'+${p.price}" style="margin-bottom: 2px;"></p>
-                            <a style="text-decoration: none; color: white;" th:href="@{/items/{id}(id=${p.id})} ">
-                                <button class="tm-btn-default"
-                                        style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">
-                                    Buy
-                                </button>
-                            </a>
-                        </figcaption>
-                    </figure>
-                </article>
+                <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;"
+                     th:each="p:${products}">
+                    <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                        <figure style="width: 200px; margin: 20px;">
+                            <img th:src="*{'data:image/jpeg;base64,'+{p.image}}" alt="Image"
+                                 class="img-fluid tm-gallery-img" style="height: 200px;"/>
+                            <figcaption>
+                                <h4 class="tm-gallery-title" th:text="${p.name}"></h4>
+                                <p class="tm-gallery-price" th:text="'$'+${p.price}" style="margin-bottom: 2px;"></p>
+                                <a style="text-decoration: none; color: white;" th:href="@{/items/{id}(id=${p.id})} " fkjf>
+                                    <button class="tm-btn-default"
+                                            style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">
+                                        Buy
+                                    </button>
+                                </a>
+                            </figcaption>
+                        </figure>
+                    </article>
 
-            </div> <!-- gallery page 1 -->
-
+                </div> <!-- gallery page 1 -->
 
         </div>
 
     </main>
 
     <footer class="tm-footer text-center">
-        <p>Copyright &copy; 2020 Simple House
+        <p>Copyright &copy; 2020 Simple E-commerce
 
             | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
     </footer>
 </div>
 <script src="http://localhost:8080/js/jquery.min.js"></script>
 <script src="http://localhost:8080/js/parallax.min.js"></script>
+<script src="http://localhost:8080/js/search_script.js"></script>
 
 </body>
 </html>
