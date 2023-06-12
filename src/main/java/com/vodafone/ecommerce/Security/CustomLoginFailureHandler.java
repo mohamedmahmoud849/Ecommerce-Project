@@ -5,6 +5,7 @@ import com.vodafone.ecommerce.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Autowired
@@ -22,9 +24,9 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-        String email = request.getParameter("email");
-        UserEntity user = userService.findByEmail(email);
-
+        String username = request.getParameter("username");
+        UserEntity user = userService.findByUsername(username);
+        log.info(String.valueOf(user.getActive()));
         if (user != null) {
             if (user.getActive()) {
                 if (user.getFailedLoggedIns() < userService.MAX_FAILED_ATTEMPTS - 1) {
@@ -39,7 +41,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                     exception = new LockedException("Your account has been unlocked. Please try to login again.");
                 }
             }
-
         }
 
         super.setDefaultFailureUrl("/login?error");

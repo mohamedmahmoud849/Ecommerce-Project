@@ -38,17 +38,21 @@ public class CartController extends BaseController{
         validateCard.setPin(1234);
         validateCard.setExpireDate("2024-01-23");
         if (paymentService.ValidateCard(validateCard).equals("Valid")){
+            log.info(paymentService.ValidateCard(validateCard));
             PaymentRequest paymentRequest = PaymentRequest.builder()
                     .cardNumber("1234567890123456")
                     .amountToBePaid(5)
                     .build();
             if(restService.consumeRest(paymentRequest).getMessage().equals("Transaction Succeeded")){
+                log.info(restService.consumeRest(paymentRequest).getMessage());
                 orderService.handleStock(productsList);
             }
         }else {
             log.info(paymentService.ValidateCard(validateCard));
         }
-        getSession().invalidate();
+
+        getSession().removeAttribute("cart_items_list");
+        getSession().removeAttribute("total_price");
         return "redirect:/";
     }
 

@@ -36,15 +36,12 @@ public class ProductController extends BaseController {
         return "item_page";
     }
     @GetMapping("/items")
+    @ResponseBody
     public ResponseEntity<List<Product>> getAllProducts(){
         return ResponseEntity.ok(productService.getALl());
     }
 
-    @GetMapping("/items")
-    @ResponseBody
-    public List<Product> showAllItems(){
-        return productService.getALl();
-    }
+
 
     @GetMapping("/test")
     public String showTestForm(){
