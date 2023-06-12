@@ -1,12 +1,10 @@
 package com.vodafone.ecommerce.controller;
 
-import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
-import com.vodafone.ecommerce.service.CartService;
-import com.vodafone.ecommerce.service.OrderService;
-import com.vodafone.ecommerce.service.ProductService;
-import com.vodafone.ecommerce.service.RelationService;
-import jakarta.servlet.http.HttpSession;
+import com.vodafone.ecommerce.payment.stubs.ValidateCard;
+import com.vodafone.ecommerce.payment.utils.PaymentRequest;
+import com.vodafone.ecommerce.payment.utils.RestService;
+import com.vodafone.ecommerce.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,8 @@ public class CartController extends BaseController{
     private final OrderService orderService;
     private final CartService cartService;
     private final ProductService productService;
+    private final PaymentService paymentService;
+    private final RestService restService;
     @RequestMapping("/cart")
     public String showCartPage(Model model) {
         model.addAttribute("items", getSession().getAttribute("cart_items_list"));
@@ -33,12 +33,21 @@ public class CartController extends BaseController{
     public String saveOrder(){
         List<Product> productsList = (List<Product>) getSession().getAttribute("cart_items_list");
         orderService.setOrderProductsRelation(productsList);
-        if(!orderService.handleStock(productsList)){
-            //TODO: handle this part to throw exception
-            log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            log.info("no enough stock");
-            log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-        };
+        ValidateCard validateCard = new ValidateCard();
+        validateCard.setCardNumber(1425363785798658l);
+        validateCard.setPin(1234);
+        validateCard.setExpireDate("2024-01-23");
+        if (paymentService.ValidateCard(validateCard).equals("Valid")){
+            PaymentRequest paymentRequest = PaymentRequest.builder()
+                    .cardNumber("1234567890123456")
+                    .amountToBePaid(5)
+                    .build();
+            if(restService.consumeRest(paymentRequest).getMessage().equals("Transaction Succeeded")){
+                orderService.handleStock(productsList);
+            }
+        }else {
+            log.info(paymentService.ValidateCard(validateCard));
+        }
         getSession().invalidate();
         return "redirect:/";
     }
