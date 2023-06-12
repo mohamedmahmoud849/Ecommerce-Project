@@ -1,5 +1,6 @@
 package com.vodafone.ecommerce.service;
 
+import com.vodafone.ecommerce.errorhandlling.NotFoundException;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
@@ -77,7 +78,7 @@ public class OrderService {
         return newCardItemsList;
     }
     //TODO: to be handled -> break this function into two functions
-    public boolean handleStock(List<Product> products) {
+    public void handleStock(List<Product> products) {
         List<ItemsQuantityProjection> itemsQuantity = productRepo.getAllProductsQuantity();
         for (Product product:
              products) {
@@ -85,13 +86,12 @@ public class OrderService {
             int stockProductsQuantity = itemQuantity.getProductQuantity();
             int orderProductQuantity = product.getQuantity();
             if (orderProductQuantity > stockProductsQuantity){
-                return false;
+                throw new NotFoundException("no enough stock");
             }else{
                 int updatedStockProductQuantity = stockProductsQuantity - orderProductQuantity;
                 updateProductQuantity(updatedStockProductQuantity,product.getId());
             }
         }
-        return true;
     }
     public void updateProductQuantity(Integer quantity , Long id){
         productRepo.updateItemQuantityById(quantity,id);
