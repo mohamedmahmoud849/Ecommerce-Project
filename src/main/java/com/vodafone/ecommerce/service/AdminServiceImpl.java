@@ -32,7 +32,6 @@ public class AdminServiceImpl implements AdminService{
         user.setUsername(registrationDto.getUsername());
         user.setEmail(registrationDto.getEmail());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setActive(true);
         user.setRole("ADMIN");
         //Role role = roleRepository.findByName("USER");
         //user.setRoles(Collections.singletonList(role));
