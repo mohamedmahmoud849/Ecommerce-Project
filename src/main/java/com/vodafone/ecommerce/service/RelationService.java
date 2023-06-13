@@ -20,20 +20,29 @@ import java.util.List;
 public class RelationService {
 
     private final RelationRepo relationRepo;
-    private final OrderRepo orderRepo;
+
 
     public void createRelations(List<Product> list, Order order){
         List<relationEntity> relations= new ArrayList<>();
         for (Product product:
                 list) {
-            relations.add(relationEntity.builder()
-                    .id(compositeKey.builder().orderId(order.getId()).productId(product.getId()).build())
-                    .quantity(product.getQuantity())
-                    .order(order)
-                    .product(product)
-                    .build()
-            );
+            if(product!=null){
+                relations.add(relationEntity.builder()
+                        .id(compositeKey.builder().orderId(order.getId()).productId(product.getId()).build())
+                        .quantity(product.getQuantity())
+                        .order(order)
+                        .product(product)
+                        .build()
+                );
+            }
         }
         relationRepo.saveAll(relations);
+    }
+    public void deleteAllRelationsWithOrderById(Long id){
+        relationRepo.deleteAllRelationByOrderId(id);
+    }
+
+    public void deleteRelationBetweenItemAndOrder(Long productId, Long orderId) {
+        relationRepo.deleteByOrderAndItemId(productId,orderId);
     }
 }

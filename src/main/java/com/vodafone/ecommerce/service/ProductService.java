@@ -1,6 +1,8 @@
 package com.vodafone.ecommerce.service;
 
+import com.vodafone.ecommerce.errorhandlling.NotFoundException;
 import com.vodafone.ecommerce.model.Product;
+import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
 import com.vodafone.ecommerce.repo.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,24 @@ public class ProductService {
 
         }
     }
+    public void handleStock(List<Product> products) {
+        List<ItemsQuantityProjection> itemsQuantity = productRepo.getAllProductsQuantity();
+        for (Product product:
+                products) {
+            ItemsQuantityProjection itemQuantity = itemsQuantity.stream().filter(x-> x.getProductId() == product.getId()).findFirst().get();
+            int stockProductsQuantity = itemQuantity.getProductQuantity();
+            int orderProductQuantity = product.getQuantity();
+            if (orderProductQuantity > stockProductsQuantity){
+                throw new NotFoundException("no enough stock");
+            }else{
+                int updatedStockProductQuantity = stockProductsQuantity - orderProductQuantity;
+                updateProductQuantity(updatedStockProductQuantity,product.getId());
+            }
+        }
+    }
+    public void updateProductQuantity(Integer quantity , Long id){
+        productRepo.updateItemQuantityById(quantity,id);
+    }
 
 
     public String calculateTotalPrice(List<Product> productsList) {
@@ -68,6 +88,10 @@ public class ProductService {
         }
 
 
+    }
+
+    public Product getProductByName(String name) {
+        return productRepo.findByName(name);
     }
 }
 

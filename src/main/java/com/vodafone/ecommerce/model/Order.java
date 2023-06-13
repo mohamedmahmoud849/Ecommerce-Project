@@ -21,9 +21,10 @@ public class Order {
     private Long id;
     private Date orderDate;
     private Long totalPrice;
+    private boolean confirmed;
     @OneToMany(mappedBy = "order")
     private List<relationEntity> relations;
     private Long itemsQuantity;
     @ManyToOne
-    private Customer customer;
+    private UserEntity customer;
 }
