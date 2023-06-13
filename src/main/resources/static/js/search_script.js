@@ -26,11 +26,11 @@ fetch("http://localhost:8080/items")
             const button = product.querySelector("[data-button]");
 
             image.src = 'data:image/jpeg;base64,' + pro.image
-            console.log(button)
+            console.log(image.src)
             button.href = '/items/' + pro.id
 
             header.textContent = pro.name
-            body.textContent = 'Price: ' + pro.price
+            body.textContent = 'Price: $' + pro.price
             //image.appendChild("img")
             //console.log(header)
             //console.log(body)

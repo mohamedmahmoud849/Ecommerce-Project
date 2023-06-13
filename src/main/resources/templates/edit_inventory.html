@@ -30,12 +30,12 @@ https://templatemo.com/tm-539-simple-house
                         <img src="http://localhost:8080/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
                         <div class="tm-site-text-box">
                             <h1 class="tm-site-title">E-commerce</h1>
-                            <h6 class="tm-site-description">Admin Home Page</h6>
+                            <h6 class="tm-site-description">Edit Inventory Page</h6>
                         </div>
                         ` </div>
                     <nav class="col-md-6 col-12 tm-nav">
                         <ul class="tm-nav-ul">
-                            <li class="tm-nav-li"><a href="/admin_test" class="tm-nav-link active">Home</a></li>
+                            <li class="tm-nav-li"><a href="/admin" class="tm-nav-link active">Home</a></li>
                             <li class="tm-nav-li">
                         </ul>
                     </nav>
@@ -46,20 +46,31 @@ https://templatemo.com/tm-539-simple-house
 
     <main>
         <header class="row tm-welcome-section">
-            <h2 class="col-12 text-center tm-section-title">Welcome to Simple House</h2>
-            <p class="col-12 text-center">Total 3 HTML pages are included in this template. Header image has a parallax
-                effect. You can feel free to download, edit and use this TemplateMo layout for your commercial or
-                non-commercial websites.</p>
+            <!--<h2 class="col-12 text-center tm-section-title">Welcome to the Admin Home Page</h2>-->
+            <p class="col-12 text-center">Please choose one of the two options below to proceed. Edit admins will allow you to add, update and delete admins. Edit inventory will allow you to add, update and delete items in inventory</p>
         </header>
 
         <div class="tm-paging-links">
-            <nav>
-                <ul>
-                    <li class="tm-paging-item"><a href="/pizza" class="tm-paging-link">Pizza</a></li>
-                    <li class="tm-paging-item"><a href="/salad" class="tm-paging-link">Salad</a></li>
-                    <li class="tm-paging-item"><a href="/noodle" class="tm-paging-link">Noodle</a></li>
-                </ul>
-            </nav>
+            <center>
+                <a style="text-decoration: none; color: white;" th:href="@{/add_product}">
+                    <button class="tm-btn-default"
+                            style="margin-right: 5rem;width: 250px; height: 100px; background-color: #3d504a; color: white; cursor: pointer; font-size: 25px;">
+                        ADD PRODUCT
+                    </button>
+                </a>
+                <a style="text-decoration: none; color: white;" th:href="@{/items}">
+                    <button class="tm-btn-default"
+                            style="width: 250px; height: 100px; background-color: #3d504a; color: white; cursor: pointer;font-size: 25px;">
+                        UPDATE PRODUCT
+                    </button>
+                </a>
+                <a style="text-decoration: none; color: white;" th:href="@{/payment}">
+                    <button class="tm-btn-default"
+                            style="margin-left: 5rem; width: 250px; height: 100px; background-color: #3d504a; color: white; cursor: pointer;font-size: 25px;">
+                        DELETE PRODUCT
+                    </button>
+                </a>
+            </center>
         </div>
 
         <!--        <div class="search-wrapper">-->

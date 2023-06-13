@@ -18,8 +18,14 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/admin_test")
-    public String adminPageTest(){
-        return "admin_test";
+    @GetMapping("/edit_admins")
+    public String editAdminsPage(){
+        return "edit_admins";
+    }
+
+    @GetMapping("/edit_inventory")
+    public String editInventoryPage(){
+        return "edit_inventory";
     }
 }
+

@@ -853,6 +853,7 @@ address {
 }
 
 .search-wrapper {
+    display: box;
     flex-direction: column;
     margin-bottom: 2.5rem;
     margin-left: 3rem;
@@ -871,7 +872,7 @@ input {
 }
 
 .product {
-    border: 1px solid black;
+    border: 1px white;
     background-color: white;
     padding: 0.5rem;
 }

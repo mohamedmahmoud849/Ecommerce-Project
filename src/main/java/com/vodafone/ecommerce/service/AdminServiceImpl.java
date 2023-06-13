@@ -7,6 +7,7 @@ import com.vodafone.ecommerce.repo.RoleRepository;
 import com.vodafone.ecommerce.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,6 @@ public class AdminServiceImpl implements AdminService{
     //TODO:: implement admin functions
     @Override
     public void addAdmin(UserEntity user) {
-
     }
 
     @Override
