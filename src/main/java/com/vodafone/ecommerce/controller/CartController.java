@@ -3,10 +3,11 @@ package com.vodafone.ecommerce.controller;
 import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
-import com.vodafone.ecommerce.service.CartService;
-import com.vodafone.ecommerce.service.OrderService;
-import com.vodafone.ecommerce.service.ProductService;
-import com.vodafone.ecommerce.service.RelationService;
+import com.vodafone.ecommerce.model.UserEntity;
+import com.vodafone.ecommerce.payment.stubs.ValidateCard;
+import com.vodafone.ecommerce.payment.utils.PaymentRequest;
+import com.vodafone.ecommerce.payment.utils.RestService;
+import com.vodafone.ecommerce.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -118,13 +119,13 @@ public class CartController extends BaseController{
 
     ///TODO: link logged in customer with order
 
-    @GetMapping("/checkout")
-    public ModelAndView showCheckoutPage(Model model){
-        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
-        model.addAttribute("cart_size",currentCart.size());
-        model.addAttribute("order_items",orderService.getCardItemsForOrderDetails(orderService.getProjection(Long.valueOf(1))));
-        orderService.setOrderProductsRelation(currentCart);
-        return new ModelAndView("order_details","order",orderService.getOrderDetails(Long.valueOf(1)));
-    }
+//    @GetMapping("/checkout")
+//    public ModelAndView showCheckoutPage(Model model){
+//        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
+//        model.addAttribute("cart_size",currentCart.size());
+//        model.addAttribute("order_items",orderService.getCardItemsForOrderDetails(orderService.getProjection(Long.valueOf(1))));
+//        orderService.setOrderProductsRelation(currentCart);
+//        return new ModelAndView("order_details","order",orderService.getOrderDetails(Long.valueOf(1)));
+//    }
 }
 

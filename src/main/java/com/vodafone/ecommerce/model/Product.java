@@ -41,11 +41,9 @@ public class Product {
     @Lob
     //@JsonIgnore
     @Column(columnDefinition = "MEDIUMBLOB", length = 10485760)
-    @JsonIgnore
     private String image;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
     private List<relationEntity> relations;
 
 }
