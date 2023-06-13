@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Simple House Template</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/templatemo-style.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/css/templatemo-style.css"/>
 </head>
 <!--
 
@@ -23,11 +23,11 @@ https://templatemo.com/tm-539-simple-house
     <!-- Logo & Site Name -->
     <div class="placeholder">
         <div class="parallax-window" data-parallax="scroll"
-             data-image-src="http://localhost:8080/img/simple-house-01.jpg">
+             data-image-src="http://localhost:8090/img/simple-house-01.jpg">
             <div class="tm-header">
                 <div class="row tm-header-inner">
                     <div class="col-md-6 col-12">
-                        <img src="http://localhost:8080/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
+                        <img src="http://localhost:8090/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
                         <div class="tm-site-text-box">
                             <h1 class="tm-site-title">E-commerce</h1>
                             <h6 class="tm-site-description">Online Shopping</h6>
@@ -36,6 +36,7 @@ https://templatemo.com/tm-539-simple-house
                     <nav class="col-md-6 col-12 tm-nav">
                         <ul class="tm-nav-ul">
                             <li class="tm-nav-li"><a href="/" class="tm-nav-link active">Home</a></li>
+                            <li class="tm-nav-li"><a th:href="@{/customers/{id}/orders(id=${customer_id})}" class="tm-nav-link ">My Orders</a></li>
                             <li class="tm-nav-li">
 
                                 <a class="tm-nav-link" href="/cart">
@@ -91,7 +92,7 @@ https://templatemo.com/tm-539-simple-house
                             <figcaption>
                                 <h4 class="tm-gallery-title" th:text="${p.name}"></h4>
                                 <p class="tm-gallery-price" th:text="'$'+${p.price}" style="margin-bottom: 2px;"></p>
-                                <a style="text-decoration: none; color: white;" th:href="@{/items/{id}(id=${p.id})} " fkjf>
+                                <a style="text-decoration: none; color: white;" th:href="@{/items/{id}(id=${p.id})} " >
                                     <button class="tm-btn-default"
                                             style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">
                                         Buy
@@ -113,9 +114,9 @@ https://templatemo.com/tm-539-simple-house
             | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
     </footer>
 </div>
-<script src="http://localhost:8080/js/jquery.min.js"></script>
-<script src="http://localhost:8080/js/parallax.min.js"></script>
-<script src="http://localhost:8080/js/search_script.js"></script>
+<script src="http://localhost:8090/js/jquery.min.js"></script>
+<script src="http://localhost:8090/js/parallax.min.js"></script>
+<script src="http://localhost:8090/js/search_script.js"></script>
 
 </body>
 </html>
