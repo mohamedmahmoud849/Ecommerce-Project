@@ -39,9 +39,9 @@ public class paymentController {
         return restService.consumeRest(paymentRequest);
     }
 
-    @PostMapping("/mail")
-    public ResponseEntity<String> mail(@RequestBody Mail mail) throws MessagingException {
-        mailService.sendMail(mail);
+    /*@PostMapping("/verify")
+    public ResponseEntity<String> verifyEmail() throws MessagingException {
+        mailService.sendMail();
         return new ResponseEntity<>("Email Sent successfully", HttpStatus.OK);
-    }
+    }*/
 }

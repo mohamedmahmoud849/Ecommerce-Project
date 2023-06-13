@@ -18,11 +18,11 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     @Query(value = "select id as productId,quantity as productQuantity from product", nativeQuery = true)
     List<ItemsQuantityProjection> getAllProductsQuantity();
 
-    //TODO: update itemQuantity in database
     @Transactional
     @Modifying
     @Query(value = "update product set quantity=:quantity where id=:id ",nativeQuery = true)
     void updateItemQuantityById(@Param("quantity") Integer quantity ,@Param("id") Long id);
 
+    Product findByName(String name);
 }
 

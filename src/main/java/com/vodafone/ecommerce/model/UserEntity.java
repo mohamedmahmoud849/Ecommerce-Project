@@ -33,8 +33,8 @@ public class UserEntity {
     @Column
     private String role;
 
-    @Column(name = "active")
-    private Boolean active;
+    @Column(name = "state")
+    private State state;
 
     @Column
     private Integer FailedLoggedIns;

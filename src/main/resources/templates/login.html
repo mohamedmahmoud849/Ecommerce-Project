@@ -3,7 +3,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         >
 <head>
-  <title>Register</title>
+  <title>Login</title>
 </head>
 <section layout:fragment="body">
   <style>
@@ -35,6 +35,8 @@
   </style>
   <div class="main">
     <div class="col-md-6 col-sm-12">
+      <div th:text="${message}" class="alert alert-success">
+      </div>
       <div th:if="${param.error}" class="alert alert-success">
         Invalid username and password.
       </div>

@@ -1,14 +1,17 @@
 package com.vodafone.ecommerce.service;
 
+import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.errorhandlling.NotFoundException;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
+import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.ProductRepo;
 import com.vodafone.ecommerce.repo.Projection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,16 +22,17 @@ import java.util.stream.LongStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderService {
+public class ConfirmedOrderService implements BaseOrderService {
     private final OrderRepo orderRepo;
     private final ProductService productService;
     private final RelationService relationService;
     private final ProductRepo productRepo;
+    private final UserService userService;
 
 
 
-    public List<Order> getAllOrders(){
-        return orderRepo.findAll();
+    public List<Order> getAllOrdersByCustomerId(Long id){
+        return orderRepo.findAllOrdersByCustomerId(id);
     }
     public Order insertNewOrder(List<Product> list){
         long totalQuantity=0L,totalPrice=0L;
@@ -37,10 +41,13 @@ public class OrderService {
             totalQuantity += product.getQuantity();
             totalPrice += Long.valueOf(product.getPrice()) * product.getQuantity();
         }
-        return orderRepo.save(Order.builder()
+        UserEntity loggedInCustomer = userService.findByEmail(SecurityUtil.getSessionUser());
+         return orderRepo.save(Order.builder()
                 .orderDate(new Date())
+                 .customer(loggedInCustomer)
                 .itemsQuantity(totalQuantity)
                 .totalPrice(totalPrice)
+                 .confirmed(true)
                 .build());
     }
 

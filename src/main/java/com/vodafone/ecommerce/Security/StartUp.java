@@ -1,8 +1,9 @@
 package com.vodafone.ecommerce.Security;
 
-import com.vodafone.ecommerce.model.Admin;
+import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.repo.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +25,7 @@ public class StartUp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Admin firstAdmin = new Admin();
+        UserEntity firstAdmin = new UserEntity();
         firstAdmin.setUsername("fawzy");
         firstAdmin.setEmail("fawzy@gmail.com");
 
@@ -33,7 +34,7 @@ public class StartUp implements CommandLineRunner {
             //do nothing, there is an admin
         }else{
             firstAdmin.setPassword(passwordEncoder.encode("1234"));
-            firstAdmin.setActive(true);
+            firstAdmin.setState(State.INACTIVE);
             firstAdmin.setRole("ADMIN");
             userRepository.save(firstAdmin);
         }

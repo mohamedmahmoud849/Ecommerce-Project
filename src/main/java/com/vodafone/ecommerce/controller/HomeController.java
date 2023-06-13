@@ -22,7 +22,7 @@ import java.util.List;
 public class HomeController extends BaseController{
 
     private final ProductService productService;
-    private final OrderService orderService;
+    private final UserService userService;
 
 
     @GetMapping("/")
@@ -32,18 +32,21 @@ public class HomeController extends BaseController{
         }
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
+        model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
         return new ModelAndView("search_test","products",productService.getALl());
     }
     @GetMapping("/salad")
     public ModelAndView showHomePageWithSaladMenu(Model model){
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
+        model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
         return new ModelAndView("home","products",productService.getALlByCategory("Salad"));
     }
     @GetMapping("/noodle")
     public ModelAndView showHomePageWithNoodleMenu(Model model){
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
+        model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
         return new ModelAndView("home","products",productService.getALlByCategory("Noodle"));
     }
 
@@ -51,6 +54,7 @@ public class HomeController extends BaseController{
     public ModelAndView showHomePageWithPizzaMenu(Model model){
         List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
         model.addAttribute("cart_size",currentCart.size());
+        model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
         return new ModelAndView("home","products",productService.getALlByCategory("Pizza"));
     }
 
