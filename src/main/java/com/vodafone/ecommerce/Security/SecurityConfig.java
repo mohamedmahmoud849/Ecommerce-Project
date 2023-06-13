@@ -35,7 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/login", "/register", "/css/**", "/js/**")
+                .requestMatchers("/login","/login/**", "/register","/register/**","/verify/**", "/css/**","/img/**","/js/**","/webfonts/**","/reset/**","/reset","/password_reset/**")
                 .permitAll()
                 .requestMatchers("/**")
                 .authenticated()
@@ -46,9 +46,7 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .failureHandler(loginFailureHandler)
                         .successHandler(loginSuccessHandler)
-                        .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
-                        ///TODO: 3 times count
                         //.failureUrl("/login/error")
                         .permitAll()
                 ).logout(

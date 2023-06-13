@@ -40,7 +40,7 @@ public class RegistrationDto implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getActive();
+        return true;
     }
 
     @Override
