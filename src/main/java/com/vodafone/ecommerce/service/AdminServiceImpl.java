@@ -3,7 +3,7 @@ package com.vodafone.ecommerce.service;
 import com.vodafone.ecommerce.dto.RegistrationDto;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.UserEntity;
-import com.vodafone.ecommerce.repo.RoleRepository;
+//import com.vodafone.ecommerce.repo.RoleRepository;
 import com.vodafone.ecommerce.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -17,13 +17,13 @@ public class AdminServiceImpl implements AdminService{
 
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    //private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AdminServiceImpl(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        //this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,7 +34,6 @@ public class AdminServiceImpl implements AdminService{
         user.setUsername(registrationDto.getUsername());
         user.setEmail(registrationDto.getEmail());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setActive(true);
         user.setRole("ADMIN");
         //Role role = roleRepository.findByName("USER");
         //user.setRoles(Collections.singletonList(role));

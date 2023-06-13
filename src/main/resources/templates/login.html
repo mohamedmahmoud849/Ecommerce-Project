@@ -3,7 +3,7 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         >
 <head>
-  <title>Register</title>
+  <title>Login</title>
 </head>
 <section layout:fragment="body">
   <style>
@@ -35,11 +35,16 @@
   </style>
   <div class="main">
     <div class="col-md-6 col-sm-12">
+      <div th:text="${message}" class="alert alert-success">
+      </div>
       <div th:if="${param.error}" class="alert alert-success">
         Invalid username and password.
       </div>
       <div th:if="${param.logout}" class="alert alert-success">
         You have been logged out.</div>
+      <div th:if="${param.error}">
+        <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+      </div>
       <div class="login-form">
         <form method="post" th:action="@{/login}">
           <div class="form-group">
@@ -60,7 +65,7 @@
                     placeholder="Password"
                     name="password">
           </div>
-          <button class="btn btn-black" th:href="@{/register}" type="submit">Don't have an account? Register here.</button>
+          <button class="btn btn-black"><a th:href="@{/register}">Don't have an account? Register here.</a></button>
           <button type="submit" value="Log in" class="btn btn-secondary">Login</button>
         </form>
       </div>

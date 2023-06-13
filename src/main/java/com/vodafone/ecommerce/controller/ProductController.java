@@ -3,6 +3,7 @@ package com.vodafone.ecommerce.controller;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +35,13 @@ public class ProductController extends BaseController {
         model.addAttribute("item",productService.getProductById(id));
         return "item_page";
     }
-
     @GetMapping("/items")
     @ResponseBody
-    public List<Product> showAllItems(){
-        return productService.getALl();
+    public ResponseEntity<List<Product>> getAllProducts(){
+        return ResponseEntity.ok(productService.getALl());
     }
+
+
 
     @GetMapping("/test")
     public String showTestForm(){

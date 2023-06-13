@@ -3,14 +3,12 @@ package com.vodafone.ecommerce.controller;
 import com.vodafone.ecommerce.dto.RegistrationDto;
 import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -26,7 +24,7 @@ public class AuthController {
         return "login";
     }
 
-    @RequestMapping ("/register")
+    @GetMapping("/register")
     public String getRegisterForm(Model model) {
         RegistrationDto user = new RegistrationDto();
         model.addAttribute("user", user);
@@ -35,7 +33,7 @@ public class AuthController {
 
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user")RegistrationDto user,
-                           BindingResult result, Model model) {
+                           BindingResult result, Model model) throws MessagingException {
         UserEntity existingUserEmail = userService.findByEmail(user.getEmail());
         if(existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()) {
             return "redirect:/register?fail";
@@ -51,4 +49,27 @@ public class AuthController {
         userService.saveUser(user);
         return "redirect:/?success";
     }
+    @GetMapping("/verify/{id}")
+    public String verifyEmail(@PathVariable("id") Long id){
+        userService.verifyState(id);
+        return "redirect:/";
+    }
+    @GetMapping("/reset")
+    public String showResetPasswordMessage(Model model){
+        model.addAttribute("message","Please Check Your Email TO Login");
+        return "login";
+    }
+    @GetMapping("/reset/{id}")
+    public String showResetPasswordForm(@PathVariable("id") Long id,Model model){
+        model.addAttribute("id",id);
+        return "password_reset";
+    }
+    @PostMapping("/reset/{id}")
+    public String submitResetPasswordForm(@PathVariable("id") Long id,@RequestParam("newPassword") String newPassword){
+        userService.resetPassword(newPassword,id);
+        return "redirect:/login";
+    }
+
+
+
 }

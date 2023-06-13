@@ -26,5 +26,5 @@ public class Order {
     private List<relationEntity> relations;
     private Long itemsQuantity;
     @ManyToOne
-    private Customer customer;
+    private UserEntity customer;
 }
