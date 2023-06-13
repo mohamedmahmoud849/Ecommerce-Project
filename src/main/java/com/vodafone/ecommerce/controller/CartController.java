@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CartController extends BaseController{
     @RequestMapping("/payment")
     public String saveOrder(){
         List<Product> productsList = (List<Product>) getSession().getAttribute("cart_items_list");
-        orderService.setOrderProductsRelation(productsList);
+        //orderService.setOrderProductsRelation(productsList);
         if(!orderService.handleStock(productsList)){
             //TODO: handle this part to throw exception
             log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -60,5 +61,16 @@ public class CartController extends BaseController{
         getSession().setAttribute("total_price",productService.calculateTotalPrice(updatedCart));
         model.addAttribute("list",updatedCart);
         return "redirect:/";
+    }
+
+    ///TODO: link logged in customer with order
+
+    @GetMapping("/checkout")
+    public ModelAndView showCheckoutPage(Model model){
+        List<Product> currentCart =  (List<Product>) getSession().getAttribute("cart_items_list");
+        model.addAttribute("cart_size",currentCart.size());
+        model.addAttribute("order_items",orderService.getCardItemsForOrderDetails(orderService.getProjection(Long.valueOf(1))));
+        orderService.setOrderProductsRelation(currentCart);
+        return new ModelAndView("order_details","order",orderService.getOrderDetails(Long.valueOf(1)));
     }
 }

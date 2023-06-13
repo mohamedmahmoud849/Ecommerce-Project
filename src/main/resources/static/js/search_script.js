@@ -23,7 +23,7 @@ fetch("http://localhost:8080/items")
             const header = product.querySelector("[data-header]")
             const body =  product.querySelector("[data-body]")
             const image = product.querySelector("[data-image]")
-            const button = product.getElementsByClassName("buyButton");
+            const button = product.querySelector("[data-button]");
 
             image.src = 'data:image/jpeg;base64,' + pro.image
             console.log(button)

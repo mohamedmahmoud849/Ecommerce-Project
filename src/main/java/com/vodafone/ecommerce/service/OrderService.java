@@ -40,6 +40,7 @@ public class OrderService {
                 .orderDate(new Date())
                 .itemsQuantity(totalQuantity)
                 .totalPrice(totalPrice)
+                .confirmed(false)
                 .build());
     }
 

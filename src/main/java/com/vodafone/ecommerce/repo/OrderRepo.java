@@ -15,7 +15,7 @@ public interface OrderRepo extends JpaRepository<Order,Long> {
     List<Order> findAll();
 
     @Query(value = "select r.product_id as itemId ,i.name as name ,i.image as image,i.price as price ,r.quantity as quantity\n" +
-            "from test.relations as r , test.products as i\n" +
+            "from test.relations as r , test.product as i\n" +
             "where r.order_id=:id and i.id=r.product_id ",nativeQuery = true)
     List<Projection> getProjection(@Param("id") Long id);
 }
