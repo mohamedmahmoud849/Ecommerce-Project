@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
@@ -18,4 +20,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Transactional
     @Modifying
     void updatePasswordById(@Param("newPassword") String newPassword,@Param("id") Long id);
+
+    @Query(value="SELECT * FROM test.users WHERE role= 'ADMIN'", nativeQuery = true)
+    List<UserEntity> findAllAdminUsers();
 }

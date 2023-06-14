@@ -13,4 +13,5 @@ public interface AdminService {
     void deleteAdmin(UserEntity user);
 
     void updateAdmin(UserEntity user);
+    void showAllAdmins();
 }

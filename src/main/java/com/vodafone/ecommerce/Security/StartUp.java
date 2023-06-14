@@ -34,7 +34,7 @@ public class StartUp implements CommandLineRunner {
             //do nothing, there is an admin
         }else{
             firstAdmin.setPassword(passwordEncoder.encode("1234"));
-            firstAdmin.setState(State.INACTIVE);
+            firstAdmin.setState(State.ACTIVE);
             firstAdmin.setRole("ADMIN");
             userRepository.save(firstAdmin);
         }

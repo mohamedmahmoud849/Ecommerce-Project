@@ -46,6 +46,10 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                             + " Please Verify Yourself via email we have sent to you to reset your Password ");
                 }
             }
+            //TODO:: if trying to login right after registration message not handled?
+            /*else{
+                exception = new LockedException( " Please Verify Yourself via email to reset your Password ");
+            }*/
         }
 
         super.setDefaultFailureUrl("/login?error");

@@ -47,6 +47,8 @@ public class AuthController {
             return "register";
         }
         userService.saveUser(user);
+
+        //TODO: show a message telling user to verify via email upon registration
         return "redirect:/?success";
     }
     @GetMapping("/verify/{id}")
