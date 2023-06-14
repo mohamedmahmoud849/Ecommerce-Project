@@ -40,6 +40,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             getRedirectStrategy().sendRedirect(request, response, targetUrl);
         }
 
+        if(user.getRole().equals("ADMIN")){
+            getRedirectStrategy().sendRedirect(request, response,"/admin");
+        }
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
