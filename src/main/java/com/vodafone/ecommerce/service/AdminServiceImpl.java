@@ -66,5 +66,10 @@ public class AdminServiceImpl implements AdminService{
 
     }
 
+    @Override
+    public void showAllAdmins() {
+
+    }
+
 
 }

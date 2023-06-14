@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setState(State.INACTIVE);
         user.setFailedLoggedIns(0);
-        activateUserAccount(registrationDto);
+        //activateUserAccount(registrationDto);
         user.setRole("CUSTOMER");
         //Role role = roleRepository.findByName("USER");
         //user.setRoles(Collections.singletonList(role));
