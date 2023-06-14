@@ -52,12 +52,12 @@
         <form class="col-md-4 offset-md-4" method="post" enctype="multipart/form-data" th:action="@{/{id}(id=${item.id})}">
           <div class="mb-3" style="padding: 5px">
             <label for="productQ" class="form-label">Quantity</label>
-            <input type="number" value="1" class="form-control" id="productQ" name="quantity">
+            <input type="number" min="1" value="1" class="form-control" id="productQ" name="quantity">
           </div>
           <center><button type="submit" class="btn btn-primary" style="width: 200px; margin: 10px; ">Add to Cart</button></center>
         </form>
 
-        <!--<a style="text-decoration: none; color: white;" th:href="@{/card/{id}(id=${item.id})}"><button class="tm-btn-default" style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">Add to Card</button></a>-->
+
       </div>
     </div>
   </div>
