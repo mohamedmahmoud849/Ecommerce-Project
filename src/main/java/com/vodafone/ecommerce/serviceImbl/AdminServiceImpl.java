@@ -16,7 +16,6 @@ public class AdminServiceImpl implements AdminService {
 
 
     private UserRepository userRepository;
-    //private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -89,10 +88,7 @@ public class AdminServiceImpl implements AdminService {
         return userRepository.findAllByRole("ADMIN");
     }
 
-    @Override
-    public void showAllAdmins() {
 
-    }
 
 
 }

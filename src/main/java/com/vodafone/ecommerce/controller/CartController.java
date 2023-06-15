@@ -44,8 +44,9 @@ public class CartController extends BaseController{
         return "cart_page";
     }
     @RequestMapping("/{id}")
-    public String addNewItemToCart(@PathVariable Long id, @RequestParam("quantity") Integer quantity){
-        orderService.addNewCartItem(id,quantity);
+    public String addNewItemToCart(@PathVariable String id, @RequestParam("quantity") Integer quantity){
+
+        orderService.addNewCartItem(Long.valueOf(id),quantity);
         return "redirect:/";
     }
 

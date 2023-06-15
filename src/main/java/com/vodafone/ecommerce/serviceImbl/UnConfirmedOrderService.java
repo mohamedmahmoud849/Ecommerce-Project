@@ -1,10 +1,8 @@
 package com.vodafone.ecommerce.serviceImbl;
 
-import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.UserEntity;
-import com.vodafone.ecommerce.payment.stubs.ValidateCard;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.Projection;
 import com.vodafone.ecommerce.service.BaseOrderService;
@@ -80,6 +78,7 @@ public class UnConfirmedOrderService implements BaseOrderService {
         if (currentCartItems.isEmpty()){
             newCartItem.setQuantity(quantity);
             currentCartItems.add(newCartItem);
+            deleteUnconfirmedOrderTOUpdate(currentOrder.getId());
             setOrderProductsRelation(currentCartItems);
         }else{
             if(currentCartItems.stream().anyMatch(x->x.getName().equals(newCartItem.getName()))){

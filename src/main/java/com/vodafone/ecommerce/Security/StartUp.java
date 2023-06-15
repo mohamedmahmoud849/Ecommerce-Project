@@ -25,7 +25,7 @@ public class StartUp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-       /* UserEntity firstAdmin = new UserEntity();
+        UserEntity firstAdmin = new UserEntity();
         firstAdmin.setUsername("fawzy");
         firstAdmin.setEmail("fawzy@gmail.com");
 
@@ -35,10 +35,10 @@ public class StartUp implements CommandLineRunner {
         }else{
             firstAdmin.setPassword(passwordEncoder.encode("1234"));
             firstAdmin.setState(State.ACTIVE);
+            firstAdmin.setFailedLoggedIns(0);
             firstAdmin.setRole("ADMIN");
             userRepository.save(firstAdmin);
         }
-*/
 
     }
 }
