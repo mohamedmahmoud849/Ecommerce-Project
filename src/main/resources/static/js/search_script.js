@@ -6,7 +6,7 @@ let productsList = []
 //
 searchInput.addEventListener("input", (e) => {
     const value = e.target.value.toLowerCase()
-    console.log(productsList)
+    console.log(e)
     productsList.forEach(pro => {
         const isVisible = pro.name.toLowerCase().includes(value)
         pro.element.classList.toggle("hide", !isVisible)
@@ -26,7 +26,6 @@ fetch("http://localhost:8090/items")
             const button = product.querySelector("[data-button]");
 
             image.src = 'data:image/jpeg;base64,' + pro.image
-            console.log(image.src)
             button.href = '/items/' + pro.id
 
             header.textContent = pro.name

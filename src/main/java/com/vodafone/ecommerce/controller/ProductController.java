@@ -1,6 +1,7 @@
 package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.Product;
+import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,13 @@ public class ProductController extends BaseController {
         productService.SaveImgDb(file,name, price, category,quantity);
         return "redirect:/";
     }
+
+    @GetMapping("/update_product_list")
+    public String showEditProductList(Model model){
+        model.addAttribute("products", productService.getALl());
+        return "product_edit_list";
+    }
+
     @RequestMapping("/items/{id}")
     public String showItemPage(@PathVariable Long id, Model model){
         model.addAttribute("item",productService.getProductById(id));
@@ -37,8 +45,8 @@ public class ProductController extends BaseController {
     }
     @GetMapping("/items")
     @ResponseBody
-    public ResponseEntity<List<Product>> getAllProducts(){
-        return ResponseEntity.ok(productService.getALl());
+    public List <Product> getAllProducts(){
+        return productService.getALl();
     }
 
 
@@ -47,5 +55,25 @@ public class ProductController extends BaseController {
     public String showTestForm(){
         return "search_test";
     }
+
+    @GetMapping("/update_product/{id}")
+    public String updateProductDetails(@PathVariable Long id, Model model) {
+        model.addAttribute("product", productService.getProductById(id));
+        return "update_product";}
+
+    @PostMapping("/update_product/{id}")
+    public String updateProductDetails(@PathVariable Long id,
+                                     @RequestParam("name") String name,
+                                     @RequestParam("price") Integer price,
+                                       @RequestParam("file") MultipartFile file,
+                                       @RequestParam("quantity") Integer quantity,
+                                     @RequestParam("category") String category) {
+        productService.updateProduct(id, name, price, quantity, category, file);
+        return "redirect:/update_product_list";}
+
+    @GetMapping("/delete_product/{id}")
+    public String deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return "redirect:/update_product_list";}
 }
 
