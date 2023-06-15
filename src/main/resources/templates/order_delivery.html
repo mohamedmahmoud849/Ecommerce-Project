@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Ready</title>
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .animation {
+            text-align: center;
+            animation: pulse 3s ease;
+        }
+
+        .animation h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .animation img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Animation -->
+<div class="container">
+    <div class="animation">
+        <img src="http://localhost:8090/img/delivery.png" alt="Delivery">
+        <h1>Your order is ready</h1>
+        <p>It's on its way to you!</p>
+    </div>
+</div>
+
+<!-- Redirect to another page -->
+<script>
+    setTimeout(function() {
+        window.location.href = "http://localhost:8090";
+    }, 5000);
+</script>
+</body>
+</html>

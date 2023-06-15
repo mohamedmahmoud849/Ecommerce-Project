@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .container {
+      margin-top: 50px;
+      max-width: 500px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Simple House Template</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="http://localhost:8090/css/templatemo-style.css"/>
+</head>
+<body>
+<div class="container">
+  <!-- Top box -->
+  <!-- Logo & Site Name -->
+  <div class="placeholder">
+    <div class="parallax-window" data-parallax="scroll"
+         data-image-src="http://localhost:8090/img/simple-house-01.jpg">
+      <div class="tm-header">
+        <div class="row tm-header-inner">
+          <div class="col-md-6 col-12">
+            <img src="http://localhost:8090/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
+            <div class="tm-site-text-box">
+              <h1 class="tm-site-title">E-commerce</h1>
+              <h6 class="tm-site-description">Online Shopping</h6>
+            </div>
+            ` </div>
+          <nav class="col-md-6 col-12 tm-nav">
+            <ul class="tm-nav-ul">
+              <li class="tm-nav-li"><a href="/" class="tm-nav-link active">Home</a></li>
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Credit Card Payment Form -->
+<div class="container">
+  <div style="color: red; font-weight: bold; font-size: 25px; text-align: center; padding: 10px;" th:text="${message}">
+  </div>
+  <form onsubmit="return validateForm()" action="/payment/credit_card_data" method="post">
+    <div class="form-group">
+      <label for="credit-card-number">Credit Card Number</label>
+      <input type="text" class="form-control" id="credit-card-number" name="credit-card-number" maxlength="16" required>
+      <div id="credit-card-number-error" class="form-error"></div>
+    </div>
+    <div class="form-group">
+      <label for="pin-number">PIN</label>
+      <input type="password" class="form-control" id="pin-number" name="pin-number" maxlength="4" required>
+      <div id="pin-number-error" class="form-error"></div>
+    </div>
+    <div class="form-group">
+      <label for="expiration-month">Expiration Date</label>
+      <div class="form-row">
+        <div class="col-6">
+          <select class="form-control" id="expiration-month" name="expiration-month" required>
+            <option value="" selected disabled hidden>Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <select class="form-control" id="expiration-year" name="expiration-year" required>
+            <option value="" selected disabled hidden>Year</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+          </select>
+        </div>
+      </div>
+      <div id="expiration-date-error" class="form-error"></div>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
+  </form>
+  <footer class="tm-footer text-center">
+    <p>Copyright &copy; 2020 Simple E-commerce
+
+      | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+  </footer>
+</div>
+
+<!-- Custom JS -->
+<script>
+  // Credit Card Number Validation
+  var creditCardNumberField = document.getElementById("credit-card-number");
+  var creditCardNumberError = document.getElementById("credit-card-number-error");
+
+  creditCardNumberField.addEventListener("input", function(event) {
+    var fieldValue = event.target.value;
+
+    // Remove non-numeric characters
+    fieldValue = fieldValue.replace(/\D/g, "");
+
+    // Limit to 16 digits
+    fieldValue = fieldValue.slice(0, 16);
+
+    // Update field value
+    event.target.value = fieldValue;
+
+    // Show error message if the field is invalid
+    if (fieldValue.length !== 16) {
+      creditCardNumberError.textContent = "Please enter a valid 16-digit credit card number";
+    } else{
+      creditCardNumberError.textContent = "";
+    }
+  });
+
+  // PIN Validation
+  var pinNumberField = document.getElementById("pin-number");
+  var pinNumberError = document.getElementById("pin-number-error");
+
+  pinNumberField.addEventListener("input", function(event) {
+    var fieldValue = event.target.value;
+
+    // Remove non-numeric characters
+    fieldValue = fieldValue.replace(/\D/g, "");
+
+    // Limit to 4 digits
+    fieldValue = fieldValue.slice(0, 4);
+
+    // Update field value
+    event.target.value = fieldValue;
+
+    // Show error message if the field is invalid
+    if (fieldValue.length !== 4) {
+      pinNumberError.textContent = "Please enter a valid 4-digit PIN";
+    } else {
+      pinNumberError.textContent = "";
+    }
+  });
+
+  // Expiration Date Validation
+  var expirationMonthField = document.getElementById("expiration-month");
+  var expirationYearField = document.getElementById("expiration-year");
+  var expirationDateError = document.getElementById("expiration-date-error");
+
+  function isExpirationDateValid() {
+    var month = parseInt(expirationMonthField.value, 10);
+    var year = parseInt(expirationYearField.value, 10);
+
+    // Check if the expiration date is in the future
+    var currentDate = new Date();
+    var expirationDate = new Date(year, month - 1);
+    var maxExpirationDate = new Date(currentDate.getFullYear() + 5, 11, 31);
+
+    if (expirationDate < currentDate) {
+      expirationDateError.textContent = "The expiration date must be in the future";
+      return false;
+    } else if (expirationDate > maxExpirationDate) {
+      expirationDateError.textContent = "The expiration date must be within the next 5 years";
+      return false;
+    } else {
+      expirationDateError.textContent = "";
+      return true;
+    }
+  }
+
+  expirationMonthField.addEventListener("change", function(event) {
+    isExpirationDateValid();
+  });
+
+  expirationYearField.addEventListener("change", function(event) {
+    isExpirationDateValid();
+  });
+
+  // Form Validation
+  function validateForm() {
+    var creditCardNumber = creditCardNumberField.value;
+    var pinNumber = pinNumberField.value;
+
+    // Check if all fields are valid
+    if (creditCardNumber.length !== 16 || pinNumber.length !== 4 || !isExpirationDateValid()) {
+      // Show error message and prevent form submission
+      alert("Please enter valid credit card information");
+      return false;
+    } else {
+      // Submit the form
+      return true;
+    }
+  }
+</script>
+  <script src="http://localhost:8090/js/jquery.min.js"></script>
+  <script src="http://localhost:8090/js/parallax.min.js"></script>
+  <script src="http://localhost:8090/js/search_script.js"></script>
+</body>
+</html>

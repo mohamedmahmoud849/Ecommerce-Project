@@ -1,7 +1,7 @@
 package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.Product;
-import com.vodafone.ecommerce.service.ProductService;
+import com.vodafone.ecommerce.serviceImbl.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;

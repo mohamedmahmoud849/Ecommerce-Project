@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;

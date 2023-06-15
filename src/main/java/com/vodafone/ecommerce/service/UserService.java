@@ -19,4 +19,6 @@ public interface UserService {
     void resetPassword(String newPassword,Long id);
 
     UserEntity getCurrentLoggedInUser();
+
+    UserEntity findById(Long id);
 }

@@ -1,7 +1,8 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.errorhandlling.NotFoundException;
+import com.vodafone.ecommerce.errorhandlling.ProductOutOfStockException;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.UserEntity;
@@ -9,9 +10,10 @@ import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.ProductRepo;
 import com.vodafone.ecommerce.repo.Projection;
+import com.vodafone.ecommerce.service.BaseOrderService;
+import com.vodafone.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -93,7 +95,8 @@ public class ConfirmedOrderService implements BaseOrderService {
             int stockProductsQuantity = itemQuantity.getProductQuantity();
             int orderProductQuantity = product.getQuantity();
             if (orderProductQuantity > stockProductsQuantity){
-                throw new NotFoundException("no enough stock");
+                throw new ProductOutOfStockException("We are sorry but this  product : "+product.getName()+" quantity isn't available right now" +
+                                                     "there's only : "+stockProductsQuantity+" available in stock from this product");
             }else{
                 int updatedStockProductQuantity = stockProductsQuantity - orderProductQuantity;
                 updateProductQuantity(updatedStockProductQuantity,product.getId());
