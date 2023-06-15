@@ -19,6 +19,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/cart")
 public class CartController extends BaseController{
 
     private final ProductService productService;
@@ -30,27 +31,26 @@ public class CartController extends BaseController{
 
 
 
-    @RequestMapping("/cart")
-    public String showCartPage(Model model) {
+    @GetMapping
+    public String showCartPage(@RequestParam(name = "message", required = false) String message,Model model) {
         List<Product> unconfirmedOrderProducts = orderService.getCurentUserUnconfirmedOrderProductsList();
         if (unconfirmedOrderProducts.isEmpty()){
-            model.addAttribute("customer_id", orderService.getCurrentUserId());
             return "empty_cart_message";
         }
         String unconfirmedOrderTotalPrice = orderService.calculateOrderTotalPrice(unconfirmedOrderProducts);
+        model.addAttribute("message",message);
         model.addAttribute("customer_id", orderService.getCurrentUserId());
         model.addAttribute("items", unconfirmedOrderProducts);
         model.addAttribute("total_price", unconfirmedOrderTotalPrice);
-        return "cart_page";
+        return "new_cart_page";
     }
     @RequestMapping("/{id}")
-    public String addNewItemToCart(@PathVariable String id, @RequestParam("quantity") Integer quantity){
-
-        orderService.addNewCartItem(Long.valueOf(id),quantity);
+    public String addNewItemToCart(@PathVariable Long id, @RequestParam("quantity") Integer quantity){
+        orderService.addNewCartItem(id,quantity);
         return "redirect:/";
     }
 
-    @RequestMapping("/delete_cart_item/{name}")
+    @RequestMapping("/delete_item/{name}")
     public String deleteCardItem(@PathVariable String name){
         orderService.deleteItemFromUnconfirmedOrderById(name);
         return "redirect:/cart";
@@ -61,7 +61,7 @@ public class CartController extends BaseController{
     public String showCheckoutPage(Model model){
         model.addAttribute("order_items",orderService.getCurentUserUnconfirmedOrderProductsList());
         model.addAttribute("order",orderService.getCurentUserUnconfirmedOrder());
-        return "pre_pay_details";
+        return "new_pre_pay_page";
     }
 }
 

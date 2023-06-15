@@ -14,6 +14,7 @@ import com.vodafone.ecommerce.service.BaseOrderService;
 import com.vodafone.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class ConfirmedOrderService implements BaseOrderService {
             int stockProductsQuantity = itemQuantity.getProductQuantity();
             int orderProductQuantity = product.getQuantity();
             if (orderProductQuantity > stockProductsQuantity){
-                throw new ProductOutOfStockException("We are sorry but this  product : "+product.getName()+" quantity isn't available right now" +
+                throw new ProductOutOfStockException("We are sorry but this  product : "+product.getName()+" quantity isn't available right now \n" +
                                                      "there's only : "+stockProductsQuantity+" available in stock from this product");
             }else{
                 int updatedStockProductQuantity = stockProductsQuantity - orderProductQuantity;

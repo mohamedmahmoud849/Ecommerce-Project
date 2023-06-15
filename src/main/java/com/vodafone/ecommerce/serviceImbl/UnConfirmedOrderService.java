@@ -72,17 +72,23 @@ public class UnConfirmedOrderService implements BaseOrderService {
     }
 
     public void addNewCartItem(Long id , Integer quantity){
-        Product newCartItem = productService.getProductById(id);
+        Product orderedProduct = productService.getProductById(id);
         Order currentOrder = getCurentUserUnconfirmedOrder();
         List<Product> currentCartItems = getCurentUserUnconfirmedOrderProductsList();
         if (currentCartItems.isEmpty()){
-            newCartItem.setQuantity(quantity);
-            currentCartItems.add(newCartItem);
-            deleteUnconfirmedOrderTOUpdate(currentOrder.getId());
+            Product newProduct = Product.builder()
+                            .id(orderedProduct.getId())
+                                    .quantity(quantity)
+                                            .category(orderedProduct.getCategory())
+                                                    .image(orderedProduct.getImage())
+                                                            .name(orderedProduct.getName())
+                                                                    .price(orderedProduct.getPrice())
+                                                                            .build();
+            currentCartItems.add(newProduct);
             setOrderProductsRelation(currentCartItems);
         }else{
-            if(currentCartItems.stream().anyMatch(x->x.getName().equals(newCartItem.getName()))){
-                Product product= currentCartItems.stream().filter(x->x.getName().equals(newCartItem.getName())).findFirst().get();
+            if(currentCartItems.stream().anyMatch(x->x.getName().equals(orderedProduct.getName()))){
+                Product product= currentCartItems.stream().filter(x->x.getName().equals(orderedProduct.getName())).findFirst().get();
                 product.setQuantity(product.getQuantity()+quantity);
                 currentCartItems.removeIf(x->x.getName().equals(product.getName()));
                 currentCartItems.add(product);
@@ -91,9 +97,9 @@ public class UnConfirmedOrderService implements BaseOrderService {
             }else{
                 currentCartItems.add(Product.builder()
                         .id(id)
-                        .name(newCartItem.getName())
-                        .price(newCartItem.getPrice())
-                        .image(newCartItem.getImage())
+                        .name(orderedProduct.getName())
+                        .price(orderedProduct.getPrice())
+                        .image(orderedProduct.getImage())
                         .quantity(quantity)
                         .build());
                 deleteUnconfirmedOrderTOUpdate(currentOrder.getId());

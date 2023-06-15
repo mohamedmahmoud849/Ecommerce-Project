@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface OrderRepo extends JpaRepository<Order,Long> {
 
-    @Query(value = "SELECT * FROM test.orders where customer_id=:customer_id order by order_date desc",nativeQuery = true)
+    @Query(value = "SELECT * FROM test.orders where customer_id=:customer_id and confirmed = true order by order_date desc",nativeQuery = true)
     List<Order> findAllOrdersByCustomerId(@Param("customer_id") Long id);
 
     @Query(value = "select r.product_id as itemId ,i.name as name ,i.image as image,i.price as price ,r.quantity as quantity\n" +
