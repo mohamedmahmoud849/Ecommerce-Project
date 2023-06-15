@@ -30,7 +30,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                                         AuthenticationException exception) throws IOException, ServletException {
         String username = request.getParameter("username");
         UserEntity user = userService.findByUsername(username);
-        log.info(String.valueOf(user.getState()));
         if (user != null) {
             if (user.getState()== State.ACTIVE) {
                 if (user.getFailedLoggedIns() < userService.MAX_FAILED_ATTEMPTS - 1) {
@@ -39,17 +38,16 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                     userService.suspend(user);
                     try {
                         mailService.sendResetPasswordMail(user.getEmail(), user.getId());
+                        exception = new LockedException("Your account has been locked due to 3 failed attempts."
+                                + " Please Verify Yourself via email we have sent to you to reset your Password ");
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
                     }
-                    exception = new LockedException("Your account has been locked due to 3 failed attempts."
-                            + " Please Verify Yourself via email we have sent to you to reset your Password ");
+
                 }
-            }
-            //TODO:: if trying to login right after registration message not handled?
-            /*else{
+            }else{
                 exception = new LockedException( " Please Verify Yourself via email to reset your Password ");
-            }*/
+            }
         }
 
         super.setDefaultFailureUrl("/login?error");
