@@ -89,10 +89,7 @@ public class AdminServiceImpl implements AdminService {
         return userRepository.findAllByRole("ADMIN");
     }
 
-    @Override
-    public void showAllAdmins() {
 
-    }
 
 
 }
