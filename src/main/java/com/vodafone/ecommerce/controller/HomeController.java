@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
@@ -24,21 +25,11 @@ public class HomeController extends BaseController{
         model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
         return new ModelAndView("search_test","products",productService.getALl());
     }
-    @GetMapping("/salad")
-    public ModelAndView showHomePageWithSaladMenu(Model model){
+    @GetMapping("/category/{category}")
+    public ModelAndView showHomePageWithSaladMenu(@PathVariable("category") String category, Model model){
         model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
-        return new ModelAndView("home","products",productService.getALlByCategory("Salad"));
-    }
-    @GetMapping("/noodle")
-    public ModelAndView showHomePageWithNoodleMenu(Model model){
-        model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
-        return new ModelAndView("home","products",productService.getALlByCategory("Noodle"));
+        return new ModelAndView("new_home_page","products",productService.getALlByCategory(category));
     }
 
-    @GetMapping("/pizza")
-    public ModelAndView showHomePageWithPizzaMenu(Model model){
-        model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
-        return new ModelAndView("home","products",productService.getALlByCategory("Pizza"));
-    }
 
 }

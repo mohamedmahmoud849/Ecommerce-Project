@@ -44,6 +44,7 @@ public class Product {
     private String image;
 
     @OneToMany(mappedBy = "product")
+    /*@JsonIgnore*/
     private List<relationEntity> relations;
 
 }

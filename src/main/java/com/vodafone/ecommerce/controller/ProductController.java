@@ -2,6 +2,8 @@ package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.State;
+
+import com.vodafone.ecommerce.serviceImbl.ProductService;
 import com.vodafone.ecommerce.serviceImbl.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/products")
 public class ProductController extends BaseController {
 
     private final ProductService productService;
@@ -41,10 +44,10 @@ public class ProductController extends BaseController {
         return "product_edit_list";
     }
 
-    @RequestMapping("/items/{id}")
+    @RequestMapping("/{id}")
     public String showItemPage(@PathVariable Long id, Model model){
         model.addAttribute("item",productService.getProductById(id));
-        return "item_page";
+        return "new_item_page";
     }
     @GetMapping("/items")
     @ResponseBody
