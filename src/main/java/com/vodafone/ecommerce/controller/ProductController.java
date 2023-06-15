@@ -4,6 +4,7 @@ import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.serviceImbl.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,12 @@ public class ProductController extends BaseController {
     private final ProductService productService;
 
     @GetMapping("/add_product")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAddItemForm(){
         return "new_product";
     }
     @PostMapping("/add_product")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addNewProduct(@RequestParam("file") MultipartFile file,
                                 @RequestParam("name") String name,
                                 @RequestParam("category") String category,
