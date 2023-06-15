@@ -2,6 +2,7 @@ package com.vodafone.ecommerce.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vodafone.ecommerce.relation.relationEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,6 +44,7 @@ public class Product {
     @Column(columnDefinition = "MEDIUMBLOB", length = 10485760)
     private String image;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "product")
     private List<relationEntity> relations;
 
