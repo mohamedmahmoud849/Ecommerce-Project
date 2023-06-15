@@ -93,5 +93,33 @@ public class ProductService {
     public Product getProductByName(String name) {
         return productRepo.findByName(name);
     }
+
+    public void updateProduct(Long id, String name, Integer price, Integer quantity, String category, MultipartFile file){
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        if (fileName.contains("..")) {
+            System.out.println("not a proper file name");
+        } else {
+
+            try {
+                Product product = productRepo.findById(id).get();
+                product.setId(id);
+                product.setName(name);
+                product.setPrice(price);
+                product.setQuantity(quantity);
+                product.setCategory(category);
+                product.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+                productRepo.save(product);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
+    public void deleteProduct(Long id) {
+        productRepo.deleteById(id);
+    }
 }
 

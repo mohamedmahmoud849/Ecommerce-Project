@@ -1,14 +1,12 @@
 package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.dto.RegistrationDto;
-import com.vodafone.ecommerce.model.Order;
+import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
 //import com.vodafone.ecommerce.repo.RoleRepository;
 import com.vodafone.ecommerce.repo.UserRepository;
 import com.vodafone.ecommerce.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,20 +49,44 @@ public class AdminServiceImpl implements AdminService {
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+    @Override
+    public UserEntity findById(Long id) {return userRepository.findById(id).get();}
 
     //TODO:: implement admin functions
     @Override
-    public void addAdmin(UserEntity user) {
+    public void addAdmin(String email, String username, CharSequence password) {
+
+        userRepository.save(UserEntity.builder()
+                .email(email)
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .FailedLoggedIns(0)
+                .role("ADMIN")
+                .state(State.valueOf("INACTIVE"))
+                .build());
+
+    }
+
+
+    @Override
+    public void deleteAdmin(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override
-    public void deleteAdmin(UserEntity user) {
+    public void updateAdmin(Long id, String username, String email, State state) {
 
+        UserEntity user = userRepository.findById(id).get();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setState(state);
+        user.setFailedLoggedIns(user.getFailedLoggedIns());
+        user.setId(id);
+        userRepository.save(user);
     }
-
     @Override
-    public void updateAdmin(UserEntity user) {
-
+    public List<UserEntity> getALlAdmins() {
+        return userRepository.findAllByRole("ADMIN");
     }
 
     @Override
