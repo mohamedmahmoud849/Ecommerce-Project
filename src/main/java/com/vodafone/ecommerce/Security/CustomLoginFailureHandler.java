@@ -2,8 +2,8 @@ package com.vodafone.ecommerce.Security;
 
 import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
-import com.vodafone.ecommerce.service.MailService;
 import com.vodafone.ecommerce.service.UserService;
+import com.vodafone.ecommerce.serviceImbl.MailService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

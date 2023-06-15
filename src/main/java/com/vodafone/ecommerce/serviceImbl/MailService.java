@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
