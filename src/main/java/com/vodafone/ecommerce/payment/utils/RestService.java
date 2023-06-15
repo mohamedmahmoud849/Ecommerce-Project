@@ -6,8 +6,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class RestService {
-    private String url = "http://localhost:8080/paymentservice/payment/pay";
-    public PaymentResponse consumeRest(PaymentRequest paymentRequest){
+
+    public PaymentResponse checkCardBalance(PaymentRequest paymentRequest){
+        String url = "http://localhost:8080/paymentservice/payment/pay/check";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<PaymentRequest> httpRequest = new HttpEntity<>(paymentRequest);
+        return restTemplate.postForEntity(url,httpRequest,PaymentResponse.class).getBody();
+    }
+    public PaymentResponse consumeAmountFromCard(PaymentRequest paymentRequest){
+        String url = "http://localhost:8080/paymentservice/payment/pay/consume";
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<PaymentRequest> httpRequest = new HttpEntity<>(paymentRequest);
         return restTemplate.postForEntity(url,httpRequest,PaymentResponse.class).getBody();

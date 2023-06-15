@@ -25,20 +25,20 @@ public class StartUp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//        UserEntity firstAdmin = new UserEntity();
-//        firstAdmin.setUsername("fawzy");
-//        firstAdmin.setEmail("fawzy@gmail.com");
-//
-//        UserEntity existingUserEmail = userRepository.findByEmail(firstAdmin.getEmail());
-//        if(existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()) {
-//            //do nothing, there is an admin
-//        }else{
-//            firstAdmin.setPassword(passwordEncoder.encode("1234"));
-//            firstAdmin.setState(State.INACTIVE);
-//            firstAdmin.setRole("ADMIN");
-//            userRepository.save(firstAdmin);
-//        }
+       /* UserEntity firstAdmin = new UserEntity();
+        firstAdmin.setUsername("fawzy");
+        firstAdmin.setEmail("fawzy@gmail.com");
 
+        UserEntity existingUserEmail = userRepository.findByEmail(firstAdmin.getEmail());
+        if(existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()) {
+            //do nothing, there is an admin
+        }else{
+            firstAdmin.setPassword(passwordEncoder.encode("1234"));
+            firstAdmin.setState(State.ACTIVE);
+            firstAdmin.setRole("ADMIN");
+            userRepository.save(firstAdmin);
+        }
+*/
 
     }
 }

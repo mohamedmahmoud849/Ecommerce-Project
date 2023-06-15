@@ -42,15 +42,15 @@ https://templatemo.com/tm-539-simple-house
 
                 <a class="tm-nav-link" href="/cart">
                   <button type="button" class="btn btn-primary position-relative" style="background: none;color: white;border: none;font-family: 'Open Sans', Arial, sans-serif;font-size: 17px;">
-                    My Cart:
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${cart_size}">
-
-                                    </span>
+                    My Cart
+                    <!--<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" th:text="${cart_size}"</span>-->
                   </button>
                 </a>
 
 
               </li>
+              <li class="tm-nav-li"><a th:href="@{/logout}" class="tm-nav-link ">Logout</a></li>
+
             </ul>
           </nav>
         </div>
@@ -83,6 +83,7 @@ https://templatemo.com/tm-539-simple-house
 
     <!-- Gallery -->
     <div class="products" data-products-container></div>
+    <div style="height: 200px"></div>
     <template data-user-template>
       <div class="product">
         <div class="header" data-header></div>

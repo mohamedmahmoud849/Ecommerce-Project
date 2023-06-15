@@ -42,11 +42,13 @@ public class AdminController {
         return "admin";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/edit_admins")
     public String editAdminsPage(){
         return "edit_admins";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/edit_inventory")
     public String editInventoryPage(){
         return "edit_inventory";

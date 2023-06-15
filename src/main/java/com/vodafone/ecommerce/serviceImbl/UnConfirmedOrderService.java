@@ -1,11 +1,14 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.UserEntity;
+import com.vodafone.ecommerce.payment.stubs.ValidateCard;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.Projection;
+import com.vodafone.ecommerce.service.BaseOrderService;
+import com.vodafone.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.LongStream;
 
 @Service
@@ -26,12 +30,25 @@ public class UnConfirmedOrderService implements BaseOrderService {
     private final UserService userService;
 
 
-    public Order getUnconfirmedOrderByCustomerId(Long id) {
-        Order order = orderRepo.getUnconfirmedOrderByCustomerId(id);
+    public Order getCurentUserUnconfirmedOrder() {
+        UserEntity loggedInCustomer = userService.getCurrentLoggedInUser();
+        Order order = orderRepo.getUnconfirmedOrderByCustomerId(loggedInCustomer.getId());
         return order;
     }
 
-
+    public List<Product> getCurentUserUnconfirmedOrderProductsList(){
+        Order unconfirmedOrder = getCurentUserUnconfirmedOrder();
+        if(unconfirmedOrder!=null){
+            //return List of Products and Total Price
+            return getCardItemsForOrderDetails(unconfirmedOrder.getId());
+        }else{
+            return new ArrayList<>();
+        }
+    }
+    public Long getCurrentUserId(){
+        UserEntity currentUser = userService.getCurrentLoggedInUser();
+        return currentUser.getId();
+    }
     public List<Projection> getProjection(Long orderId) {
         return orderRepo.getProjection(orderId);
     }
@@ -39,7 +56,6 @@ public class UnConfirmedOrderService implements BaseOrderService {
     public List<Product> getProductsForOrderDetails(List<Projection> list) {
         return list.stream().flatMapToLong(x -> LongStream.of(x.getItemId())).mapToObj(productService::getProductById).toList();
     }
-
     public List<Product> getCardItemsForOrderDetails(Long orderId) {
         List<Projection> projectionList = getProjection(orderId);
         List<Product> newCardItemsList = new ArrayList<>();
@@ -57,24 +73,33 @@ public class UnConfirmedOrderService implements BaseOrderService {
         return newCardItemsList;
     }
 
-    public List<Product> addNewCartItem(List<Product> cartItems, Long id , Integer quantity){
+    public void addNewCartItem(Long id , Integer quantity){
         Product newCartItem = productService.getProductById(id);
-        if(cartItems.stream().anyMatch(x->x.getName().equals(newCartItem.getName()))){
-            Product product= cartItems.stream().filter(x->x.getName().equals(newCartItem.getName())).findFirst().get();
-            product.setQuantity(product.getQuantity()+quantity);
-            cartItems.removeIf(x->x.getName().equals(product.getName()));
-            cartItems.add(product);
-            return cartItems;
+        Order currentOrder = getCurentUserUnconfirmedOrder();
+        List<Product> currentCartItems = getCurentUserUnconfirmedOrderProductsList();
+        if (currentCartItems.isEmpty()){
+            newCartItem.setQuantity(quantity);
+            currentCartItems.add(newCartItem);
+            setOrderProductsRelation(currentCartItems);
         }else{
-            log.info(String.valueOf(quantity));
-            cartItems.add(Product.builder()
-                    .id(id)
-                    .name(newCartItem.getName())
-                    .price(newCartItem.getPrice())
-                    .image(newCartItem.getImage())
-                    .quantity(quantity)
-                    .build());
-            return cartItems;
+            if(currentCartItems.stream().anyMatch(x->x.getName().equals(newCartItem.getName()))){
+                Product product= currentCartItems.stream().filter(x->x.getName().equals(newCartItem.getName())).findFirst().get();
+                product.setQuantity(product.getQuantity()+quantity);
+                currentCartItems.removeIf(x->x.getName().equals(product.getName()));
+                currentCartItems.add(product);
+                deleteUnconfirmedOrderTOUpdate(currentOrder.getId());
+                setOrderProductsRelation(currentCartItems);
+            }else{
+                currentCartItems.add(Product.builder()
+                        .id(id)
+                        .name(newCartItem.getName())
+                        .price(newCartItem.getPrice())
+                        .image(newCartItem.getImage())
+                        .quantity(quantity)
+                        .build());
+                deleteUnconfirmedOrderTOUpdate(currentOrder.getId());
+                setOrderProductsRelation(currentCartItems);
+            }
         }
 
     }
@@ -86,7 +111,7 @@ public class UnConfirmedOrderService implements BaseOrderService {
             totalQuantity += product.getQuantity();
             totalPrice += Long.valueOf(product.getPrice()) * product.getQuantity();
         }
-        UserEntity loggedInCustomer = userService.findByEmail(SecurityUtil.getSessionUser());
+        UserEntity loggedInCustomer = userService.findById(getCurrentUserId());
         return orderRepo.save(Order.builder()
                 .orderDate(new Date())
                 .customer(loggedInCustomer)
@@ -101,11 +126,10 @@ public class UnConfirmedOrderService implements BaseOrderService {
         relationService.createRelations(productsList,newOrder);
     }
 
-    public String calculateTotalPrice(List<Product> productsList) {
+    public String calculateOrderTotalPrice(List<Product> productsList) {
         Long totalPrice = 0L;
         if (productsList.isEmpty()) {
             return String.valueOf(totalPrice);
-
         } else {
             for (Product product :
                     productsList) {
@@ -113,8 +137,6 @@ public class UnConfirmedOrderService implements BaseOrderService {
             }
             return String.valueOf(totalPrice);
         }
-
-
     }
 
     public void deleteUnconfirmedOrderTOUpdate(Long id) {
@@ -130,15 +152,15 @@ public class UnConfirmedOrderService implements BaseOrderService {
         orderRepo.updateConfirmedById(id);
     }
 
-    public void deleteItemFromUnconfirmedOrderById(String name, Long id) {
-        Product product = productService.getProductByName(name);
-        relationService.deleteRelationBetweenItemAndOrder(product.getId(),id);
-    }
-
-    public void updateOrder(Long id) {
-        List<Product> products = getCardItemsForOrderDetails(id);
-        if (products.size()==0){
-            orderRepo.deleteById(id);
+    public void deleteItemFromUnconfirmedOrderById(String name) {
+        Order currentCart = getCurentUserUnconfirmedOrder();
+        List<Product> currentCartItems = getCurentUserUnconfirmedOrderProductsList();
+        currentCartItems.removeIf(x-> Objects.equals(x.getName(), name));
+        deleteUnconfirmedOrderTOUpdate(currentCart.getId());
+        if (!currentCartItems.isEmpty()){
+            setOrderProductsRelation(currentCartItems);
         }
     }
+
+
 }

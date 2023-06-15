@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Transactional
     @Modifying
     void updatePasswordById(@Param("newPassword") String newPassword,@Param("id") Long id);
+
+    @Query(value="SELECT * FROM test.users WHERE role= 'ADMIN'", nativeQuery = true)
+    List<UserEntity> findAllAdminUsers();
 }

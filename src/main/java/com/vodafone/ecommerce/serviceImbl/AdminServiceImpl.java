@@ -1,17 +1,18 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.dto.RegistrationDto;
 import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
 //import com.vodafone.ecommerce.repo.RoleRepository;
 import com.vodafone.ecommerce.repo.UserRepository;
+import com.vodafone.ecommerce.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
 
 
     private UserRepository userRepository;
@@ -86,6 +87,11 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public List<UserEntity> getALlAdmins() {
         return userRepository.findAllByRole("ADMIN");
+    }
+
+    @Override
+    public void showAllAdmins() {
+
     }
 
 

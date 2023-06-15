@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.errorhandlling.NotFoundException;
 import com.vodafone.ecommerce.model.Product;

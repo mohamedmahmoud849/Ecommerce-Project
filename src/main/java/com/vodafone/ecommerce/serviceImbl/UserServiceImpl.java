@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.service;
+package com.vodafone.ecommerce.serviceImbl;
 
 
 import com.vodafone.ecommerce.Security.SecurityUtil;
@@ -8,6 +8,7 @@ import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
 //import com.vodafone.ecommerce.repo.RoleRepository;
 import com.vodafone.ecommerce.repo.UserRepository;
+import com.vodafone.ecommerce.service.UserService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setState(State.INACTIVE);
         user.setFailedLoggedIns(0);
-        activateUserAccount(registrationDto);
+        //activateUserAccount(registrationDto);
         user.setRole("CUSTOMER");
         //Role role = roleRepository.findByName("USER");
         //user.setRoles(Collections.singletonList(role));
@@ -106,6 +107,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getCurrentLoggedInUser(){
         return findByEmail(SecurityUtil.getSessionUser());
+    }
+
+    @Override
+    public UserEntity findById(Long id) {
+        return userRepository.findById(id).get();
     }
 
 }
