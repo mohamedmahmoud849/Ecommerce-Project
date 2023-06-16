@@ -38,7 +38,7 @@
 
 
     <div class="container" th:object="${product}"  style="width: auto; padding-top: 30px; margin-left: 450px; ">
-        <form class="col-md-4 offset-md-4" method="post" enctype="multipart/form-data" th:action= "@{/update_product/{id}(id=${product.id})}">
+        <form class="col-md-4 offset-md-4" method="post" enctype="multipart/form-data" th:action= "@{/products/update_product/{id}(id=${product.id})}">
             <div class="mb-3" style="padding: 5px">
                 <label for="productName" class="form-label">Name</label>
                 <input type="text" th:value="${product.name}" class="form-control" id="productName" name="name" >
