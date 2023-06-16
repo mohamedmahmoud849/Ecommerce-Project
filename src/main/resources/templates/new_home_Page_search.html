@@ -8,6 +8,85 @@
   <title>Simple House Template</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet"/>
   <link rel="stylesheet" type="text/css" href="http://localhost:8090/css/templatemo-style.css"/>
+  <style>
+    .search-wrapper-test {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.search-wrapper-test label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.search-wrapper-test input[type="search"] {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  width: 20rem;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ <style>
+  .buy-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+ .buy-button-text {
+  margin-top: 1rem;
+  width: 100px;
+  height: 30px;
+  background-color: #3d504a;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+  .buy-button {
+    margin-top: 1rem;
+    width: 100px;
+    height: 30px;
+    background-color: #3d504a;
+    color: white;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s;
+  }
+  .buy-button:hover {
+    background-color: #2e3a35;
+  }
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .out-of-stock-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1;
+  }
+
+
+  </style>
 </head>
 <!--
 
@@ -69,29 +148,32 @@ https://templatemo.com/tm-539-simple-house
       </nav>
     </div>
 
-    <div class="search-wrapper">
-      <label for= "search">Search Products: </label>
+    <div class="search-wrapper-test">
       <input type="search" id="search" data-search>
     </div>
 
     <!-- Gallery -->
-    <div class="products" data-products-container></div>
+    <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;">
+    <div class="tm-gallery-page" data-products-container></div>
     <div style="height: 200px"></div>
-    <template data-user-template>
-      <div class="product">
-        <div class="header" data-header></div>
-        <div class="body" data-body></div>
-        <img class="image" data-image>
-        <a class="buyButton" href="" style="text-decoration: none; color: white;" data-button>
-          <center>
-            <button class="tm-btn-default"
-                    style="margin-top: 1rem; width: 100px; height: 30px; background-color: #3d504a; color: white; cursor: pointer;">
-              Buy
-            </button>
-          </center>
-        </a>
-      </div>
+    <template  data-user-template>
+        <div class="row tm-gallery" style="margin: 10px; " >
+          <div class="w3-half">
+            <div class="card">
+              <img  alt="Image" data-image>
+              <div class="card-description">
+                <h2><b data-header></b></h2>
+                <p><b data-body></b></p>
+                <div class="buy-container" data-buy-container>
+                  <button class="buy-button" data-button>Buy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </template>
+    </div>
+
 
   </main>
 
