@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface ProductRepo extends JpaRepository<Product, Long> {
 
     List<Product> findAllByCategory(String category);
+    List<Product> findAllByArchived(Boolean archived);
     @Query(value = "select id as productId,quantity as productQuantity from product", nativeQuery = true)
     List<ItemsQuantityProjection> getAllProductsQuantity();
 

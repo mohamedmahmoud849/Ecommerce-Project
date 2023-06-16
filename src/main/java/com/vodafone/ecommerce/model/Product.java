@@ -39,6 +39,9 @@ public class Product {
     @Column(name = "rating")
     private Enum rating;
 
+    @Column(name = "archived")
+    private Boolean archived;
+
     @Lob
     //@JsonIgnore
     @Column(columnDefinition = "MEDIUMBLOB", length = 10485760)
