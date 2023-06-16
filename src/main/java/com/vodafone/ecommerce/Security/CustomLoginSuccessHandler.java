@@ -31,15 +31,8 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 userService.resetFailedAttempts(user.getEmail());
             }
         }else{
-            response.sendRedirect("/login?error=verify-email");
+            response.sendRedirect("/register/verify");
             return;
-            /*Exception exception = new LockedException("Your account has been locked due to 3 failed attempts."
-                    + " Please Verify Yourself via email we have sent to you to reset your Password ");
-            HttpSession session = request.getSession(false);
-            session.invalidate();
-            String targetUrl = "/login/error_msg";
-            request.getSession().setAttribute("message","message");
-            getRedirectStrategy().sendRedirect(request, response, targetUrl);*/
         }
 
         if(user.getRole().equals("ADMIN")){
