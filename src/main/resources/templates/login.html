@@ -83,9 +83,9 @@
 <!--        <div th:if="${param.error == 'verify-email'}" class="alert alert-danger" role="alert">You need to verify your email before logging in.
         </div>-->
         <div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
-        <!--<div th:if="${param.error}">
+        <div th:if="${param.error}">
           <p class="text-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
-        </div>-->
+        </div>
         <form method="post" th:action="@{/login}">
           <div class="form-group">
             <label for="username">Username:</label>

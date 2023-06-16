@@ -9,16 +9,11 @@ public interface UserService {
     void saveUser(RegistrationDto registrationDto) throws MessagingException;
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String username);
-    void activateUserAccount(RegistrationDto registrationDto);
     void increaseFailedAttempts(UserEntity user);
     void resetFailedAttempts(String email);
-    void suspend(UserEntity user);
-
-    UserEntity verifyState(Long id);
-
+    void suspendUser(UserEntity user);
+    UserEntity activateUser(Long id);
     void resetPassword(String newPassword,Long id);
-
     UserEntity getCurrentLoggedInUser();
-
     UserEntity findById(Long id);
 }

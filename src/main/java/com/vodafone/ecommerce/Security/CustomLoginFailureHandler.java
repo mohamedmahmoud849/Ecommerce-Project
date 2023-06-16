@@ -35,7 +35,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                 if (user.getFailedLoggedIns() < userService.MAX_FAILED_ATTEMPTS - 1) {
                     userService.increaseFailedAttempts(user);
                 } else {
-                    userService.suspend(user);
+                    userService.suspendUser(user);
                     try {
                         mailService.sendResetPasswordMail(user.getEmail(), user.getId());
                         exception = new LockedException("Your account has been locked due to 3 failed attempts."
@@ -43,10 +43,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
                     }
-
                 }
-            }else{
-                exception = new LockedException( " Please Verify Yourself via email to reset your Password ");
             }
         }
 

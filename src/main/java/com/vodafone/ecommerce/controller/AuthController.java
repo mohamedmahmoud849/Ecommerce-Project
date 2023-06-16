@@ -34,6 +34,8 @@ public class AuthController {
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user")RegistrationDto user,
                            BindingResult result, Model model) throws MessagingException {
+
+        //Check first if the user exists by searching him by his name and email
         UserEntity existingUserEmail = userService.findByEmail(user.getEmail());
         if(existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()) {
             return "redirect:/register?fail";
@@ -48,7 +50,6 @@ public class AuthController {
         }
         userService.saveUser(user);
 
-        //TODO: show a message telling user to verify via email upon registration
         return "redirect:/register/verify";
     }
 
@@ -58,7 +59,7 @@ public class AuthController {
     }
     @GetMapping("/verify/{id}")
     public String verifyEmail(@PathVariable("id") Long id){
-        userService.verifyState(id);
+        userService.activateUser(id);
         return "redirect:/";
     }
     @GetMapping("/reset")
