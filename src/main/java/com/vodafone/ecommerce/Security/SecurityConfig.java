@@ -1,4 +1,8 @@
 package com.vodafone.ecommerce.Security;
+import com.vodafone.ecommerce.model.UserEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,18 +12,24 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Slf4j
 public class SecurityConfig extends GlobalMethodSecurityConfiguration {
     private CustomUserDetailsService userDetailsService;
+    //private SecurityUtil securityUtil;
     @Autowired
     private CustomLoginFailureHandler loginFailureHandler;
 
@@ -35,6 +45,9 @@ public class SecurityConfig extends GlobalMethodSecurityConfiguration {
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -52,7 +65,6 @@ public class SecurityConfig extends GlobalMethodSecurityConfiguration {
                         .failureHandler(loginFailureHandler)
                         .successHandler(loginSuccessHandler)
                         .loginProcessingUrl("/login")
-                        //.defaultSuccessUrl("/")
                         .permitAll()
                 ).logout(
                         logout -> logout

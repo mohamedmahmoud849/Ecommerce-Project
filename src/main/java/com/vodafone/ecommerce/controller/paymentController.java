@@ -32,6 +32,7 @@ public class paymentController extends BaseController {
                                    @RequestParam("expiration-month") String expireMonth,
                                    @RequestParam("expiration-year") String expireYear, Model model)
     {
+
         String soapResponse = paymentService.validateCardDetails(cardNumber,pin,expireYear,expireMonth);
         if (soapResponse.equals("Valid")){
             getSession().setAttribute("card_number",cardNumber);
@@ -54,46 +55,5 @@ public class paymentController extends BaseController {
 
     }
 
-    /*@RequestMapping("/payment")
-    public String purchaseOrder(){
-        Order unconfirmedOrder = orderService.getCurentUserUnconfirmedOrder();
-        if(unconfirmedOrder!=null){
-            List<Product> unconfirmedOrderProducts = orderService.getCardItemsForOrderDetails(unconfirmedOrder.getId());
-            String unconfirmedOrderTotalPrice = orderService.calculateOrderTotalPrice(unconfirmedOrderProducts);
-            ValidateCard validateCard = new ValidateCard();
-            validateCard.setCardNumber(1425363785798658l);
-            validateCard.setPin(1234);
-            validateCard.setExpireDate("2024-01-23");
-            if (paymentService.ValidateCard(validateCard).equals("Valid")){
-                log.info(paymentService.ValidateCard(validateCard));
-                log.info(unconfirmedOrderTotalPrice);
-                PaymentRequest paymentRequest = PaymentRequest.builder()
-                        .cardNumber("1234567890123456")
-                        .amountToBePaid(5)
-                        .build();
-                if(restService.consumeRest(paymentRequest).getMessage().equals("Transaction Succeeded")){
-                    log.info(restService.consumeRest(paymentRequest).getMessage());
-                    orderService.confirmOrder(unconfirmedOrder.getId());
-                    orderService.handleStock(unconfirmedOrderProducts);
-                }
-            }else {
-                log.info(paymentService.ValidateCard(validateCard));
-            }
-        }
-
-        return "redirect:/";
-    }*/
-
-
-/*
-    @PostMapping("/validate")
-    public String validateCard(@RequestBody ValidateCard validateCard){
-        return paymentService.ValidateCard(validateCard);
-    }
-    @PostMapping("/consume")
-    public PaymentResponse consumeAmount(@RequestBody PaymentRequest paymentRequest){
-        return restService.consumeRest(paymentRequest);
-    }
-*/
 
 }

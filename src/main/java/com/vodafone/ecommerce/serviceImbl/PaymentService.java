@@ -1,16 +1,14 @@
 package com.vodafone.ecommerce.serviceImbl;
 
 
+import com.vodafone.ecommerce.errorhandlling.NotFoundException;
 import com.vodafone.ecommerce.errorhandlling.OrderNotFoundException;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.payment.stubs.ObjectFactory;
 import com.vodafone.ecommerce.payment.stubs.ValidateCard;
 import com.vodafone.ecommerce.payment.stubs.ValidateCardResponse;
-import com.vodafone.ecommerce.payment.utils.PaymentRequest;
-import com.vodafone.ecommerce.payment.utils.PaymentResponse;
-import com.vodafone.ecommerce.payment.utils.RestService;
-import com.vodafone.ecommerce.payment.utils.soapClient;
+import com.vodafone.ecommerce.payment.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +22,8 @@ public class PaymentService {
     private final RestService restService;
     private final UnConfirmedOrderService unConfirmedOrderService;
     private final ConfirmedOrderService confirmedOrderService;
+
+
     public String validateCard(ValidateCard validateCard){
         ObjectFactory objectFactory = new ObjectFactory();
         ValidateCardResponse response = soapClient.validateCard("http://localhost:9090/wsdl",objectFactory.createValidateCard(validateCard));
@@ -37,10 +37,7 @@ public class PaymentService {
         card.setExpireDate(date);
         return validateCard(card);
     }
-
-
-
-    public boolean isThereEnoughBalance(Long cardNumber){
+    public boolean isThereEnoughBalance(Long cardNumber,String token){
         List<Product> currentOrderItems = unConfirmedOrderService.getCurentUserUnconfirmedOrderProductsList();
         if (currentOrderItems.isEmpty()){
             throw new OrderNotFoundException("You have No Orders To Be Purchased");
@@ -49,11 +46,11 @@ public class PaymentService {
         PaymentRequest paymentRequest = new PaymentRequest();
         paymentRequest.setCardNumber(String.valueOf(cardNumber));
         paymentRequest.setAmountToBePaid(amount);
-        PaymentResponse response = restService.checkCardBalance(paymentRequest);
+        PaymentResponse response = restService.checkCardBalance(paymentRequest,token);
         return response.getMessage().equals("There's Enough Balance");
     }
 
-    public void consumeAmount(Long cardNumber){
+    public void consumeAmount(Long cardNumber,String token){
         List<Product> currentOrderItems = unConfirmedOrderService.getCurentUserUnconfirmedOrderProductsList();
         if (currentOrderItems.isEmpty()){
             throw new OrderNotFoundException("You have No Orders To Be Purchased");
@@ -62,17 +59,16 @@ public class PaymentService {
         PaymentRequest paymentRequest = new PaymentRequest();
         paymentRequest.setCardNumber(String.valueOf(cardNumber));
         paymentRequest.setAmountToBePaid(amount);
-        restService.consumeAmountFromCard(paymentRequest);
+        restService.consumeAmountFromCard(paymentRequest,token);
     }
 
     public void completeCreditCardOrder(Long cardNumber){
-        boolean checkResponse = isThereEnoughBalance(cardNumber);
-        if (checkResponse){
-            //consume items quantity
-            confirmedOrderService.handleStock(unConfirmedOrderService.getCurentUserUnconfirmedOrderProductsList());
-            //cosnume amount
-            consumeAmount(cardNumber);
-        }
+        String token = getPaymentToken();
+        isThereEnoughBalance(cardNumber,token);
+        //consume items quantity
+        confirmedOrderService.handleStock(unConfirmedOrderService.getCurentUserUnconfirmedOrderProductsList());
+        //cosnume amount
+        consumeAmount(cardNumber,token);
         Order currentOrder = unConfirmedOrderService.getCurentUserUnconfirmedOrder();
         unConfirmedOrderService.confirmOrder(currentOrder.getId());
     }
@@ -81,6 +77,14 @@ public class PaymentService {
         confirmedOrderService.handleStock(unConfirmedOrderService.getCurentUserUnconfirmedOrderProductsList());
         Order currentOrder = unConfirmedOrderService.getCurentUserUnconfirmedOrder();
         unConfirmedOrderService.confirmOrder(currentOrder.getId());
+    }
+
+    public String getPaymentToken(){
+        AuthenticationResponse response = restService.sendAuthenticateRequest();
+        if (response==null){
+            throw new NotFoundException("some error happened");
+        }
+        return response.getToken();
     }
 
 }
