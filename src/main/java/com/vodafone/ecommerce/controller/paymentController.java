@@ -32,6 +32,7 @@ public class paymentController extends BaseController {
                                    @RequestParam("expiration-month") String expireMonth,
                                    @RequestParam("expiration-year") String expireYear, Model model)
     {
+
         String soapResponse = paymentService.validateCardDetails(cardNumber,pin,expireYear,expireMonth);
         if (soapResponse.equals("Valid")){
             getSession().setAttribute("card_number",cardNumber);
