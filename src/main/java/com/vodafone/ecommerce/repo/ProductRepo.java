@@ -16,11 +16,10 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
 
     List<Product> findAllByArchived(Boolean archived);
-    /*@Query(value = "select * from product where category=:category order by  ",nativeQuery = true)*/
+    @Query(value = "select * from product where category=:category and archived = false order by quantity desc ",nativeQuery = true)
     List<Product> findAllByCategory(@Param("category") String category);
     @Query(value = "select id as productId,quantity as productQuantity from product", nativeQuery = true)
     List<ItemsQuantityProjection> getAllProductsQuantity();
-
     @Transactional
     @Modifying
     @Query(value = "update product set quantity=:quantity where id=:id ",nativeQuery = true)

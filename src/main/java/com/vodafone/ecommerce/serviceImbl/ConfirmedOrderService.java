@@ -96,6 +96,9 @@ public class ConfirmedOrderService implements BaseOrderService {
             int stockProductsQuantity = itemQuantity.getProductQuantity();
             int orderProductQuantity = product.getQuantity();
             if (orderProductQuantity > stockProductsQuantity){
+                if (stockProductsQuantity == 0 ){
+                    throw new ProductOutOfStockException("We are sorry but this  product : "+product.getName()+" currently out of stock.");
+                }
                 throw new ProductOutOfStockException("We are sorry but this  product : "+product.getName()+" quantity isn't available right now \n" +
                                                      "there's only : "+stockProductsQuantity+" available in stock from this product");
             }else{

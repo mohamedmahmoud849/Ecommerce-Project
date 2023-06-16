@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 
 
 @ControllerAdvice
-public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
+public class ApiExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException runtimeException){
         return "error";
@@ -62,6 +62,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
     }
     @ExceptionHandler(RequestRejectedException.class)
     public String handleRequestRejectedException(RequestRejectedException exception ){
+        return "error";
+    }
+    @ExceptionHandler(org.springframework.web.bind.MissingServletRequestParameterException.class)
+    public String handleMissingServletRequestParameterException(MissingServletRequestParameterException exception){
         return "error";
     }
 }
