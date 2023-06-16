@@ -16,6 +16,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     private UserRepository userRepository;
+    //private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -87,7 +88,6 @@ public class AdminServiceImpl implements AdminService {
     public List<UserEntity> getALlAdmins() {
         return userRepository.findAllByRole("ADMIN");
     }
-
 
 
 

@@ -94,7 +94,18 @@ public class ProductService {
         return productRepo.findByName(name);
     }
 
-    public void updateProduct(Long id, String name, Integer price, Integer quantity, String category, MultipartFile file){
+    public void updateProduct(Long id, String name, Integer price, Integer quantity, String category){
+
+        Product product = productRepo.findById(id).get();
+        product.setId(id);
+        product.setName(name);
+        product.setPrice(price);
+        product.setQuantity(quantity);
+        product.setCategory(category);
+        productRepo.save(product);
+    }
+
+    public void updateProductImage(Long id, MultipartFile file){
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         if (fileName.contains("..")) {
@@ -104,10 +115,6 @@ public class ProductService {
             try {
                 Product product = productRepo.findById(id).get();
                 product.setId(id);
-                product.setName(name);
-                product.setPrice(price);
-                product.setQuantity(quantity);
-                product.setCategory(category);
                 product.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
                 productRepo.save(product);
 

@@ -1,7 +1,7 @@
 package com.vodafone.ecommerce.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vodafone.ecommerce.relation.relationEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +24,7 @@ public class Order {
     private Long totalPrice;
     private boolean confirmed;
     @OneToMany(mappedBy = "order")
-    /*@JsonIgnore*/
+    @JsonBackReference
     private List<relationEntity> relations;
     private Long itemsQuantity;
     @ManyToOne

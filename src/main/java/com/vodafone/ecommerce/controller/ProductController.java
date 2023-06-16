@@ -71,10 +71,20 @@ public class ProductController extends BaseController {
     public String updateProductDetails(@PathVariable Long id,
                                      @RequestParam("name") String name,
                                      @RequestParam("price") Integer price,
-                                       @RequestParam("file") MultipartFile file,
                                        @RequestParam("quantity") Integer quantity,
                                      @RequestParam("category") String category) {
-        productService.updateProduct(id, name, price, quantity, category, file);
+        productService.updateProduct(id, name, price, quantity, category);
+        return "redirect:/update_product_list";}
+
+    @GetMapping("/update_product_image/{id}")
+    public String updateProductImage(@PathVariable Long id, Model model) {
+        model.addAttribute("product", productService.getProductById(id));
+        return "update_product_image";}
+
+    @PostMapping("/update_product_image/{id}")
+    public String updateProductImage(@PathVariable Long id,
+                                       @RequestParam("file") MultipartFile file) {
+        productService.updateProductImage(id, file);
         return "redirect:/update_product_list";}
 
     @GetMapping("/delete_product/{id}")
