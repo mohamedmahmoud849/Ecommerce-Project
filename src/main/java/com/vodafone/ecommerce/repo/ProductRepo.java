@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
-    @Query(value = "select * from product where category=:category and quantity > 0 ",nativeQuery = true)
+    /*@Query(value = "select * from product where category=:category order by  ",nativeQuery = true)*/
     List<Product> findAllByCategory(@Param("category") String category);
     @Query(value = "select id as productId,quantity as productQuantity from product", nativeQuery = true)
     List<ItemsQuantityProjection> getAllProductsQuantity();
