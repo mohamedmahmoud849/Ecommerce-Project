@@ -13,6 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
+
+
+    List<Product> findAllByArchived(Boolean archived);
     /*@Query(value = "select * from product where category=:category order by  ",nativeQuery = true)*/
     List<Product> findAllByCategory(@Param("category") String category);
     @Query(value = "select id as productId,quantity as productQuantity from product", nativeQuery = true)

@@ -38,9 +38,15 @@ public class ProductController extends BaseController {
         return "redirect:/";
     }
 
+//    @GetMapping("/update_product_list")
+//    public String showEditProductList(Model model){
+//        model.addAttribute("products", productService.getALl());
+//        return "product_edit_list";
+//    }
+
     @GetMapping("/update_product_list")
     public String showEditProductList(Model model){
-        model.addAttribute("products", productService.getALl());
+        model.addAttribute("products", productService.getAllByArchived(Boolean.FALSE));
         return "product_edit_list";
     }
 
@@ -90,6 +96,11 @@ public class ProductController extends BaseController {
     @GetMapping("/delete_product/{id}")
     public String deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
+        return "redirect:/products/update_product_list";}
+
+    @GetMapping("/archive_product/{id}")
+    public String archiveProduct(@PathVariable Long id){
+        productService.archiveProduct(id);
         return "redirect:/products/update_product_list";}
 }
 

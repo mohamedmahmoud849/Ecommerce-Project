@@ -49,7 +49,12 @@ public class AuthController {
         userService.saveUser(user);
 
         //TODO: show a message telling user to verify via email upon registration
-        return "redirect:/?success";
+        return "redirect:/register/verify";
+    }
+
+    @GetMapping("/register/verify")
+    public String showVerifyByEmailMessage(Model model){
+        return "verify_by_email_message_page";
     }
     @GetMapping("/verify/{id}")
     public String verifyEmail(@PathVariable("id") Long id){

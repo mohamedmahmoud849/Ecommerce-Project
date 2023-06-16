@@ -8,6 +8,65 @@
     <title>Simple House Template</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="http://localhost:8090/css/templatemo-style.css"  />
+    <style>
+       form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  width: 1000px;
+  border: 3px solid #3d504a;
+}
+
+.form-control{
+   display:inline-block;
+   width:100%
+}
+
+label {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #3d504a;
+}
+
+input {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button{
+  background-color: #3d504a;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #3d504a;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
+  </style>
+
 </head>
 
 <body>
@@ -47,11 +106,13 @@
             <div class="mb-3" style="padding: 5px">
                 <label for="productPrice" class="form-label">Price</label>
                 <input type="text" th:value="${product.price}" class="form-control" id="productPrice" name="price">
+                <div id="product-price-error" class="form-error" style="color: red"></div>
             </div>
 
             <div class="mb-3" style="padding: 5px">
                 <label for="productQuantity" class="form-label">Quantity</label>
                 <input type="text" th:value="${product.quantity}" class="form-control" id="productQuantity" name="quantity">
+                <div id="product-quantity-error" class="form-error" style="color: red"></div>
             </div>
 
 <!--            <div class="mb-3" style="padding: 5px">-->
@@ -110,6 +171,55 @@
       $('.tm-paging-link').removeClass('active');
       $(this).addClass("active");
     });
+  });
+</script>
+
+<script>
+
+  var productQuantityField = document.getElementById("productQuantity");
+  var productQuantityError = document.getElementById("product-quantity-error");
+
+  productQuantityField.addEventListener("input", function(event) {
+    var fieldValue = event.target.value;
+
+    // Remove non-numeric characters
+    fieldValue = fieldValue.replace(/\D/g, "");
+
+    // Limit to 16 digits
+    fieldValue = fieldValue.slice(0, 5);
+
+    // Update field value
+    event.target.value = fieldValue;
+
+    // Show error message if the field is invalid
+    if (fieldValue.length == 5) {
+      productQuantityError.textContent = "You must provide a numerical quantity of max 5 digits";
+    } else{
+      productQuantityError.textContent = "";
+    }
+  });
+
+  var productPriceField = document.getElementById("productPrice");
+  var productPriceError = document.getElementById("product-price-error");
+
+  productPriceField.addEventListener("input", function(event) {
+    var fieldValue = event.target.value;
+
+    // Remove non-numeric characters
+    fieldValue = fieldValue.replace(/\D/g, "");
+
+    // Limit to 16 digits
+    fieldValue = fieldValue.slice(0, 5);
+
+    // Update field value
+    event.target.value = fieldValue;
+
+    // Show error message if the field is invalid
+    if (fieldValue.length == 5) {
+      productPriceError.textContent = "You must provide a numerical quantity of max 5 digits";
+    } else{
+      productPriceError.textContent = "";
+    }
   });
 </script>
 </body>

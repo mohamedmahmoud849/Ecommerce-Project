@@ -29,6 +29,10 @@ public class ProductService {
         return productRepo.findAllByCategory(category);
     }
 
+    public List<Product> getAllByArchived(Boolean archived)  {
+        return productRepo.findAllByArchived(archived);
+    }
+
     public List<Product> getALl(){
         return productRepo.findAll();
     }
@@ -46,6 +50,7 @@ public class ProductService {
                         .quantity(quantity)
                         .price(price)
                         .category(category)
+                        .archived(Boolean.FALSE)
                         .build());
 
             } catch (IOException e) {
@@ -127,6 +132,13 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepo.deleteById(id);
+    }
+
+    public void archiveProduct(Long id) {
+
+        Product product = productRepo.findById(id).get();
+        product.setArchived(Boolean.TRUE);
+        productRepo.save(product);
     }
 }
 
