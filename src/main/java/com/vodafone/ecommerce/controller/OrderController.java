@@ -5,7 +5,7 @@ import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.repo.UserRepository;
 
 import com.vodafone.ecommerce.service.UserService;
-import com.vodafone.ecommerce.serviceImbl.ConfirmedOrderService;
+import com.vodafone.ecommerce.serviceImbl.ConfirmedOrderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class OrderController {
 
     private final UserService userService;
-    private final ConfirmedOrderService orderService;
+    private final ConfirmedOrderServiceImpl orderService;
     @RequestMapping("/orders")
     public String getCustomerOrders(Model model){
         Long loggedInUserId = userService.getCurrentLoggedInUser().getId();

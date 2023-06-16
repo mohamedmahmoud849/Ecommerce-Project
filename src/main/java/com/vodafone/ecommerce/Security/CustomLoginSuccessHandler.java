@@ -26,6 +26,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                                         Authentication authentication) throws IOException, ServletException {
         String username = request.getParameter("username");
         UserEntity user = userService.findByUsername(username);
+
         if(user.getState()== State.ACTIVE){
             if (user.getFailedLoggedIns() > 0) {
                 userService.resetFailedAttempts(user.getEmail());

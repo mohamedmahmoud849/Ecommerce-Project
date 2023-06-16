@@ -5,7 +5,7 @@ import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.Projection;
-import com.vodafone.ecommerce.service.BaseOrderService;
+import com.vodafone.ecommerce.service.UnConfirmedOrderService;
 import com.vodafone.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import java.util.stream.LongStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UnConfirmedOrderService implements BaseOrderService {
+public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
 
     private final OrderRepo orderRepo;
     private final ProductService productService;
@@ -38,7 +38,7 @@ public class UnConfirmedOrderService implements BaseOrderService {
         Order unconfirmedOrder = getCurentUserUnconfirmedOrder();
         if(unconfirmedOrder!=null){
             //return List of Products and Total Price
-            return getCardItemsForOrderDetails(unconfirmedOrder.getId());
+            return getCartItemsForOrderDetails(unconfirmedOrder.getId());
         }else{
             return new ArrayList<>();
         }
@@ -54,7 +54,7 @@ public class UnConfirmedOrderService implements BaseOrderService {
     public List<Product> getProductsForOrderDetails(List<Projection> list) {
         return list.stream().flatMapToLong(x -> LongStream.of(x.getItemId())).mapToObj(productService::getProductById).toList();
     }
-    public List<Product> getCardItemsForOrderDetails(Long orderId) {
+    public List<Product> getCartItemsForOrderDetails(Long orderId) {
         List<Projection> projectionList = getProjection(orderId);
         List<Product> newCardItemsList = new ArrayList<>();
         List<Product> products = getProductsForOrderDetails(projectionList);
@@ -109,7 +109,7 @@ public class UnConfirmedOrderService implements BaseOrderService {
 
     }
 
-    public Order insertNewUnconfirmedOrder(List<Product> list){
+    public Order addNewUnconfirmedOrder(List<Product> list){
         long totalQuantity=0L,totalPrice=0L;
         for (Product product:
                 list) {
@@ -127,7 +127,7 @@ public class UnConfirmedOrderService implements BaseOrderService {
     }
 
     public void setOrderProductsRelation(List<Product> productsList){
-        Order newOrder = insertNewUnconfirmedOrder(productsList);
+        Order newOrder = addNewUnconfirmedOrder(productsList);
         relationService.createRelations(productsList,newOrder);
     }
 

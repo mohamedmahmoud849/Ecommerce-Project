@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 public class StartUp implements CommandLineRunner {
 
     PasswordEncoder passwordEncoder;
-
     UserRepository userRepository;
 
     @Autowired
@@ -25,12 +24,12 @@ public class StartUp implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-       UserEntity firstAdmin = new UserEntity();
-        firstAdmin.setUsername("fawzy");
-        firstAdmin.setEmail("fawzy@gmail.com");
-
-        UserEntity existingUserEmail = userRepository.findByEmail(firstAdmin.getEmail());
-        if(existingUserEmail == null || existingUserEmail.getEmail() == null ) {
+        // Store one admin before start up
+        UserEntity existingUserEmail = userRepository.findByEmail("fawzy@gmail.com");
+        if(existingUserEmail == null) {
+            UserEntity firstAdmin = new UserEntity();
+            firstAdmin.setUsername("fawzy");
+            firstAdmin.setEmail("fawzy@gmail.com");
             firstAdmin.setPassword(passwordEncoder.encode("1234"));
             firstAdmin.setState(State.ACTIVE);
             firstAdmin.setRole("ADMIN");
