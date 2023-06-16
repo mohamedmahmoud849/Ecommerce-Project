@@ -28,16 +28,14 @@ import java.util.Objects;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
 public class SecurityConfig extends GlobalMethodSecurityConfiguration {
-    private CustomUserDetailsService userDetailsService;
-    //private SecurityUtil securityUtil;
+    private final userDetailsService userDetailsService;
     @Autowired
     private CustomLoginFailureHandler loginFailureHandler;
-
     @Autowired
     private CustomLoginSuccessHandler loginSuccessHandler;
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(userDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -45,9 +43,6 @@ public class SecurityConfig extends GlobalMethodSecurityConfiguration {
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-    private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{

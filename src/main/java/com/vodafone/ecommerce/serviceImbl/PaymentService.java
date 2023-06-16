@@ -20,8 +20,8 @@ import java.util.List;
 public class PaymentService {
     private final soapClient soapClient;
     private final RestService restService;
-    private final UnConfirmedOrderService unConfirmedOrderService;
-    private final ConfirmedOrderService confirmedOrderService;
+    private final UnConfirmedOrderServiceImpl unConfirmedOrderService;
+    private final ConfirmedOrderServiceImpl confirmedOrderService;
 
 
     public String validateCard(ValidateCard validateCard){

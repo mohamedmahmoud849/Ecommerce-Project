@@ -6,7 +6,7 @@ import com.vodafone.ecommerce.payment.utils.RestService;
 import com.vodafone.ecommerce.service.UserService;
 import com.vodafone.ecommerce.serviceImbl.PaymentService;
 import com.vodafone.ecommerce.serviceImbl.ProductService;
-import com.vodafone.ecommerce.serviceImbl.UnConfirmedOrderService;
+import com.vodafone.ecommerce.serviceImbl.UnConfirmedOrderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,7 @@ public class CartController extends BaseController{
     private final ProductService productService;
     private final PaymentService paymentService;
     private final RestService restService;
-    private final UnConfirmedOrderService orderService;
+    private final UnConfirmedOrderServiceImpl orderService;
     private final UserService userService;
 
 
