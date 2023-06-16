@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException runtimeException){
-        return "error_page";
+        return "error";
     }
     @ExceptionHandler(ProductOutOfStockException.class)
     public String handleProductOutOfStockException(ProductOutOfStockException exception , Model model){
@@ -34,7 +34,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(OrderNotFoundException.class)
     public String handleOrderNotFoundException(OrderNotFoundException orderNotFoundException , Model model){
         model.addAttribute("message",orderNotFoundException.getMessage());
-        return "error_page";
+        return "error";
     }
     @ExceptionHandler(HttpClientErrorException.NotFound.class)
     public String handleNotFoundException(HttpClientErrorException.NotFound notFound , Model model){
@@ -44,15 +44,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public String handleBadRequestException(MethodArgumentTypeMismatchException exception){
-        return "error_page";
+        return "error";
     }
     @ExceptionHandler(HttpClientErrorException.BadRequest.class)
     public String handleClientException(HttpClientErrorException.BadRequest exception){
-        return "error_page";
+        return "error";
     }
     @ExceptionHandler(HttpServerErrorException.class)
     public String handleServerException(HttpServerErrorException exception ){
-        return "error_page";
+        return "error";
     }
     @ExceptionHandler(HttpClientErrorException.NotAcceptable.class)
     public String handleNotAcceptableException(HttpClientErrorException.NotAcceptable notAcceptable , Model model){
@@ -62,6 +62,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
     }
     @ExceptionHandler(RequestRejectedException.class)
     public String handleRequestRejectedException(RequestRejectedException exception ){
-        return "error_page";
+        return "error";
     }
 }

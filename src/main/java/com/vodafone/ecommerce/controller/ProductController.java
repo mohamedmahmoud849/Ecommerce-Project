@@ -49,7 +49,7 @@ public class ProductController extends BaseController {
         model.addAttribute("item",productService.getProductById(id));
         return "new_item_page";
     }
-    @GetMapping("/items")
+    @GetMapping
     @ResponseBody
     public List <Product> getAllProducts(){
         return productService.getALl();

@@ -14,7 +14,7 @@ searchInput.addEventListener("input", (e) => {
     })
 })
 
-fetch("http://localhost:8090/items")
+fetch("http://localhost:8090/products")
     .then(res => res.json())
     .then(data => {
         productsList = data.map(pro => {
