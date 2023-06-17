@@ -1,22 +1,28 @@
 package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.dto.RegistrationDto;
+import com.vodafone.ecommerce.errorhandlling.EmailAlreadyExistsException;
 import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
 //import com.vodafone.ecommerce.repo.RoleRepository;
 import com.vodafone.ecommerce.repo.UserRepository;
 import com.vodafone.ecommerce.service.AdminService;
+import com.vodafone.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
     public AdminServiceImpl(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
@@ -51,6 +57,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void addAdmin(String email, String username, CharSequence password) {
 
+        validateEmail(email);
+        validateUsername(username);
         userRepository.save(UserEntity.builder()
                 .email(email)
                 .username(username)
@@ -71,6 +79,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateAdmin(Long id, String username, String email, State state) {
 
+        validateEmailForUpdate(email,id);
+        validateUsernameForUpdate(username,id);
         UserEntity user = userRepository.findById(id).get();
         user.setEmail(email);
         user.setUsername(username);
@@ -83,7 +93,42 @@ public class AdminServiceImpl implements AdminService {
     public List<UserEntity> getALlAdmins() {
         return userRepository.findAllByRole("ADMIN");
     }
+    @Override
+    public List<UserEntity> getALlOtherAdmins() {
 
+        List<UserEntity> list = userRepository.findAllByRole("ADMIN");
+//        UserEntity user = userServiceImpl.getCurrentLoggedInUser();
+//        System.out.println(user);
+//        list.remove(user);
+        return list;
+    }
 
+    @Override
+    public void validateEmail(String email) {
+        if (userRepository.findByEmail(email) != null) {
+            throw new EmailAlreadyExistsException("This email is already registered.");
+        }
+    }
+    @Override
+    public void validateEmailForUpdate(String email, Long id) {
 
+        if (userRepository.findByEmail(email) != null && !Objects.equals(email, userRepository.findById(id).get().getEmail())) {
+            throw new EmailAlreadyExistsException("This email is already registered.");
+        }
+    }
+
+    @Override
+    public void validateUsername(String username) {
+        if (userRepository.findByUsername(username) != null) {
+            throw new EmailAlreadyExistsException("This username is already registered.");
+        }
+    }
+
+    @Override
+    public void validateUsernameForUpdate(String username, Long id) {
+
+        if (userRepository.findByUsername(username) != null && !Objects.equals(username, userRepository.findById(id).get().getUsername())) {
+            throw new EmailAlreadyExistsException("This username is already registered.");
+        }
+    }
 }

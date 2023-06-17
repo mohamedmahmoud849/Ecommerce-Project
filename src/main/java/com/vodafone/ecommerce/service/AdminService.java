@@ -21,4 +21,14 @@ public interface AdminService {
     void updateAdmin(Long id, String username, String email, State state);
 
     List<UserEntity> getALlAdmins();
+
+    List<UserEntity> getALlOtherAdmins();
+
+    void validateEmail(String email);
+
+    void validateEmailForUpdate(String email, Long id);
+
+    void validateUsername(String username);
+
+    void validateUsernameForUpdate(String email, Long id);
 }
