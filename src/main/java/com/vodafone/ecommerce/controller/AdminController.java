@@ -18,7 +18,6 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-
     @GetMapping("/add_admin")
     public String showAddAminForm(){
         return "new_admin";

@@ -22,6 +22,12 @@ public class ProductController extends BaseController {
 
     private final ProductService productService;
 
+
+    @GetMapping("/fetch/{category}")
+    @ResponseBody
+    public List <Product> getAllProductsByCategory(@PathVariable String category){
+        return productService.getALlByCategory(category);
+    }
     @GetMapping("/add_product")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showAddItemForm(){
@@ -55,7 +61,7 @@ public class ProductController extends BaseController {
         model.addAttribute("item",productService.getProductById(id));
         return "new_item_page";
     }
-    @GetMapping
+    @GetMapping("/fetch")
     @ResponseBody
     public List <Product> getAllProducts(){
         return productService.getALl();

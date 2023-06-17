@@ -23,11 +23,12 @@ public class HomeController extends BaseController{
     @GetMapping("/")
     public ModelAndView showHomePage(Model model){
         model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
-        return new ModelAndView("search_test","products",productService.getALl());
+        return new ModelAndView("new_home_Page_search","products",productService.getALl());
     }
     @GetMapping("/category/{category}")
     public ModelAndView showHomePageWithSaladMenu(@PathVariable("category") String category, Model model){
         model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
+        model.addAttribute("category",category);
         return new ModelAndView("new_home_page","products",productService.getALlByCategory(category));
     }
 

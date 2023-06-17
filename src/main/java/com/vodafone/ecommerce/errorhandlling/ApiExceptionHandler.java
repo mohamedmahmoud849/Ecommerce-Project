@@ -16,8 +16,11 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 
 @ControllerAdvice
@@ -28,7 +31,7 @@ public class ApiExceptionHandler {
     }
     @ExceptionHandler(ProductOutOfStockException.class)
     public String handleProductOutOfStockException(ProductOutOfStockException exception , Model model){
-        String message = URLEncoder.encode(exception.getMessage(), StandardCharsets.UTF_8);
+        String message = URLEncoder.encode(exception.getMessage(), StandardCharsets.ISO_8859_1);
         return "redirect:/cart?message=" + message;
     }
     @ExceptionHandler(OrderNotFoundException.class)
@@ -67,5 +70,18 @@ public class ApiExceptionHandler {
     @ExceptionHandler(org.springframework.web.bind.MissingServletRequestParameterException.class)
     public String handleMissingServletRequestParameterException(MissingServletRequestParameterException exception){
         return "error";
+    }
+
+    private static String encryptMessage(String message, String secretKey) {
+        try {
+            byte[] key = secretKey.getBytes(StandardCharsets.UTF_8);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            byte[] encrypted = cipher.doFinal(message.getBytes());
+            return Base64.getEncoder().encodeToString(encrypted);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to encrypt message", e);
+        }
     }
 }
