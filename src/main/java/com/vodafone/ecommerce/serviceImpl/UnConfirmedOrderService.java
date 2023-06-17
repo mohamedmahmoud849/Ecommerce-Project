@@ -155,8 +155,9 @@ public class UnConfirmedOrderService implements OrderService {
 
 
 
-    public void confirmOrder(Long id) {
-        orderRepo.updateConfirmedById(id);
+    public void confirmOrder(Long id,String address) {
+
+        orderRepo.updateConfirmedById(id,address);
     }
 
     public void deleteItemFromUnconfirmedOrderById(String name) {

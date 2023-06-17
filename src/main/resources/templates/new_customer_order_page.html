@@ -72,7 +72,7 @@ https://templatemo.com/tm-539-simple-house
             </thead><tbody>
         <tr th:each="i:${orders}">
             <td th:text="${i.id}"></td>
-            <td th:text="${i.orderDate}"></td>
+            <td th:text="${#dates.format(i.orderDate,'yyyy-MM-dd')}"></td>
             <td th:text="${i.totalPrice}"></td>
             <td th:text="${i.itemsQuantity}"></td>
             <td>

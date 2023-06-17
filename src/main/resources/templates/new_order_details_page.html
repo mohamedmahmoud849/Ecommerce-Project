@@ -58,21 +58,18 @@
                 <span class="item-label">Customer Name:</span>
                 <span class="item-value" th:text="${order.customer.username}"></span>
             </div>
-            <div class="summary-item">
-                <span class="item-label">Customer E-mail:</span>
-                <span class="item-value">lucille@example.com</span>
-            </div>
-            <div class="summary-item">
-                <span class="item-label">Contact Number:</span>
-                <span class="item-value">01149681583</span>
-            </div>
+
             <div class="summary-item">
                 <span class="item-label">Order Id:</span>
                 <span class="item-value" th:text="${order.id}"></span>
             </div>
             <div class="summary-item">
                 <span class="item-label">Order Date:</span>
-                <span class="item-value" th:text="${order.orderDate}"></span>
+                <span class="item-value" th:text="${#dates.format(order.orderDate,'yyyy-MM-dd')}"></span>
+            </div>
+            <div class="summary-item">
+                <span class="item-label">Address :</span>
+                <span class="item-value" th:text="${order.address}"></span>
             </div>
             <div class="summary-item">
                 <span class="item-label">Totla Price:</span>

@@ -29,4 +29,5 @@ public class Order {
     private Long itemsQuantity;
     @ManyToOne
     private UserEntity customer;
+    private String Address;
 }

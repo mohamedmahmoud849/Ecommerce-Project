@@ -62,7 +62,7 @@ public class PaymentService {
         restService.consumeAmountFromCard(paymentRequest,token);
     }
 
-    public void completeCreditCardOrder(Long cardNumber){
+    public void completeCreditCardOrder(Long cardNumber,String address){
         String token = getPaymentToken();
         isThereEnoughBalance(cardNumber,token);
         //consume items quantity
@@ -70,13 +70,13 @@ public class PaymentService {
         //cosnume amount
         consumeAmount(cardNumber,token);
         Order currentOrder = unConfirmedOrderService.getCurentUserUnconfirmedOrder();
-        unConfirmedOrderService.confirmOrder(currentOrder.getId());
+        unConfirmedOrderService.confirmOrder(currentOrder.getId(),address);
     }
-    public void completeCashOrder(){
+    public void completeCashOrder(String address){
         //consume items quantity
         confirmedOrderService.handleStock(unConfirmedOrderService.getCurentUserUnconfirmedOrderProductsList());
         Order currentOrder = unConfirmedOrderService.getCurentUserUnconfirmedOrder();
-        unConfirmedOrderService.confirmOrder(currentOrder.getId());
+        unConfirmedOrderService.confirmOrder(currentOrder.getId(),address);
     }
 
     public String getPaymentToken(){

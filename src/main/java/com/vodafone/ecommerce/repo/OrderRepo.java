@@ -23,8 +23,8 @@ public interface OrderRepo extends JpaRepository<Order,Long> {
     @Query(value = "select * from test.orders where confirmed=false and customer_id=:customerId",nativeQuery = true)
     Order getUnconfirmedOrderByCustomerId(@Param("customerId") Long customerId);
 
-    @Query(value = "update test.orders set confirmed = true where id=:id",nativeQuery = true)
+    @Query(value = "update test.orders set confirmed = true , address=:address where id=:id",nativeQuery = true)
     @Transactional
     @Modifying
-    void updateConfirmedById(@Param("id") Long id);
+    void updateConfirmedById(@Param("id") Long id,@Param("address")String address);
 }

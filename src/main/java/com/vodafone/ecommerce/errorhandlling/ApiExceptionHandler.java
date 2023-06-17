@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +26,7 @@ import java.util.Base64;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
-    /*@ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException runtimeException){
         return "error";
     }
@@ -71,17 +72,10 @@ public class ApiExceptionHandler {
     public String handleMissingServletRequestParameterException(MissingServletRequestParameterException exception){
         return "error";
     }
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public String handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception){
+        return "error";
+    }
 
-    private static String encryptMessage(String message, String secretKey) {
-        try {
-            byte[] key = secretKey.getBytes(StandardCharsets.UTF_8);
-            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-            byte[] encrypted = cipher.doFinal(message.getBytes());
-            return Base64.getEncoder().encodeToString(encrypted);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to encrypt message", e);
-        }
-    }*/
+
 }

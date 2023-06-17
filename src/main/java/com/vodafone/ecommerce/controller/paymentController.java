@@ -17,8 +17,9 @@ public class paymentController extends BaseController {
     private final PaymentService paymentService;
 
 
-    @GetMapping("/credit_card_data")
-    public String showCreditCardDataForm(){
+    @PostMapping("/card")
+    public String showCreditCardDataForm(@RequestParam("address") String address){
+        getSession().setAttribute("address",address);
         return "pay_by_card";
     }
     @PostMapping("/credit_card_data")
@@ -36,16 +37,17 @@ public class paymentController extends BaseController {
         model.addAttribute("message",soapResponse);
         return "pay_by_card";
     }
-    @GetMapping("/cash")
-    public String confirmOrderAndShowDeliveryPage(){
-        paymentService.completeCashOrder();
+    @PostMapping("/cash")
+    public String confirmOrderAndShowDeliveryPage(@RequestParam("address") String address){
+        paymentService.completeCashOrder(address);
         return "order_delivery";
     }
 
     @GetMapping("/balance_consume")
     public String consumeAmountFromService(Model model){
         Long cardNumber = (Long) getSession().getAttribute("card_number");
-        paymentService.completeCreditCardOrder(cardNumber);
+        String address = (String) getSession().getAttribute("address");
+        paymentService.completeCreditCardOrder(cardNumber,address);
         return "order_delivery";
 
     }
