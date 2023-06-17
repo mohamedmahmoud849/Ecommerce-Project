@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static com.vodafone.ecommerce.Security.SecurityUtil.getSessionUser;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -91,15 +93,13 @@ public class AdminServiceImpl implements AdminService {
     }
     @Override
     public List<UserEntity> getALlAdmins() {
-        return userRepository.findAllByRole("ADMIN");
+        return userRepository.findAllByRole();
     }
     @Override
     public List<UserEntity> getALlOtherAdmins() {
-
-        List<UserEntity> list = userRepository.findAllByRole("ADMIN");
+        UserEntity user = userService.findByEmail(getSessionUser());
 //        UserEntity user = userServiceImpl.getCurrentLoggedInUser();
-//        System.out.println(user);
-//        list.remove(user);
+        List<UserEntity> list = userRepository.findAllByRole();
         return list;
     }
 

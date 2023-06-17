@@ -7,15 +7,14 @@ import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.service.AdminService;
 import com.vodafone.ecommerce.service.UserService;
 import com.vodafone.ecommerce.serviceImbl.UserServiceImpl;
-import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Objects;
 
 @Controller
 public class AdminController {
@@ -33,15 +32,33 @@ public class AdminController {
         return "new_admin";
     }
 
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PostMapping("/add_admin")
+//    public String addNewAdmin(@RequestParam("email") String email,
+//                              @RequestParam("username") String username,
+//                              @RequestParam("password") CharSequence password) {
+//        try {
+//            adminService.addAdmin(email, username, password);
+//        } catch (EmailAlreadyExistsException | UsernameAlreadyExistsException e) {
+//            return "add_admin?error=" + e.getMessage();
+//        }
+//
+//        return "redirect:/edit_admins";
+//    }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add_admin")
     public String addNewAdmin(@RequestParam("email") String email,
                               @RequestParam("username") String username,
-                              @RequestParam("password") CharSequence password) {
+                              @RequestParam("password") CharSequence password,
+                              RedirectAttributes redirectAttributes) {
         try {
             adminService.addAdmin(email, username, password);
-        } catch (EmailAlreadyExistsException | UsernameAlreadyExistsException e) {
-            return "add_admin?error=" + e.getMessage();
+        } catch (EmailAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/add_admin";
+        } catch (UsernameAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/add_admin";
         }
 
         return "redirect:/edit_admins";
@@ -87,20 +104,28 @@ public class AdminController {
     public String updateAdminDetails(@PathVariable Long id,
                                      @RequestParam("username") String username,
                                      @RequestParam("email") String email,
-                                     @RequestParam("state") State state) {
+                                     @RequestParam("state") State state,
+                                     RedirectAttributes redirectAttributes) {
         try {
             adminService.updateAdmin(id, username, email, state);
-        } catch (EmailAlreadyExistsException | UsernameAlreadyExistsException e) {
-            return "add_admin?error=" + e.getMessage();
+        } catch (EmailAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/update_admin/{id}";
+        } catch (UsernameAlreadyExistsException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/update_admin/{id}";
         }
 
         return "redirect:/update_admin_list";
-        }
+    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete_admin/{id}")
     public String deleteAdmin(@PathVariable Long id){
         adminService.deleteAdmin(id);
+        if(Objects.equals(id, userService.getCurrentLoggedInUser().getId())){
+            return "redirect:/logout";
+        }
         return "redirect:/update_admin_list";}
 
 }

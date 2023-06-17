@@ -122,10 +122,11 @@ button:hover {
       </div>
 
       <center><button type="submit" class="btn btn-primary" style="width: 200px; margin: 10px; ">Submit</button></center>
-      <div class="text-danger" th:if="${param.error}">
-        <span th:text="${param.error}"></span>
-      </div>
+<!--      <div class="text-danger" th:if="${param.error}">-->
+<!--        <span th:text="${param.error}"></span>-->
+<!--      </div>-->
     </form>
+    <div th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></div>
   </div>
 
 

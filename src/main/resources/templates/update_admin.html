@@ -128,6 +128,7 @@ button:hover {
 
             <center><button type="submit" class="btn btn-primary" style="width: 200px; margin: 10px; ">Submit</button></center>
         </form>
+        <div th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></div>
     </div>
 
 
