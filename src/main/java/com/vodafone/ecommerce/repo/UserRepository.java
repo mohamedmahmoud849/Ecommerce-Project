@@ -16,13 +16,13 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String userName);
     UserEntity findFirstByUsername(String username);
-    @Query(value = "SELECT * FROM test.users where role = 'ADMIN'", nativeQuery = true)
-    List<UserEntity> findAllByRole();
+    /*@Query(value = "SELECT * FROM test.users where role = 'ADMIN'", nativeQuery = true)
+    List<UserEntity> findAllByRole();*/
     @Query(value = "update test.users set password=:newPassword where id=:id",nativeQuery = true)
     @Transactional
     @Modifying
     void updatePasswordById(@Param("newPassword") String newPassword,@Param("id") Long id);
 
-    @Query(value="SELECT * FROM test.users WHERE role= 'ADMIN'", nativeQuery = true)
-    List<UserEntity> findAllAdminUsers();
+    @Query(value="SELECT * FROM test.users WHERE role= 'ADMIN' AND id!=:id AND id != 1", nativeQuery = true)
+    List<UserEntity> findAllByRole(@Param("id") Long id);
 }

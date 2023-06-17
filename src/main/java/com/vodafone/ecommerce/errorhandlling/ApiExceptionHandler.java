@@ -25,7 +25,7 @@ import java.util.Base64;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
-    @ExceptionHandler(RuntimeException.class)
+    /*@ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException runtimeException){
         return "error";
     }
@@ -83,5 +83,5 @@ public class ApiExceptionHandler {
         } catch (Exception e) {
             throw new RuntimeException("Failed to encrypt message", e);
         }
-    }
+    }*/
 }

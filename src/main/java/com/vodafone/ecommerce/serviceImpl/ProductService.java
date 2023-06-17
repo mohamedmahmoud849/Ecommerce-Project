@@ -1,9 +1,8 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
 import com.vodafone.ecommerce.errorhandlling.NotFoundException;
 import com.vodafone.ecommerce.errorhandlling.ProductOutOfStockException;
 import com.vodafone.ecommerce.model.Product;
-import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
 import com.vodafone.ecommerce.repo.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

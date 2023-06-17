@@ -2,7 +2,7 @@ package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.service.UserService;
-import com.vodafone.ecommerce.serviceImbl.ProductService;
+import com.vodafone.ecommerce.serviceImpl.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;

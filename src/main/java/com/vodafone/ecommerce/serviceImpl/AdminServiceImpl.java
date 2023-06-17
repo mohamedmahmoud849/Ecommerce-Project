@@ -1,6 +1,5 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
-import com.vodafone.ecommerce.dto.RegistrationDto;
 import com.vodafone.ecommerce.errorhandlling.EmailAlreadyExistsException;
 import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
@@ -15,43 +14,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static com.vodafone.ecommerce.Security.SecurityUtil.getSessionUser;
-
 @Service
 public class AdminServiceImpl implements AdminService {
 
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
-    private UserServiceImpl userServiceImpl;
     private UserService userService;
 
     @Autowired
-    public AdminServiceImpl(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
+    public AdminServiceImpl(UserRepository userRepository,  PasswordEncoder passwordEncoder, UserService userService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
-    @Override
-    public void saveAdmin(RegistrationDto registrationDto) {
-        UserEntity user = new UserEntity();
-        user.setUsername(registrationDto.getUsername());
-        user.setEmail(registrationDto.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setRole("ADMIN");
-        userRepository.save(user);
-
-    }
-
-    @Override
-    public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public UserEntity findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
     @Override
     public UserEntity findById(Long id) {return userRepository.findById(id).get();}
 
@@ -67,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
                 .password(passwordEncoder.encode(password))
                 .FailedLoggedIns(0)
                 .role("ADMIN")
-                .state(State.valueOf("INACTIVE"))
+                .state(State.ACTIVE)
                 .build());
 
     }
@@ -93,15 +70,16 @@ public class AdminServiceImpl implements AdminService {
     }
     @Override
     public List<UserEntity> getALlAdmins() {
-        return userRepository.findAllByRole();
+        UserEntity user = userService.getCurrentLoggedInUser();
+        return userRepository.findAllByRole(user.getId());
     }
-    @Override
-    public List<UserEntity> getALlOtherAdmins() {
+ /*   public List<UserEntity> getALlOtherAdmins() {
         UserEntity user = userService.findByEmail(getSessionUser());
+
 //        UserEntity user = userServiceImpl.getCurrentLoggedInUser();
-        List<UserEntity> list = userRepository.findAllByRole();
+        List<UserEntity> list = userRepository.findAllByRole(user.getId());
         return list;
-    }
+    }*/
 
     @Override
     public void validateEmail(String email) {

@@ -1,10 +1,6 @@
 package com.vodafone.ecommerce.controller;
 
-import com.vodafone.ecommerce.model.Order;
-import com.vodafone.ecommerce.payment.utils.PaymentResponse;
-import com.vodafone.ecommerce.payment.utils.RestService;
-
-import com.vodafone.ecommerce.serviceImbl.PaymentService;
+import com.vodafone.ecommerce.serviceImpl.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
@@ -20,13 +20,13 @@ import java.util.stream.LongStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UnConfirmedOrderServiceImpl implements OrderService {
+public class UnConfirmedOrderService implements OrderService {
 
     private final OrderRepo orderRepo;
     private final ProductService productService;
     private final RelationService relationService;
     private final UserService userService;
-    private final ConfirmedOrderServiceImpl orderService;
+    private final ConfirmedOrderService orderService;
 
 
     public Order addNewOrder(List<Product> list){

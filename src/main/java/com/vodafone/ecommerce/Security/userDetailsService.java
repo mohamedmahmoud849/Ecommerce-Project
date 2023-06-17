@@ -2,7 +2,7 @@ package com.vodafone.ecommerce.Security;
 
 import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.repo.UserRepository;
-import com.vodafone.ecommerce.serviceImbl.MailService;
+import com.vodafone.ecommerce.serviceImpl.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
