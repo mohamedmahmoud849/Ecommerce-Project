@@ -1,11 +1,19 @@
 package com.vodafone.ecommerce.controller;
 
+import com.vodafone.ecommerce.errorhandlling.EmailAlreadyExistsException;
+import com.vodafone.ecommerce.errorhandlling.UsernameAlreadyExistsException;
 import com.vodafone.ecommerce.model.State;
+import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.service.AdminService;
+import com.vodafone.ecommerce.service.UserService;
+import com.vodafone.ecommerce.serviceImbl.UserServiceImpl;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdminController {
 
     AdminService adminService;
+    private UserService userService;
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
@@ -26,13 +35,18 @@ public class AdminController {
     public String addNewAdmin(@RequestParam("email") String email,
                               @RequestParam("username") String username,
                               @RequestParam("password") CharSequence password) {
-        adminService.addAdmin(email, username, password);
+        try {
+            adminService.addAdmin(email, username, password);
+        } catch (EmailAlreadyExistsException | UsernameAlreadyExistsException e) {
+            return "add_admin?error=" + e.getMessage();
+        }
+
         return "redirect:/edit_admins";
     }
 
     @GetMapping("/update_admin_list")
     public String showEditAdminList(Model model){
-        model.addAttribute("users", adminService.getALlAdmins());
+        model.addAttribute("users", adminService.getALlOtherAdmins());
         return "admin_edit_list";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -63,14 +77,20 @@ public class AdminController {
                                      @RequestParam("username") String username,
                                      @RequestParam("email") String email,
                                      @RequestParam("state") State state) {
-        adminService.updateAdmin(id, username, email, state);
-        return "redirect:/update_admin_list";}
+        try {
+            adminService.updateAdmin(id, username, email, state);
+        } catch (EmailAlreadyExistsException | UsernameAlreadyExistsException e) {
+            return "add_admin?error=" + e.getMessage();
+        }
+
+        return "redirect:/update_admin_list";
+        }
 
     @GetMapping("/delete_admin/{id}")
     public String deleteAdmin(@PathVariable Long id){
         adminService.deleteAdmin(id);
         return "redirect:/update_admin_list";}
 
-    //@PutMapping()
 }
+
 
