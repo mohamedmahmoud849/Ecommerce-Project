@@ -75,19 +75,28 @@ button:hover {
     <!-- Top box -->
     <!-- Logo & Site Name -->
     <div class="placeholder">
-        <div class="parallax-window" data-parallax="scroll" data-image-src="http://localhost:8090/img/simple-house-01.jpg">
+        <div class="parallax-window" data-parallax="scroll"
+             data-image-src="http://localhost:8090/img/simple-house-01.jpg">
+            <!-- Cover Scection ,, i added this image just to test, remove it  -->
+
+            <img src="http://localhost:8090/img/simple-house-01.jpg" alt="Logo" class="parallax-window-t"/>
+
+            <!-- cover section -->
+
             <div class="tm-header">
                 <div class="row tm-header-inner">
                     <div class="col-md-6 col-12">
-                        <img src="http://localhost:8090/img/simple-house-logo.png" alt="Logo" class="tm-site-logo" />
+                        <img src="http://localhost:8090/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
                         <div class="tm-site-text-box">
-                            <h1 class="tm-site-title">Simple House</h1>
-                            <h6 class="tm-site-description">new restaurant template</h6>
+                            <h1 class="tm-site-title">Lucille</h1>
+                            <h6 class="tm-site-description">Online Shopping</h6>
                         </div>
                     </div>
                     <nav class="col-md-6 col-12 tm-nav">
                         <ul class="tm-nav-ul">
                             <li class="tm-nav-li"><a href="/admin" class="tm-nav-link active">Home</a></li>
+                            <li class="tm-nav-li"><a th:href="@{/edit_admins}" class="tm-nav-link ">Admins</a></li>
+                            <li class="tm-nav-li"><a th:href="@{/edit_inventory}" class="tm-nav-link ">Products</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -157,8 +166,7 @@ button:hover {
             | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
     </footer>
 </div>
-<script src="http://localhost:8090/js/jquery.min.js"></script>
-<script src="http://localhost:8090/js/parallax.min.js"></script>
+
 <script>
   $(document).ready(function(){
     // Handle click on paging links

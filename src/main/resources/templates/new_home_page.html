@@ -8,6 +8,129 @@
     <title>Simple House Template</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="http://localhost:8090/css/templatemo-style.css"/>
+    <style>
+    .search-wrapper-test {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.search-wrapper-test label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.search-wrapper-test input[type="search"] {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  width: 20rem;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ <style>
+  .buy-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+ .buy-button-text {
+  margin-top: 1rem;
+  width: 100px;
+  height: 30px;
+  background-color: #3d504a;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+  .buy-button {
+    margin-top: 1rem;
+    width: 100px;
+    height: 30px;
+    background-color: #3d504a;
+    color: white;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s;
+  }
+  .buy-button:hover {
+    background-color: #2e3a35;
+  }
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .out-of-stock-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1;
+  }
+
+.search-icon-input {
+background-image: url('http://localhost:8090/img/searchIcon.png');
+             background-repeat: no-repeat;
+              background-size: 16px 16px;
+               background-position:
+             right 10px center;
+              padding-right: 10px;
+                filter: grayscale(60%);
+
+}
+
+.search-icon-input.hide-icon {
+  background-image: none;
+  padding-left: 1rem;
+}
+.search-wrapper-test {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.search-wrapper-test label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+
+}
+
+.search-wrapper-test input[type="search"] {
+  font-size: 1.2rem;
+  padding: 1rem;
+  width: 20rem;
+  border-radius: 10px;
+  border: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.search-wrapper-test input[type="search"]:focus {
+   outline: 2px solid #00ff00;
+  border-color: #00ff00; /* Green border color when input is focused */
+}
+
+  </style>
+</style>
 </head>
 <!--
 
@@ -16,7 +139,7 @@ Simple House
 https://templatemo.com/tm-539-simple-house
 
 -->
-<body>
+<body th:attr="data-category=${category}">
 
 <div class="container">
     <!-- Top box -->
@@ -74,9 +197,9 @@ https://templatemo.com/tm-539-simple-house
         <!--        </div>-->
 
         <!-- Gallery -->
-        <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;">
+        <!--<div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;">
         <div class="row tm-gallery" style="margin: 10px; " th:each="p:${products}">
-            <!-- gallery page 1 -->
+            &lt;!&ndash; gallery page 1 &ndash;&gt;
 
             <div class="w3-half">
                 <div class="card">
@@ -91,30 +214,55 @@ https://templatemo.com/tm-539-simple-house
                 </div>
             </div>
         </div>
-            <!--
-                            <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;"
-                                 th:each="p:${products}">
-                                <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                    <figure style="width: 200px; margin: 20px;">
-                                        <img src="../static/img/simple-house-01.jpg" alt="Image"
-                                             class="img-fluid tm-gallery-img" style="height: 200px;"/>
-                                        <figcaption>
-                                            <h4 class="tm-gallery-title" th:text="${p.name}"></h4>
-                                            <p class="tm-gallery-price" th:text="'$'+${p.price}" style="margin-bottom: 2px;"></p>
-                                            <a style="text-decoration: none; color: white;" th:href="@{/items/{id}(id=${p.id})} " >
+
+        </div>-->
+
+
+
+
+        <div class="search-wrapper-test">
+            <input type="search" id="search"
+                   data-search placeholder="Enter search term..." style="" class="search-icon-input">
+        </div>
+
+        <!-- Gallery -->
+        <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;">
+            <div class="tm-gallery-page" data-products-container></div>
+
+            <template  data-user-template>
+                <div class="row tm-gallery" style="margin: 10px; " >
+                    <div class="w3-half">
+                        <div class="card">
+                            <img  alt="Image" data-image>
+                            <div class="card-description">
+                                <h2><b data-header></b></h2>
+                                <p><b data-body></b></p>
+                                <div class="buy-container" data-buy-container>
+                                    <div class="tm-gallery-page">
+                                        <a class="buyButton" href="" style="text-decoration: none; color: white;" data-button>
+                                            <center>
                                                 <button class="tm-btn-default"
-                                                        style="width: 100px; height: 30px; background-color: blue; color: white; cursor: pointer;">
+                                                        style="margin-top: 1rem; width: 100px; height: 30px; background-color: #3d504a; color: white; cursor: pointer;">
                                                     Buy
                                                 </button>
-                                            </a>
-                                        </figcaption>
-                                    </figure>
-                                </article>
-
-                            </div>  gallery page 1
-                        -->
-
+                                            </center>
+                                        </a>
+                                        <button class="tm-btn-default"
+                                                style="display:none; cursor=none; margin-top: 1rem; width: 100px; height: 30px; background-color: #f06e65; color: white; cursor: pointer;width:150px; margin-left:25px;"
+                                                data-stock-message>
+                                            Out Of Stock
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
+
+
+
 
     </main>
 
@@ -124,9 +272,76 @@ https://templatemo.com/tm-539-simple-house
             | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
     </footer>
 </div>
-<script src="http://localhost:8090/js/jquery.min.js"></script>
-<script src="http://localhost:8090/js/parallax.min.js"></script>
-<script src="http://localhost:8090/js/search_script.js"></script>
+
+
+<script>
+  const productTemplate = document.querySelector("[data-user-template]")
+const productContainer = document.querySelector("[data-products-container]")
+const searchInput = document.querySelector("[data-search]")
+
+let productsList = []
+//
+searchInput.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase()
+    console.log(e)
+    productsList.forEach(pro => {
+        const isVisible = pro.name.toLowerCase().includes(value)
+        pro.element.classList.toggle("hide", !isVisible)
+
+    })
+})
+const category = document.body.getAttribute("data-category");
+const url = "http://localhost:8090/products/fetch/"+category
+fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        productsList = data.map(pro => {
+            const product = productTemplate.content.cloneNode(true).children[0]
+
+            const header = product.querySelector("[data-header]")
+            const body =  product.querySelector("[data-body]")
+            const image = product.querySelector("[data-image]")
+            const button = product.querySelector("[data-button]");
+
+            image.src = 'data:image/jpeg;base64,' + pro.image
+            button.href = '/products/' + pro.id
+
+            header.textContent = pro.name
+            body.textContent = 'Price: $' + pro.price
+
+            if (pro.quantity === 0) {
+                    const buyButton = product.querySelector("[data-button]");
+                    buyButton.classList.add("disabled");
+                    button.removeAttribute("href");
+                    const outOfStockMessage = product.querySelector("[data-stock-message]");
+                    outOfStockMessage.style.display = "";
+                  }
+            productContainer.append(product)
+            return { name: pro.name, price: pro.price, image: image, button: button, element: product}
+        })
+    })
+</script>
+<script>
+  const search = document.getElementById('search');
+
+search.addEventListener('focus', () => {
+  search.classList.add('hide-icon');
+});
+
+search.addEventListener('blur', () => {
+  if (!search.value) {
+    search.classList.remove('hide-icon');
+  }
+});
+
+search.addEventListener('input', () => {
+  if (search.value) {
+    search.classList.add('hide-icon');
+  } else {
+    search.classList.remove('hide-icon');
+  }
+});
+</script>
 
 </body>
 </html>

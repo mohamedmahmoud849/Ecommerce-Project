@@ -1,5 +1,6 @@
 package com.vodafone.ecommerce.serviceImbl;
 
+import com.vodafone.ecommerce.errorhandlling.ProductOutOfStockException;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.UserEntity;
@@ -26,6 +27,7 @@ public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
     private final ProductService productService;
     private final RelationService relationService;
     private final UserService userService;
+    private final ConfirmedOrderServiceImpl orderService;
 
 
     public Order getCurentUserUnconfirmedOrder() {
@@ -149,9 +151,7 @@ public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
         relationService.deleteAllRelationsWithOrderById(id);
     }
 
-    public void handleStock(List<Product> productsList) {
-        productService.handleStock(productsList);
-    }
+
 
     public void confirmOrder(Long id) {
         orderRepo.updateConfirmedById(id);
@@ -168,4 +168,9 @@ public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
     }
 
 
+    public void updateUnconfirmedOrderItemQuantity(Long itemId, Integer itemQuantity) {
+        Long orderId = getCurentUserUnconfirmedOrder().getId();
+        productService.isThereEnoughStock(itemId,itemQuantity);
+        relationService.updateOrderItemRelation(orderId,itemId,itemQuantity);
+    }
 }

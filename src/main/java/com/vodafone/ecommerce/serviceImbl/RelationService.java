@@ -45,4 +45,8 @@ public class RelationService {
     public void deleteRelationBetweenItemAndOrder(Long productId, Long orderId) {
         relationRepo.deleteByOrderAndItemId(productId,orderId);
     }
+
+    public void updateOrderItemRelation(Long orderId,Long itemId, Integer itemQuantity) {
+        relationRepo.updateItemQuantityByOrderId(orderId,itemId,itemQuantity);
+    }
 }

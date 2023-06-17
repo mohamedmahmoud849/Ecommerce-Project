@@ -49,7 +49,7 @@ public class Product {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "product")
-    /*@JsonIgnore*/
+    @JsonIgnore
     private List<relationEntity> relations;
 
 }

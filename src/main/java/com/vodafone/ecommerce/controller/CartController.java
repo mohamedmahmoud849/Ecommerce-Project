@@ -1,6 +1,7 @@
 package com.vodafone.ecommerce.controller;
 
 
+import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.payment.utils.RestService;
 import com.vodafone.ecommerce.service.UserService;
@@ -22,13 +23,7 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController extends BaseController{
 
-    private final ProductService productService;
-    private final PaymentService paymentService;
-    private final RestService restService;
     private final UnConfirmedOrderServiceImpl orderService;
-    private final UserService userService;
-
-
 
 
     @GetMapping
@@ -62,6 +57,13 @@ public class CartController extends BaseController{
         model.addAttribute("order_items",orderService.getCurentUserUnconfirmedOrderProductsList());
         model.addAttribute("order",orderService.getCurentUserUnconfirmedOrder());
         return "new_pre_pay_page";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateCartItemQuantity(@PathVariable("id") Long item_id ,
+                                         @RequestParam("quantity") Integer item_quantity){
+        orderService.updateUnconfirmedOrderItemQuantity(item_id,item_quantity);
+        return "redirect:/cart";
     }
 }
 

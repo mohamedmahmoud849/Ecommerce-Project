@@ -19,4 +19,8 @@ public interface RelationRepo extends JpaRepository<relationEntity,Long> {
     @Transactional
     @Query(value = "delete from test.relations where order_id =:orderId and product_id=:productId",nativeQuery = true)
     void deleteByOrderAndItemId(@Param("productId")Long productId,@Param("orderId") Long orderId);
+    @Modifying
+    @Transactional
+    @Query(value = "update relations set quantity =:itemQuantity where order_id =:orderId and product_id =:itemId",nativeQuery = true)
+    void updateItemQuantityByOrderId(@Param("orderId") Long orderId,@Param("itemId")Long itemId,@Param("itemQuantity") Integer itemQuantity);
 }

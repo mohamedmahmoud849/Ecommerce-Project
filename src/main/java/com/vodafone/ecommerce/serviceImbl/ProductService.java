@@ -1,6 +1,7 @@
 package com.vodafone.ecommerce.serviceImbl;
 
 import com.vodafone.ecommerce.errorhandlling.NotFoundException;
+import com.vodafone.ecommerce.errorhandlling.ProductOutOfStockException;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
 import com.vodafone.ecommerce.repo.ProductRepo;
@@ -59,45 +60,11 @@ public class ProductService {
 
         }
     }
-    public void handleStock(List<Product> products) {
-        List<ItemsQuantityProjection> itemsQuantity = productRepo.getAllProductsQuantity();
-        for (Product product:
-                products) {
-            ItemsQuantityProjection itemQuantity = itemsQuantity.stream().filter(x-> x.getProductId() == product.getId()).findFirst().get();
-            int stockProductsQuantity = itemQuantity.getProductQuantity();
-            int orderProductQuantity = product.getQuantity();
-            if (orderProductQuantity > stockProductsQuantity){
-                throw new NotFoundException("no enough stock");
-            }else{
-                int updatedStockProductQuantity = stockProductsQuantity - orderProductQuantity;
-                updateProductQuantity(updatedStockProductQuantity,product.getId());
-            }
-        }
-    }
+
     public void updateProductQuantity(Integer quantity , Long id){
         productRepo.updateItemQuantityById(quantity,id);
     }
 
-
-    public String calculateTotalPrice(List<Product> productsList) {
-        Long totalPrice = 0L;
-        if (productsList.isEmpty()) {
-            return String.valueOf(totalPrice);
-
-        } else {
-            for (Product product :
-                    productsList) {
-                totalPrice += Long.valueOf(product.getPrice()) * product.getQuantity();
-            }
-            return String.valueOf(totalPrice);
-        }
-
-
-    }
-
-    public Product getProductByName(String name) {
-        return productRepo.findByName(name);
-    }
 
     public void updateProduct(Long id, String name, Integer price, Integer quantity, String category){
 
@@ -135,10 +102,17 @@ public class ProductService {
     }
 
     public void archiveProduct(Long id) {
-
         Product product = productRepo.findById(id).get();
         product.setArchived(Boolean.TRUE);
         productRepo.save(product);
+    }
+
+    public void isThereEnoughStock(Long itemId, Integer itemQuantity) {
+        Product stockProduct = productRepo.findById(itemId).orElseThrow(()-> new NotFoundException("Product Not Found"));
+        int stockProductQuantity = stockProduct.getQuantity();
+        if (itemQuantity > stockProductQuantity){
+            throw new ProductOutOfStockException("We are sorry but There's only "+stockProductQuantity+" available in stock now.");
+        }
     }
 }
 

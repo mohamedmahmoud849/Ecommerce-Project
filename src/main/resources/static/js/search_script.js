@@ -14,26 +14,30 @@ searchInput.addEventListener("input", (e) => {
     })
 })
 
-fetch("http://localhost:8090/items")
+fetch("http://localhost:8090/products/fetch")
     .then(res => res.json())
     .then(data => {
         productsList = data.map(pro => {
             const product = productTemplate.content.cloneNode(true).children[0]
-            //console.log(pro)
+
             const header = product.querySelector("[data-header]")
             const body =  product.querySelector("[data-body]")
             const image = product.querySelector("[data-image]")
             const button = product.querySelector("[data-button]");
 
             image.src = 'data:image/jpeg;base64,' + pro.image
-            button.href = '/items/' + pro.id
+            button.href = '/products/' + pro.id
 
             header.textContent = pro.name
             body.textContent = 'Price: $' + pro.price
-            //image.appendChild("img")
-            //console.log(header)
-            //console.log(body)
-            //console.log(product)
+
+            if (pro.quantity === 0) {
+                    const buyButton = product.querySelector("[data-button]");
+                    buyButton.classList.add("disabled");
+                    button.removeAttribute("href");
+                    const outOfStockMessage = product.querySelector("[data-stock-message]");
+                    outOfStockMessage.style.display = "";
+                  }
             productContainer.append(product)
             return { name: pro.name, price: pro.price, image: image, button: button, element: product}
         })

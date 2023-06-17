@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Simple House Template</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="http://localhost:8090/css/templatemo-style.css"/>
+  <style>
+    .search-wrapper-test {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.search-wrapper-test label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.search-wrapper-test input[type="search"] {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  width: 20rem;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ <style>
+  .buy-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+ .buy-button-text {
+  margin-top: 1rem;
+  width: 100px;
+  height: 30px;
+  background-color: #3d504a;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+  .buy-button {
+    margin-top: 1rem;
+    width: 100px;
+    height: 30px;
+    background-color: #3d504a;
+    color: white;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s;
+  }
+  .buy-button:hover {
+    background-color: #2e3a35;
+  }
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .out-of-stock-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1;
+  }
+  .search-icon-input {
+background-image: url('http://localhost:8090/img/searchIcon.png');
+             background-repeat: no-repeat;
+              background-size: 16px 16px;
+               background-position:
+             right 10px center;
+              padding-right: 10px;
+                filter: grayscale(60%);
+
+}
+
+.search-icon-input.hide-icon {
+  background-image: none;
+  padding-left: 1rem;
+}
+.search-wrapper-test {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.search-wrapper-test label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+
+}
+
+.search-wrapper-test input[type="search"] {
+  font-size: 1.2rem;
+  padding: 1rem;
+  width: 20rem;
+  border-radius: 10px;
+  border: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.search-wrapper-test input[type="search"]:focus {
+   outline: 2px solid #00ff00;
+  border-color: #00ff00; /* Green border color when input is focused */
+}
+
+
+
+  </style>
+</head>
+<!--
+
+Simple House
+
+https://templatemo.com/tm-539-simple-house
+
+-->
+<body>
+
+<div class="container">
+  <!-- Top box -->
+  <!-- Logo & Site Name -->
+  <div class="placeholder">
+    <div class="parallax-window" data-parallax="scroll"
+         data-image-src="http://localhost:8090/img/simple-house-01.jpg">
+      <!-- Cover Scection ,, i added this image just to test, remove it  -->
+
+      <img src="http://localhost:8090/img/simple-house-01.jpg" alt="Logo" class="parallax-window-t"/>
+
+      <!-- cover section -->
+
+      <div class="tm-header">
+        <div class="row tm-header-inner">
+          <div class="col-md-6 col-12">
+            <img src="http://localhost:8090/img/simple-house-logo.png" alt="Logo" class="tm-site-logo"/>
+            <div class="tm-site-text-box">
+              <h1 class="tm-site-title">Lucille</h1>
+              <h6 class="tm-site-description">Online Shopping</h6>
+            </div>
+          </div>
+          <nav class="col-md-6 col-12 tm-nav">
+            <ul class="tm-nav-ul">
+              <li class="tm-nav-li"><a href="/" class="tm-nav-link active">Home</a></li>
+              <li class="tm-nav-li"><a th:href="@{/customer/orders}" class="tm-nav-link ">My Orders</a></li>
+              <li class="tm-nav-li"><a th:href="@{/cart}" class="tm-nav-link ">My Cart</a></li>
+              <li class="tm-nav-li"><a th:href="@{/logout}" class="tm-nav-link ">Logout</a></li>
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <header class="row tm-welcome-section">
+      <h2 class="col-12 text-center tm-section-title">Welcome to Simple House</h2>
+      <p class="col-12 text-center">Welcome to our online store, where you can find a wide selection of high-quality products at affordable prices, all from the comfort of your own home.</p>
+    </header>
+
+    <div class="tm-paging-links">
+      <nav>
+        <ul>
+          <li class="tm-paging-item"><a href="/category/pizza" class="tm-paging-link">Pizza</a></li>
+          <li class="tm-paging-item"><a href="/category/salad" class="tm-paging-link">Salad</a></li>
+          <li class="tm-paging-item"><a href="/category/noodle" class="tm-paging-link">Noodle</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="search-wrapper-test">
+      <input type="search" id="search"
+             data-search placeholder="Enter search term..." style="" class="search-icon-input">
+    </div>
+
+    <!-- Gallery -->
+    <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;">
+    <div class="tm-gallery-page" data-products-container></div>
+    <div style="height: 200px"></div>
+    <template  data-user-template>
+        <div class="row tm-gallery" style="margin: 10px; " >
+          <div class="w3-half">
+            <div class="card">
+              <img  alt="Image" data-image>
+              <div class="card-description">
+                <h2><b data-header></b></h2>
+                <p><b data-body></b></p>
+                <div class="buy-container" data-buy-container>
+                  <div class="tm-gallery-page">
+                    <a class="buyButton" href="" style="text-decoration: none; color: white;" data-button>
+                      <center>
+                        <button class="tm-btn-default"
+                                style="margin-top: 1rem; width: 100px; height: 30px; background-color: #3d504a; color: white; cursor: pointer;">
+                          Buy
+                        </button>
+                      </center>
+                    </a>
+                    <button class="tm-btn-default"
+                            style="display:none; cursor=none; margin-top: 1rem; width: 100px; height: 30px; background-color: #f06e65; color: white; cursor: pointer;width:150px; margin-left:25px;"
+                            data-stock-message>
+                      Out Of Stock
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </template>
+    </div>
+
+
+  </main>
+
+  <footer class="tm-footer text-center">
+    <p>Copyright &copy; 2020 Simple E-commerce
+
+      | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+  </footer>
+</div>
+
+<script src="http://localhost:8090/js/search_script.js" defer></script>
+<script>
+  const search = document.getElementById('search');
+
+search.addEventListener('focus', () => {
+  search.classList.add('hide-icon');
+});
+
+search.addEventListener('blur', () => {
+  if (!search.value) {
+    search.classList.remove('hide-icon');
+  }
+});
+
+search.addEventListener('input', () => {
+  if (search.value) {
+    search.classList.add('hide-icon');
+  } else {
+    search.classList.remove('hide-icon');
+  }
+});
+</script>
+</body>
+</html>

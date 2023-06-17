@@ -17,7 +17,6 @@ public interface UnConfirmedOrderService {
     void setOrderProductsRelation(List<Product> productsList);
     String calculateOrderTotalPrice(List<Product> productsList);
     void deleteUnconfirmedOrderTOUpdate(Long id);
-    void handleStock(List<Product> productsList);
     void confirmOrder(Long id);
     void deleteItemFromUnconfirmedOrderById(String name);
 }
