@@ -24,7 +24,8 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     @Modifying
     @Query(value = "update product set quantity=:quantity where id=:id ",nativeQuery = true)
     void updateItemQuantityById(@Param("quantity") Integer quantity ,@Param("id") Long id);
-
+    @Query(value = "select * from product where archived = false order by quantity desc ",nativeQuery = true)
+    List<Product> findAll();
     Product findByName(String name);
 }
 
