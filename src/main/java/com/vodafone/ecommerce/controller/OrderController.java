@@ -40,7 +40,7 @@ public class OrderController {
     @RequestMapping("/orders/{id}")
     public String getOrderDetails(@PathVariable Long id, Model model){
         model.addAttribute("order",orderService.getOrderDetails(id));
-        model.addAttribute("order_items",orderService.getCardItemsForOrderDetails(orderService.getProjection(id)));
+        model.addAttribute("order_items",orderService.getCartItemsForOrderDetails(id));
         return "new_order_details_page";
     }
 
