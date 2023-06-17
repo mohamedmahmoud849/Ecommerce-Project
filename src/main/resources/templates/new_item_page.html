@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
   <meta charset="UTF-8" />
@@ -85,7 +85,7 @@
     }
 
     .add-to-cart-btn:hover {
-      background-color: #0062cc;
+      background-color: #007bff;
     }
 
     @media screen and (max-width: 768px) {
@@ -141,28 +141,29 @@
 
 
 
-  <div class="product" style=" max-width: 800px;
-      margin: 20px auto;
-      padding: 0 16px;
-      margin-top: 50px;
-" th:object="${item}">
+  <h2 class="section-title">Order Quantity</h2>
 
-    <div class="product-image">
-      <img  th:src="@{'data:image/jpeg;base64,'+${item.image}}" alt="Product Image">
-    </div>
-    <div class="product-details">
-      <h1 class="product-name" th:text="${item.name}"></h1>
-      <form method="post"  th:action="@{/cart/{id}(id=${item.id})}">
-      <div class="product-quantity">
-        <label for="quantity">Quantity:</label>
-        <input type="number" name="quantity" id="quantity" value="1" min="1" max="50">
+
+
+  <div class="card-item-page" th:object="${item}">
+    <img th:src="@{'data:image/jpeg;base64,'+${item.image}}" alt="Product Image">
+    <div class="card-details-item-page">
+      <h3 class="card-title-item-page" th:text="${item.name}"></h3>
+      <p class="card-price-item-page" th:text="'Price : '+${item.price}+'$'"></p>
+      <div class="quantity-container-item-page">
+        <form method="post"  th:action="@{/cart/{id}(id=${item.id})}">
+          <div class="product-quantity">
+            <label class="quantity-label-item-page">Quantity:</label>
+            <input type="number" name="quantity" id="quantity-input" value="1" min="1" th:max="${item.quantity}">
+          </div>
+          <button class="add-to-cart-button-item-page">Add to Cart</button>
+        </form>
       </div>
-      <h2 class="product-price" th:text="'Price : '+'$'+${item.price}"></h2>
 
-        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-      </form>
     </div>
   </div>
+
+
   <footer class="tm-footer text-center">
     <p>Copyright &copy; 2020 Simple House
 
@@ -170,7 +171,6 @@
   </footer>
 
 </div>
-<script src="http://localhost:8090/js/jquery.min.js"></script>
-<script src="http://localhost:8090/js/parallax.min.js"></script>
+
 </body>
 </html>
