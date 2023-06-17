@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByUsername(String userName);
     UserEntity findFirstByUsername(String username);
     @Query(value = "SELECT * FROM test.users where role = 'ADMIN'", nativeQuery = true)
-    List<UserEntity> findAllByRole(String role);
+    List<UserEntity> findAllByRole();
     @Query(value = "update test.users set password=:newPassword where id=:id",nativeQuery = true)
     @Transactional
     @Modifying
