@@ -164,9 +164,10 @@ https://templatemo.com/tm-539-simple-house
           </div>
           <nav class="col-md-6 col-12 tm-nav">
             <ul class="tm-nav-ul">
-              <li class="tm-nav-li"><a th:href="@{/}" class="tm-nav-link ">Home</a></li>
-              <li class="tm-nav-li"><a th:href="@{/customer/orders}" class="tm-nav-link ">My Orders</a></li>
-              <li class="tm-nav-li"><a th:href="@{/cart}" class="tm-nav-link ">My Cart</a></li>
+              <li class="tm-nav-li"><a href="/admin_home" class="tm-nav-link ">Home</a></li>
+              <li class="tm-nav-li"><a th:href="@{/customer/orders}" class="tm-nav-link ">Orders</a></li>
+              <li class="tm-nav-li"><a th:href="@{/cart}" class="tm-nav-link ">Cart</a></li>
+              <li class="tm-nav-li"><a href="/admin" class="tm-nav-link ">Admin</a></li>
               <li class="tm-nav-li"><a th:href="@{/logout}" class="tm-nav-link ">Logout</a></li>
 
             </ul>
@@ -199,9 +200,9 @@ https://templatemo.com/tm-539-simple-house
 
     <!-- Gallery -->
     <div id="tm-gallery-page-pizza" class="tm-gallery-page" style="margin-left: 30px; margin-right: 0px;">
-    <div class="tm-gallery-page" data-products-container></div>
-    <div style="height: 200px"></div>
-    <template  data-user-template>
+      <div class="tm-gallery-page" data-products-container></div>
+      <div style="height: 200px"></div>
+      <template  data-user-template>
         <div class="row tm-gallery" style="margin: 10px; " >
           <div class="w3-half">
             <div class="card">
@@ -230,7 +231,7 @@ https://templatemo.com/tm-539-simple-house
             </div>
           </div>
         </div>
-    </template>
+      </template>
     </div>
 
 

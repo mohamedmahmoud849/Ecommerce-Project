@@ -13,22 +13,41 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AuthController {
+
     private UserService userService;
 
     public AuthController(UserService userService) {
         this.userService = userService;
     }
 
+
+    boolean isAuthenticated(){
+        UserEntity user = userService.getCurrentLoggedInUser();
+        return user != null;
+    }
+    boolean isUserAdmin(){
+        UserEntity user = userService.getCurrentLoggedInUser();
+        return user.getRole().equals("ADMIN");
+    }
     @GetMapping("/login")
     public String loginPage(){
-        return "login";
+        if(!isAuthenticated())
+            return "login";
+        if(isUserAdmin())
+            return "redirect:/admin_home";
+        return "redirect:/";
     }
 
     @GetMapping("/register")
     public String getRegisterForm(Model model) {
-        RegistrationDto user = new RegistrationDto();
-        model.addAttribute("user", user);
-        return "register";
+        if(!isAuthenticated()){
+            RegistrationDto user = new RegistrationDto();
+            model.addAttribute("user", user);
+            return "register";
+        }
+        if(isUserAdmin())
+            return "redirect:/admin_home";
+        return "redirect:/";
     }
 
     @PostMapping("/register/save")
