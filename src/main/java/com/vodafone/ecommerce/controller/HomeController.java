@@ -1,5 +1,6 @@
 package com.vodafone.ecommerce.controller;
 
+import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.service.UserService;
 import com.vodafone.ecommerce.serviceImbl.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,24 @@ public class HomeController extends BaseController{
     private final UserService userService;
 
 
+    boolean isAuthenticated(){
+        UserEntity user = userService.getCurrentLoggedInUser();
+        return user != null;
+    }
+
+    boolean isUserAdmin(){
+        UserEntity user = userService.getCurrentLoggedInUser();
+        return user.getRole().equals("ADMIN");
+    }
     @GetMapping("/")
     public ModelAndView showHomePage(Model model){
+        if(!isAuthenticated())
+            return new ModelAndView("login");
+        else{
+            if(isUserAdmin())
+                return new ModelAndView("admin_home");
+        }
+
         model.addAttribute("customer_id",userService.getCurrentLoggedInUser().getId());
         return new ModelAndView("new_home_Page_search","products",productService.getALl());
     }

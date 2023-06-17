@@ -9,7 +9,7 @@ import com.vodafone.ecommerce.repo.ItemsQuantityProjection;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.ProductRepo;
 import com.vodafone.ecommerce.repo.Projection;
-import com.vodafone.ecommerce.service.ConfirmedOrderService;
+import com.vodafone.ecommerce.service.OrderService;
 import com.vodafone.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.stream.LongStream;
 
 @Service
 @RequiredArgsConstructor
-public class ConfirmedOrderServiceImpl implements ConfirmedOrderService {
+public class ConfirmedOrderServiceImpl implements OrderService {
 
     private final OrderRepo orderRepo;
     private final ProductService productService;
@@ -29,10 +29,6 @@ public class ConfirmedOrderServiceImpl implements ConfirmedOrderService {
     private final ProductRepo productRepo;
     private final UserService userService;
 
-    @Override
-    public List<Order> getAllOrdersByCustomerId(Long id){
-        return orderRepo.findAllOrdersByCustomerId(id);
-    }
 
     @Override
     public Order addNewOrder(List<Product> list) {
@@ -42,55 +38,55 @@ public class ConfirmedOrderServiceImpl implements ConfirmedOrderService {
             totalQuantity += product.getQuantity();
             totalPrice += Long.valueOf(product.getPrice()) * product.getQuantity();
         }
+
         UserEntity loggedInCustomer = userService.findByEmail(SecurityUtil.getSessionUser());
-         return orderRepo.save(Order.builder()
+        return orderRepo.save(Order.builder()
                 .orderDate(new Date())
-                 .customer(loggedInCustomer)
+                .customer(loggedInCustomer)
                 .itemsQuantity(totalQuantity)
                 .totalPrice(totalPrice)
-                 .confirmed(true)
+                .confirmed(true)
                 .build());
     }
 
-    @Override
+    public List<Product> getCartItemsForOrderDetails(Long orderId) {
+        List<Projection> projectionList = getProjection(orderId);
+        List<Product> newCardItemsList = new ArrayList<>();
+        List<Product> products = getProductsForOrderDetails(projectionList);
+        products.stream().map(Product::getImage).toList();
+        for(int i=0;i< projectionList.size();i++){
+            newCardItemsList.add(Product.builder()
+                    .name(products.get(i).getName())
+                    .price(products.get(i).getPrice())
+                    .image(products.get(i).getImage())
+                    .quantity(Math.toIntExact(projectionList.get(i).getQuantity()))
+                    .build());
+        }
+        return newCardItemsList;
+    }
+    public List<Order> getAllOrdersByCustomerId(Long id){
+        return orderRepo.findAllOrdersByCustomerId(id);
+    }
+
     public void setOrderProductsRelation(List<Product> productsList) {
         Order newOrder = addNewOrder(productsList);
         relationService.createRelations(productsList,newOrder);
     }
 
-    @Override
     public Order getOrderDetails(Long id) {
         return orderRepo.findById(id).get();
     }
 
-    @Override
     public List<Projection> getProjection(Long id) {
         return orderRepo.getProjection(id);
     }
 
-    @Override
     public List<Product> getProductsForOrderDetails(List<Projection> list) {
         return list.stream().flatMapToLong(x-> LongStream.of(x.getItemId())).mapToObj(productService::getProductById).toList();
     }
 
-    @Override
-    public List<Product> getCardItemsForOrderDetails(List<Projection> list) {
-        List<Product> newCardItemsList = new ArrayList<>();
-        List<Product> products = getProductsForOrderDetails(list);
-        products.stream().map(Product::getImage).toList();
-        for(int i=0;i< list.size();i++){
-            newCardItemsList.add(Product.builder()
-                    .name(products.get(i).getName())
-                    .price(products.get(i).getPrice())
-                    .image(products.get(i).getImage())
-                    .quantity(Math.toIntExact(list.get(i).getQuantity()))
-                    .build());
-        }
-        return newCardItemsList;
-    }
-    //TODO: to be handled -> break this function into two functions
 
-    @Override
+    //TODO: to be handled -> break this function into two functions
     public void handleStock(List<Product> products) {
         List<ItemsQuantityProjection> itemsQuantity = productRepo.getAllProductsQuantity();
         for (Product product:
@@ -111,7 +107,6 @@ public class ConfirmedOrderServiceImpl implements ConfirmedOrderService {
         }
     }
 
-    @Override
     public void updateProductQuantity(Integer quantity, Long id){
         productRepo.updateItemQuantityById(quantity,id);
     }

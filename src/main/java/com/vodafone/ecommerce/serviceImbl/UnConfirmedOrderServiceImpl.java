@@ -1,12 +1,11 @@
 package com.vodafone.ecommerce.serviceImbl;
 
-import com.vodafone.ecommerce.errorhandlling.ProductOutOfStockException;
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.model.UserEntity;
 import com.vodafone.ecommerce.repo.OrderRepo;
 import com.vodafone.ecommerce.repo.Projection;
-import com.vodafone.ecommerce.service.UnConfirmedOrderService;
+import com.vodafone.ecommerce.service.OrderService;
 import com.vodafone.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.util.stream.LongStream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
+public class UnConfirmedOrderServiceImpl implements OrderService {
 
     private final OrderRepo orderRepo;
     private final ProductService productService;
@@ -30,6 +29,39 @@ public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
     private final ConfirmedOrderServiceImpl orderService;
 
 
+    public Order addNewOrder(List<Product> list){
+        long totalQuantity=0L,totalPrice=0L;
+        for (Product product:
+                list) {
+            totalQuantity += product.getQuantity();
+            totalPrice += Long.valueOf(product.getPrice()) * product.getQuantity();
+        }
+        UserEntity loggedInCustomer = userService.findById(getCurrentUserId());
+        return orderRepo.save(Order.builder()
+                .orderDate(new Date())
+                .customer(loggedInCustomer)
+                .itemsQuantity(totalQuantity)
+                .totalPrice(totalPrice)
+                .confirmed(false)
+                .build());
+    }
+
+    public List<Product> getCartItemsForOrderDetails(Long orderId) {
+        List<Projection> projectionList = getProjection(orderId);
+        List<Product> newCardItemsList = new ArrayList<>();
+        List<Product> products = getProductsForOrderDetails(projectionList);
+        products.stream().map(Product::getImage).toList();
+        for (int i = 0; i < projectionList.size(); i++) {
+            newCardItemsList.add(Product.builder()
+                    .id(products.get(i).getId())
+                    .name(products.get(i).getName())
+                    .price(products.get(i).getPrice())
+                    .image(products.get(i).getImage())
+                    .quantity(Math.toIntExact(projectionList.get(i).getQuantity()))
+                    .build());
+        }
+        return newCardItemsList;
+    }
     public Order getCurentUserUnconfirmedOrder() {
         UserEntity loggedInCustomer = userService.getCurrentLoggedInUser();
         Order order = orderRepo.getUnconfirmedOrderByCustomerId(loggedInCustomer.getId());
@@ -56,22 +88,7 @@ public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
     public List<Product> getProductsForOrderDetails(List<Projection> list) {
         return list.stream().flatMapToLong(x -> LongStream.of(x.getItemId())).mapToObj(productService::getProductById).toList();
     }
-    public List<Product> getCartItemsForOrderDetails(Long orderId) {
-        List<Projection> projectionList = getProjection(orderId);
-        List<Product> newCardItemsList = new ArrayList<>();
-        List<Product> products = getProductsForOrderDetails(projectionList);
-        products.stream().map(Product::getImage).toList();
-        for (int i = 0; i < projectionList.size(); i++) {
-            newCardItemsList.add(Product.builder()
-                            .id(products.get(i).getId())
-                    .name(products.get(i).getName())
-                    .price(products.get(i).getPrice())
-                    .image(products.get(i).getImage())
-                    .quantity(Math.toIntExact(projectionList.get(i).getQuantity()))
-                    .build());
-        }
-        return newCardItemsList;
-    }
+
 
     public void addNewCartItem(Long id , Integer quantity){
         Product orderedProduct = productService.getProductById(id);
@@ -111,25 +128,10 @@ public class UnConfirmedOrderServiceImpl implements UnConfirmedOrderService {
 
     }
 
-    public Order addNewUnconfirmedOrder(List<Product> list){
-        long totalQuantity=0L,totalPrice=0L;
-        for (Product product:
-                list) {
-            totalQuantity += product.getQuantity();
-            totalPrice += Long.valueOf(product.getPrice()) * product.getQuantity();
-        }
-        UserEntity loggedInCustomer = userService.findById(getCurrentUserId());
-        return orderRepo.save(Order.builder()
-                .orderDate(new Date())
-                .customer(loggedInCustomer)
-                .itemsQuantity(totalQuantity)
-                .totalPrice(totalPrice)
-                .confirmed(false)
-                .build());
-    }
+
 
     public void setOrderProductsRelation(List<Product> productsList){
-        Order newOrder = addNewUnconfirmedOrder(productsList);
+        Order newOrder = addNewOrder(productsList);
         relationService.createRelations(productsList,newOrder);
     }
 

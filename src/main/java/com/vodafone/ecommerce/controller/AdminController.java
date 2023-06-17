@@ -27,10 +27,13 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/add_admin")
     public String showAddAminForm(){
         return "new_admin";
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add_admin")
     public String addNewAdmin(@RequestParam("email") String email,
                               @RequestParam("username") String username,
@@ -44,15 +47,21 @@ public class AdminController {
         return "redirect:/edit_admins";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/update_admin_list")
     public String showEditAdminList(Model model){
-        model.addAttribute("users", adminService.getALlOtherAdmins());
+        model.addAttribute("users", adminService.getALlAdmins());
         return "admin_edit_list";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin")
     public String adminPage(){
         return "admin";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin_home")
+    public String adminHomePage(){
+        return "admin_home";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -67,11 +76,13 @@ public class AdminController {
         return "edit_inventory";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/update_admin/{id}")
     public String updateAdminDetails(@PathVariable Long id, Model model) {
         model.addAttribute("user", adminService.findById(id));
         return "update_admin";}
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/update_admin/{id}")
     public String updateAdminDetails(@PathVariable Long id,
                                      @RequestParam("username") String username,
@@ -86,11 +97,11 @@ public class AdminController {
         return "redirect:/update_admin_list";
         }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete_admin/{id}")
     public String deleteAdmin(@PathVariable Long id){
         adminService.deleteAdmin(id);
         return "redirect:/update_admin_list";}
 
 }
-
 

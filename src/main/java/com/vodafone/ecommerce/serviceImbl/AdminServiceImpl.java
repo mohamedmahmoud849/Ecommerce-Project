@@ -20,7 +20,6 @@ public class AdminServiceImpl implements AdminService {
 
 
     private UserRepository userRepository;
-    //private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private UserServiceImpl userServiceImpl;
     private UserService userService;
@@ -28,10 +27,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     public AdminServiceImpl(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        //this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     public void saveAdmin(RegistrationDto registrationDto) {
@@ -40,8 +37,6 @@ public class AdminServiceImpl implements AdminService {
         user.setEmail(registrationDto.getEmail());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setRole("ADMIN");
-        //Role role = roleRepository.findByName("USER");
-        //user.setRoles(Collections.singletonList(role));
         userRepository.save(user);
 
     }
