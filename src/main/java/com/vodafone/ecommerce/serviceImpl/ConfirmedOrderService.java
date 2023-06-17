@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
 import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.errorhandlling.ProductOutOfStockException;
@@ -21,7 +21,7 @@ import java.util.stream.LongStream;
 
 @Service
 @RequiredArgsConstructor
-public class ConfirmedOrderServiceImpl implements OrderService {
+public class ConfirmedOrderService implements OrderService {
 
     private final OrderRepo orderRepo;
     private final ProductService productService;

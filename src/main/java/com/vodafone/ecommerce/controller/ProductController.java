@@ -1,12 +1,9 @@
 package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.Product;
-import com.vodafone.ecommerce.model.State;
 
-import com.vodafone.ecommerce.serviceImbl.ProductService;
-import com.vodafone.ecommerce.serviceImbl.ProductService;
+import com.vodafone.ecommerce.serviceImpl.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;

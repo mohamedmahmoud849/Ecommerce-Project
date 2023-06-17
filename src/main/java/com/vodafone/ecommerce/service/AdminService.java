@@ -8,9 +8,6 @@ import org.apache.catalina.User;
 import java.util.List;
 
 public interface AdminService {
-    void saveAdmin(RegistrationDto registrationDto);
-    UserEntity findByEmail(String email);
-    UserEntity findByUsername(String username);
 
     UserEntity findById(Long id);
 
@@ -22,7 +19,7 @@ public interface AdminService {
 
     List<UserEntity> getALlAdmins();
 
-    List<UserEntity> getALlOtherAdmins();
+    //List<UserEntity> getALlOtherAdmins();
 
     void validateEmail(String email);
 

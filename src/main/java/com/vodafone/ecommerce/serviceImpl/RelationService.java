@@ -1,10 +1,8 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
 import com.vodafone.ecommerce.model.Order;
 import com.vodafone.ecommerce.model.Product;
 import com.vodafone.ecommerce.relation.compositeKey;
-import com.vodafone.ecommerce.repo.OrderRepo;
-import com.vodafone.ecommerce.repo.ProductRepo;
 import com.vodafone.ecommerce.repo.RelationRepo;
 import com.vodafone.ecommerce.relation.relationEntity;
 import lombok.RequiredArgsConstructor;

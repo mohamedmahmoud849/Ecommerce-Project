@@ -1,4 +1,4 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
 
 import com.vodafone.ecommerce.errorhandlling.NotFoundException;
@@ -20,8 +20,8 @@ import java.util.List;
 public class PaymentService {
     private final soapClient soapClient;
     private final RestService restService;
-    private final UnConfirmedOrderServiceImpl unConfirmedOrderService;
-    private final ConfirmedOrderServiceImpl confirmedOrderService;
+    private final UnConfirmedOrderService unConfirmedOrderService;
+    private final ConfirmedOrderService confirmedOrderService;
 
 
     public String validateCard(ValidateCard validateCard){

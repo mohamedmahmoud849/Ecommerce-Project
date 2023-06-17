@@ -1,13 +1,10 @@
 package com.vodafone.ecommerce.controller;
 
 import com.vodafone.ecommerce.model.Order;
-import com.vodafone.ecommerce.model.UserEntity;
-import com.vodafone.ecommerce.repo.UserRepository;
 
 import com.vodafone.ecommerce.service.UserService;
-import com.vodafone.ecommerce.serviceImbl.ConfirmedOrderServiceImpl;
+import com.vodafone.ecommerce.serviceImpl.ConfirmedOrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
 import java.util.List;
 
 
@@ -25,7 +21,7 @@ import java.util.List;
 public class OrderController {
 
     private final UserService userService;
-    private final ConfirmedOrderServiceImpl orderService;
+    private final ConfirmedOrderService orderService;
     @RequestMapping("/orders")
     public String getCustomerOrders(Model model){
         Long loggedInUserId = userService.getCurrentLoggedInUser().getId();

@@ -1,10 +1,9 @@
-package com.vodafone.ecommerce.serviceImbl;
+package com.vodafone.ecommerce.serviceImpl;
 
 
 import com.vodafone.ecommerce.Security.SecurityUtil;
 import com.vodafone.ecommerce.dto.RegistrationDto;
 //import com.vodafone.ecommerce.model.Role;
-import com.vodafone.ecommerce.errorhandlling.EmailAlreadyExistsException;
 import com.vodafone.ecommerce.model.State;
 import com.vodafone.ecommerce.model.UserEntity;
 //import com.vodafone.ecommerce.repo.RoleRepository;
